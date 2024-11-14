@@ -65,13 +65,13 @@ public class PlayerObject extends GameObject {
                 tapY = motionEvent.getY(i);
 
                 if (_inputReceiver.leftArrow.onDetect(tapX, tapY, 30f)) {
-                    rigidbody._vel.x -= 2f * dt;
+                    rigidbody._force.x -= 2f;
                 }
                 else if (_inputReceiver.rightArrow.onDetect(tapX, tapY, 30f)) {
-                    rigidbody._vel.x += 2f * dt;
+                    rigidbody._force.x += 2f;
                 }
                 else if (_inputReceiver.jumpButton.onDetect(tapX, tapY, 30f)) {
-                    rigidbody._vel.y -= dt;
+                    rigidbody._force.y = -30f;
                 }
 
 //                rigidbody._position.x = motionEvent.getX(i);

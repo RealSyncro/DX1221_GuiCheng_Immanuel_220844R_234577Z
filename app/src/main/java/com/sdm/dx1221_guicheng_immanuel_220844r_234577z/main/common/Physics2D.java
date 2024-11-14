@@ -23,26 +23,33 @@ public class Physics2D {
                 if (!go.rigidbody._vel.isZero())
                 {
                     if (go.rigidbody._vel.x > 0f)
-                        F_Resistant.x = -1f;
-                    else
-                        F_Resistant.x = 1f;
+                        F_Resistant.x = -go.rigidbody._mass;
+                    else if (go.rigidbody._vel.x < 0f)
+                        F_Resistant.x = go.rigidbody._mass;
 
-                    if (go.rigidbody._vel.y > 0f)
-                        F_Resistant.y = -1f;
-                    else
-                        F_Resistant.y = 1f;
+                    if (go.rigidbody._vel.y < 0f) // Is in the Air
+                        F_Resistant.y = 10f;
+                    else if (go.rigidbody._vel.y > 0f)
+                        go.rigidbody._vel.y = 10f;
                 }
 
-                F_Resistant.y += go.rigidbody._mass * -3f;
+                float aX = (go.rigidbody._force.x + F_Resistant.x) / go.rigidbody._mass;
+                float aY = (go.rigidbody._force.y + F_Resistant.y) / go.rigidbody._mass;
 
-                Vector2 Acceleration = F_Resistant.multiply(go.rigidbody._mass);
-                Vector2 TempVelocity = go.rigidbody._vel;
+                Vector2 Acceleration = new Vector2(aX, aY);
+                Vector2 InitialVelocity = new Vector2(go.rigidbody._vel);
 
-                go.rigidbody._vel.add(new Vector2(dt * _timeScale * Acceleration.x, dt * _timeScale * Acceleration.y));
-                float displacementX = 0.5f * dt * _timeScale * (TempVelocity.x + go.rigidbody._vel.x);
-                float displacementY = 0.5f * dt * _timeScale * (TempVelocity.y + go.rigidbody._vel.y);
+                // Final velocity
+                go.rigidbody._vel.x += Acceleration.x * _timeScale * dt;
+                go.rigidbody._vel.y += Acceleration.y * _timeScale * dt;
+
+                // s = 1/2(u+v)t
+                float displacementX = 0.5f * (InitialVelocity.x + go.rigidbody._vel.x) * _timeScale * dt;
+                float displacementY = 0.5f * (InitialVelocity.y + go.rigidbody._vel.y) * _timeScale * dt;
                 go.rigidbody._position.x += displacementX;
                 go.rigidbody._position.y += displacementY;
+
+                go.rigidbody._force = Vector2.zero();
             }
         }
     }

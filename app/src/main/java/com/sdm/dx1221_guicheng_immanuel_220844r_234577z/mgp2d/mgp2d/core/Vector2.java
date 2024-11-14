@@ -2,10 +2,14 @@ package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core;
 
 import static java.lang.Math.sqrt;
 
+import android.annotation.SuppressLint;
+
 public class Vector2 {
     public float x, y;
 
     public Vector2(float x, float y) { this.x = x; this.y = y; }
+
+    public Vector2 (Vector2 vector) {this.x = vector.x; this.y = vector.y;}
 
     public Vector2 add(Vector2 b) { return new Vector2(x + b.x, y + b.y); }
 

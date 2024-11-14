@@ -9,6 +9,7 @@ public class Rigidbody2D {
     public TYPE type;
     public Vector2 _position;
     public Vector2 _size;
+    public Vector2 _force;
 
     public Vector2 _vel;
     public float _mass;
@@ -17,9 +18,10 @@ public class Rigidbody2D {
 
     public Rigidbody2D(){
         type = TYPE.STATIC;
-        _position = new Vector2(0, 0);
-        _size = new Vector2(0, 0);
-        _vel = Vector2.zero();
+        _position = Vector2.zero();
+        _size = Vector2.zero();
+        _force = Vector2.zero();
+        _vel = new Vector2(0f, 0f);
         _mass = 0f;
         _active = true;
     }

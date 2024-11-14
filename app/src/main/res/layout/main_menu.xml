@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/blank_bg">
+
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="80dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:fontFamily="sans-serif-black"
+        android:inputType="text"
+        android:text="@string/game_title"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textColorLink="#FF5252"
+        android:textSize="96sp"
+        app:layout_constraintBottom_toTopOf="@+id/start_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="LabelFor"
+        tools:text="Trashio" />
+
+    <Button
+        android:id="@+id/start_button"
+        android:layout_width="260dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="#539E40"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/start_button_text"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@id/settings_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextText"
+        app:strokeColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/settings_button"
+        android:layout_width="260dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="#A26216"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/settings_button_text"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@+id/help_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/start_button"
+        tools:ignore="TextSizeCheck" />
+
+    <Button
+        android:id="@+id/help_button"
+        android:layout_width="260dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="162dp"
+        android:backgroundTint="#4676A6"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/help_button_text"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settings_button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

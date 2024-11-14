@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.DX1221_GuiCheng_Immanuel_220844R_234577Z"
+        android:enableOnBackInvokedCallback="true"
+        tools:targetApi="tiramisu">
+
+        <activity android:name=".main.pages.MainMenu"
+            android:screenOrientation ="sensorPortrait"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity">
+        </activity>
+
+        <activity android:name=".main.pages.HelpPage"
+            android:screenOrientation ="sensorPortrait"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity">
+        </activity>
+
+        <activity android:name=".mgp2d.mgp2d.core.GameActivity"
+            android:screenOrientation ="sensorPortrait"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity">
+        </activity>
+
+        <activity android:name=".main.pages.SplashPage"
+            android:exported="true"
+            android:screenOrientation ="sensorPortrait"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</manifest>

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">DX1221_GuiCheng_Immanuel_220844R_234577Z</string>
+    <string name="game_title">Trashio</string>
+    <string name="start_button_text">Play</string>
+    <string name="settings_button_text">Settings</string>
+    <string name="help_button_text">Help</string>
+    <string name="back">Back</string>
+</resources>

@@ -27,7 +27,8 @@ public class AudioManager {
         if (_vibrator == null)
             _vibrator = (Vibrator) GameActivity.instance.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
 
-        _vibrator.vibrate(VibrationEffect.createOneShot(milliseconds, amplitude));
+        if (_vibrator != null)
+            _vibrator.vibrate(VibrationEffect.createOneShot(milliseconds, amplitude));
     }
 
     public void PlayBGM(int filePath) {

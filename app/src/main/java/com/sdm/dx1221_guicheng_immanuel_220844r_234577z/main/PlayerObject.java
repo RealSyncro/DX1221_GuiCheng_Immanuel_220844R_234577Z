@@ -1,11 +1,11 @@
 package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.FileSystem;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ui.InputController;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameActivity;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameObject;
@@ -23,12 +23,13 @@ public class PlayerObject extends GameObject {
         rigidbody._position.x = (float) GameActivity.instance.getResources().getDisplayMetrics().widthPixels / 2;
         rigidbody._position.y = (float) GameActivity.instance.getResources().getDisplayMetrics().heightPixels / 2;
 
-        Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.player_heli_body);
-        Bitmap sprite = Bitmap.createScaledBitmap(bmp, (int) (bmp.getWidth() * 1.5f), (int) (bmp.getHeight() * 1.5f), true);
-
+        Bitmap sprite = FileSystem.LoadScaledSprite(R.drawable.sonic, 0.5f, 0.5f, true);
         _inputReceiver = new InputController();
-        _animatedSprite = new AnimatedSprite(sprite, 1,  7, 24);
-        rigidbody._size = new Vector2((float) sprite.getWidth() / 7, (float) sprite.getHeight());
+        _animatedSprite = new AnimatedSprite(sprite, 1,  16, 12);
+        rigidbody._size = new Vector2((float) sprite.getWidth() / 16, (float) sprite.getHeight());
+
+        _animatedSprite.AddAnimation("idle", 0, 0);
+        _animatedSprite.PlayAnimation("idle");
 
         //_srcRect = new Rect(0, 0, _sprite.getWidth() / 7, _sprite.getHeight());
         //_dstRect = new Rect();
@@ -37,8 +38,9 @@ public class PlayerObject extends GameObject {
     @Override
     public void onUpdate(float dt) {
         super.onUpdate(dt);
-        _animatedSprite.update(dt);
+        _inputReceiver.OnUpdate(dt);
 
+        _animatedSprite.update(dt);
         MotionEvent motionEvent = GameActivity.instance.getMotionEvent();
         if (motionEvent == null) return;
 
@@ -64,18 +66,19 @@ public class PlayerObject extends GameObject {
                 tapX = motionEvent.getX(i);
                 tapY = motionEvent.getY(i);
 
-                if (_inputReceiver.leftArrow.onDetect(tapX, tapY, 30f)) {
-                    rigidbody._force.x -= 2f;
+                if (_inputReceiver.leftArrow.onDetect(tapX, tapY, 0f)) {
+                    rigidbody._force.x -= 200f * dt;
                 }
-                else if (_inputReceiver.rightArrow.onDetect(tapX, tapY, 30f)) {
-                    rigidbody._force.x += 2f;
+                else if (_inputReceiver.rightArrow.onDetect(tapX, tapY, 0f)) {
+                    rigidbody._force.x += 200f * dt;
                 }
-                else if (_inputReceiver.jumpButton.onDetect(tapX, tapY, 30f)) {
-                    rigidbody._force.y = -30f;
+                else if (_inputReceiver.jumpButton.onDetect(tapX, tapY, 0f)) {
+                    rigidbody._force.y -= 300f * dt;
+                }
+                else if (_inputReceiver.debugButton.onDetect(tapX, tapY, 0f)) {
+                    rigidbody._force.y += 300f * dt;
                 }
 
-//                rigidbody._position.x = motionEvent.getX(i);
-//                rigidbody._position.y = motionEvent.getY(i);
 //                rigidbody._vel = new Vector2(0f, 10f);
             }
         }
@@ -86,7 +89,7 @@ public class PlayerObject extends GameObject {
 
     @Override
     public void onRender(Canvas canvas) {
-        _animatedSprite.render(canvas, (int) rigidbody._position.x, (int) rigidbody._position.y, null);
+        _animatedSprite.onRender(canvas, (int) rigidbody._position.x, (int) rigidbody._position.y, null);
         _inputReceiver.onRender(canvas);
 
         //_dstRect.left = (int) _position.x - _sprite.getWidth() / 7 / 2;

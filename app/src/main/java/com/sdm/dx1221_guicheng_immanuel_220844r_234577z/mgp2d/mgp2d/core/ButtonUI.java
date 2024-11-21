@@ -18,9 +18,11 @@ public class ButtonUI {
         size = scale;
         sprite = FileSystem.LoadCustomSprite(fileName, (int) scale.x, (int) scale.y, true);
 
-        dstLeft = position.x - (float) sprite.getWidth() / 2;
-        dstTop = position.y - (float) sprite.getHeight();
+        dstLeft = position.x - (float) sprite.getWidth() / 2f;
+        dstTop = position.y - (float) sprite.getHeight() / 1.5f;
     }
+
+    public void onUpdate(float dt) {}
 
     public void onRender(Canvas canvas) {
         canvas.drawBitmap(sprite, dstLeft, dstTop, null);

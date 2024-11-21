@@ -1,0 +1,11 @@
+// To do (MGP A1) [Gui Cheng]:
+1. Fix sprite - collision rendering accuracy
+2. Get multi-touch controls working POINTER_UP, POINTER_DOWN
+3. Fix collision resolution behaviour (doesn't clip through floors)
+4. Get scoring & winning condition system working
+5. Import / Design / Fix the animated assets
+
+Additional Tasks
+6. Do UI layout for pages (if enough time)
+7. Get haptic audio feedback working
+

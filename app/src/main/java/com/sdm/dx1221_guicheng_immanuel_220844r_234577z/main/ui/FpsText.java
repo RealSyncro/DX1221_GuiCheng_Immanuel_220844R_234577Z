@@ -16,10 +16,10 @@ public class FpsText extends GameObject {
     public FpsText(int color) {
         _paint = new Paint();
         _paint.setColor(color);
-        _paint.setTextSize(150);
+        _paint.setTextSize(100);
         _paint.setTextAlign(Paint.Align.RIGHT);
         _screenWidth = GameActivity.instance.getResources().getDisplayMetrics().widthPixels;
-        _screenHeight = GameActivity.instance.getResources().getDisplayMetrics().heightPixels;
+        _screenHeight = 100;
     }
 
     @Override
@@ -39,6 +39,6 @@ public class FpsText extends GameObject {
 
     @Override
     public void onRender(Canvas canvas) {
-        canvas.drawText("FPS: " + (int)_fps, _screenWidth - 100, _screenHeight - 100, _paint);
+        canvas.drawText("FPS: " + (int)_fps, _screenWidth - 100,  _screenHeight, _paint);
     }
 }

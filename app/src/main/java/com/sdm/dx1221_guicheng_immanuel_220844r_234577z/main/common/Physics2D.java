@@ -16,10 +16,12 @@ public class Physics2D {
     public void onUpdate(float dt, Vector<GameObject> goList) {
         for (GameObject go : goList)
         {
+            // Check if Rigidbody is affected by gravity
             if (go.rigidbody.type == Rigidbody2D.TYPE.DYNAMIC)
             {
                 Vector2 F_Resistant = Vector2.zero();
 
+                // Adds resistant force to dynamic body
                 if (!go.rigidbody._vel.isZero())
                 {
                     if (go.rigidbody._vel.x > 0f)
@@ -28,9 +30,9 @@ public class Physics2D {
                         F_Resistant.x = go.rigidbody._mass;
 
                     if (go.rigidbody._vel.y < 0f) // Is in the Air
-                        F_Resistant.y = 10f;
+                        F_Resistant.y = 15f;
                     else if (go.rigidbody._vel.y > 0f)
-                        go.rigidbody._vel.y = 10f;
+                        go.rigidbody._vel.y = 15f;
                 }
 
                 float aX = (go.rigidbody._force.x + F_Resistant.x) / go.rigidbody._mass;
@@ -50,7 +52,18 @@ public class Physics2D {
                 go.rigidbody._position.y += displacementY;
 
                 go.rigidbody._force = Vector2.zero();
+                ResetVelocity(go);
             }
         }
+    }
+
+    public void ResetVelocity(GameObject go) {
+        if (go.rigidbody._vel.x > 0 && go.rigidbody._vel.x < 0.3f
+                || go.rigidbody._vel.x > -0.3f && go.rigidbody._vel.x < 0f)
+            go.rigidbody._vel.x = 0f;
+
+        if (go.rigidbody._vel.y > 0f && go.rigidbody._vel.y < 0.3f ||
+                go.rigidbody._vel.y > -0.3f && go.rigidbody._vel.y < 0f)
+            go.rigidbody._vel.y = 0f;
     }
 }

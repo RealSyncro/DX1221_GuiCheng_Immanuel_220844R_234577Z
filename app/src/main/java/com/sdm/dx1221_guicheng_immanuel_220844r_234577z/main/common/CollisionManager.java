@@ -5,15 +5,14 @@ import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.Vector2
 
 public class CollisionManager {
     private static boolean CheckIfXIntersect(GameObject entityA, GameObject entityB) {
-        float aLeftX = entityA.rigidbody.getPosition().x - entityA.rigidbody.getSize().x / 2;
-        float aRightX = entityA.rigidbody.getPosition().x + entityA.rigidbody.getSize().x / 2;
-        float bLeftX = entityB.rigidbody.getPosition().x - entityB.rigidbody.getSize().x / 2;
-        float bRightX = entityB.rigidbody.getPosition().x + entityB.rigidbody.getSize().x / 2;
+        float aMinX = entityA.rigidbody.getPosition().x - entityA.rigidbody.getSize().x / 2;
+        float aMaxX = entityA.rigidbody.getPosition().x + entityA.rigidbody.getSize().x / 2;
+        float bMinX = entityB.rigidbody.getPosition().x - entityB.rigidbody.getSize().x / 2;
+        float bMaxX = entityB.rigidbody.getPosition().x + entityB.rigidbody.getSize().x / 2;
 
-        if (bLeftX <= aRightX && aLeftX <= bRightX)
-            return true;
+        if (bMinX <= aMaxX && aMinX <= bMaxX) return true;
 
-        return aLeftX <= bRightX && bLeftX <= aRightX;
+        return aMinX <= bMaxX && bMinX <= aMaxX;
     }
 
     private static boolean CheckIfYIntersect(GameObject entityA, GameObject entityB) {
@@ -49,6 +48,8 @@ public class CollisionManager {
             if (Math.abs(snap[i]) < Math.abs(snap[shortest]))
                 shortest = i;
         }
+
+        if (shortest == 2 || shortest == 3) {player.rigidbody._vel.x = 0f;}
 
         if (shortest <= 1)
             return new Vector2(0, snap[shortest]);

@@ -82,7 +82,7 @@ public class MainGameScene extends GameScene {
         totalPlatforms += 1;
 
         // Create new Physics Simulation
-        PhysicsWorld = new Physics2D(30000f);
+        PhysicsWorld = new Physics2D(50000f);
         AudioManager.Get().PlayBGM(GameActivity.instance, R.raw.game_bg);
     }
 

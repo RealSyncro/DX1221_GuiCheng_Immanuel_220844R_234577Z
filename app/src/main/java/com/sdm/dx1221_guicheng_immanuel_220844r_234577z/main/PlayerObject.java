@@ -73,7 +73,7 @@ public class PlayerObject extends GameObject {
     }
 
     public void Jump() {
-        jumpButtonCD = 0.5f;
+        jumpButtonCD = 1f;
         jumpTimer = 0.15f;
         AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.player_jump);
     }

@@ -58,8 +58,8 @@ public class InputController {
 
         // Linearly Interpolate player jump force over time.
         if (player.jumpTimer > 0f) {
-            player.jumpTimer -= dt;
-            player.upForce = -player.speed * 500f;
+            player.jumpTimer -= 0.01f;
+            player.upForce = -player.speed * 1250f; // 500f
         }
         else {
             player.upForce = 0f;
@@ -114,10 +114,10 @@ public class InputController {
 
                     }
 
-                    System.out.println("Action: " + action);
-                    System.out.println("Action Index: " + actionIndex);
-                    System.out.println("Pointer ID: " + pointerId);
-                    System.out.println("___________________________");
+//                    System.out.println("Action: " + action);
+//                    System.out.println("Action Index: " + actionIndex);
+//                    System.out.println("Pointer ID: " + pointerId);
+//                    System.out.println("___________________________");
                     break;
                 }
 
@@ -129,10 +129,10 @@ public class InputController {
                             break;
                     }
 
-                    System.out.println("Action: " + action);
-                    System.out.println("Action Index: " + actionIndex);
-                    System.out.println("Pointer ID: " + pointerId);
-                    System.out.println("___________________________");
+//                    System.out.println("Action: " + action);
+//                    System.out.println("Action Index: " + actionIndex);
+//                    System.out.println("Pointer ID: " + pointerId);
+//                    System.out.println("___________________________");
                     break;
                 }
             }

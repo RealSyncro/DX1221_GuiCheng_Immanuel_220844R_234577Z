@@ -17,6 +17,7 @@ public class Physics2D {
 
     public void onUpdate(float dt, Vector<GameObject> goList, Vector<GameObject> platformList) {
 
+        // Pause all physics calculation until player is fully loaded.
         if (_countdown > 0f) _countdown -= dt;
         else if (_countdown <= 0f) _countdown = 0f;
 
@@ -53,6 +54,7 @@ public class Physics2D {
 
             Vector2 acceleration = new Vector2(go.rigidbody._force);
 
+            // Add additional gravity for player so they fall to platform faster.
             if (go instanceof PlayerObject){
                 if (!go.rigidbody._isGrounded)
                     acceleration.y += _gravity + 30000f;

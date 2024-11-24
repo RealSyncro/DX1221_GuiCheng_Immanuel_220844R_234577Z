@@ -37,6 +37,7 @@ public class MainMenu extends Activity implements View.OnClickListener{
     protected void onStart() {
         super.onStart();
         AudioManager.Get().PlayBGM(this, R.raw.shinytech);
+        AudioManager.Get().PlaySFX(this, R.raw.button_click);
     }
 
     @Override

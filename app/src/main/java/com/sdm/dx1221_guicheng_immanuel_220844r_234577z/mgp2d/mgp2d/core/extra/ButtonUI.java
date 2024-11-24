@@ -14,6 +14,8 @@ public class ButtonUI {
     public boolean _isActive = false;
     private static final int INVALID_POINTER = -1;
 
+    // normalImageFilePath -> inactive_button image file
+    // activatedImageFilePath -> active_button image file
     public ButtonUI(Vector2 pos, Vector2 scale, int normalImageFilePath, int activatedImageFilePath) {
         position = pos;
         size = scale;

@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.AudioManager;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.FileSystem;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ui.InputController;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameActivity;
@@ -49,9 +50,38 @@ public class PlayerObject extends GameObject {
         _animatedSprite.update(dt);
         _inputReceiver.OnUpdate(dt);
 
+        // Update player sprite animation depending on player's current speed.
         if (rigidbody._vel.x == 0) _animatedSprite.PlayAnimation("idle");
         else if (rigidbody._vel.x < 0) _animatedSprite.PlayAnimation("walkLeft");
         else if (rigidbody._vel.x > 0) _animatedSprite.PlayAnimation("walkRight");
+    }
+
+    @Override
+    public void onUpdate() {}
+
+    @Override
+    public void onRender(Canvas canvas) {
+        _animatedSprite.onRender(canvas, (int) rigidbody._position.x, (int) rigidbody._position.y, null);
+        _inputReceiver.onRender(canvas);
+
+        //_dstRect.left = (int) _position.x - _sprite.getWidth() / 7 / 2;
+        //_dstRect.top = (int) _position.y - _sprite.getHeight() / 2;
+        //_dstRect.right = (int) _position.x + _sprite.getWidth() / 7 / 2;
+        //_dstRect.bottom = (int) _position.y + _sprite.getHeight() / 2;
+        //canvas.drawBitmap(_sprite, _position.x, _position.y, null);
+        //canvas.drawBitmap(_sprite, _srcRect, _dstRect, null);
+    }
+
+    public void Jump() {
+        jumpButtonCD = 0.5f;
+        jumpTimer = 0.15f;
+        AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.player_jump);
+    }
+}
+
+
+
+
 
 
 //        if (jumpTimer > 0f) {
@@ -120,26 +150,3 @@ public class PlayerObject extends GameObject {
 //        }
 //
 //        rigidbody._force.y += upForce;
-    }
-
-    @Override
-    public void onUpdate() {}
-
-    @Override
-    public void onRender(Canvas canvas) {
-        _animatedSprite.onRender(canvas, (int) rigidbody._position.x, (int) rigidbody._position.y, null);
-        _inputReceiver.onRender(canvas);
-
-        //_dstRect.left = (int) _position.x - _sprite.getWidth() / 7 / 2;
-        //_dstRect.top = (int) _position.y - _sprite.getHeight() / 2;
-        //_dstRect.right = (int) _position.x + _sprite.getWidth() / 7 / 2;
-        //_dstRect.bottom = (int) _position.y + _sprite.getHeight() / 2;
-        //canvas.drawBitmap(_sprite, _position.x, _position.y, null);
-        //canvas.drawBitmap(_sprite, _srcRect, _dstRect, null);
-    }
-
-    public void Jump() {
-        jumpButtonCD = 0.5f;
-        jumpTimer = 0.15f;
-    }
-}

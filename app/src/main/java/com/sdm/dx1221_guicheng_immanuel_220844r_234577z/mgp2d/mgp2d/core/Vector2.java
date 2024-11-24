@@ -2,8 +2,6 @@ package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core;
 
 import static java.lang.Math.sqrt;
 
-import android.annotation.SuppressLint;
-
 public class Vector2 {
     public float x, y;
 

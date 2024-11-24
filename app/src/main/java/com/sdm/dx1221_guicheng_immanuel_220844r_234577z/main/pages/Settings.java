@@ -19,7 +19,7 @@ public class Settings extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
-        _backButton = findViewById(R.id.settings_back);
+        _backButton = findViewById(R.id.game_over_back_button);
         _backButton.setOnClickListener(this);
 
         _masterSFXSlider = findViewById(R.id.master_sfx_slider);
@@ -34,11 +34,15 @@ public class Settings extends Activity implements View.OnClickListener{
     protected void onStart() {
         super.onStart();
 
+        // Update the slider to current BGM/SFX volume whenever user enters the page.
+        // This is done to avoid confusion from user.
         int sfxVolume = (int) (AudioManager.Get().GetSFXVolume() * 100);
         _masterSFXSlider.setProgress(sfxVolume);
 
         int sfxBgm = (int) (AudioManager.Get().GetBGMVolume() * 100);
         _masterBGMSlider.setProgress(sfxBgm);
+
+        AudioManager.Get().PlaySFX(this, R.raw.button_click);
     }
 
     @Override
@@ -53,7 +57,7 @@ public class Settings extends Activity implements View.OnClickListener{
         _masterSFXSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                // update settings
+                // Update audio settings.
                 AudioManager.Get().SetMasterSFX(progress * 0.01f);
             }
             @Override
@@ -65,7 +69,7 @@ public class Settings extends Activity implements View.OnClickListener{
         _masterBGMSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                // update settings
+                // Update audio settings.
                 AudioManager.Get().SetMasterBGM(progress * 0.01f);
             }
             @Override

@@ -34,6 +34,7 @@ public class CollisionManager {
         return false;
     }
 
+    // ResolutionCalc + variants -> Push player out of AABB box.
     public static Vector2 ResolutionCalc(GameObject player, GameObject entity) {
         float[] snap = new float[4];
         //0: Down, 1: Up, 2: Left, 3: Right

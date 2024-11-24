@@ -44,6 +44,7 @@ public class MainGameScene extends GameScene {
         Vibrator vibrator = null;
         VibratorManager vibratorManager = null;
 
+        // Device Compatibility Check for Different Vibration Classes
         if (Build.VERSION.SDK_INT >= 31) {
             vibratorManager = (VibratorManager) GameActivity.instance.getApplicationContext().getSystemService(Context.VIBRATOR_MANAGER_SERVICE);
         }
@@ -58,12 +59,13 @@ public class MainGameScene extends GameScene {
         super.onEnter();
         AudioManager.Get().TerminateSFXPlayer();
 
+        // Initialise GameObject & UIObject List
         _gameEntities = new Vector<>();
         _platformEntities = new Vector<>();
         _uiEntities = new Vector<>();
 
         // Add UI Elements
-        scoreText = new ScoreText(Color.rgb(0, 0, 255), 100, Paint.Align.RIGHT, 95, 10);
+        scoreText = new ScoreText(Color.rgb(0, 255, 0), 100, Paint.Align.RIGHT, 95, 10);
         _uiEntities.add(new BackgroundObject());
         _uiEntities.add(new FPSText(Color.rgb(255, 255, 255), 100, Paint.Align.RIGHT, 95, 5));
         _uiEntities.add(scoreText);
@@ -79,6 +81,7 @@ public class MainGameScene extends GameScene {
         _platformEntities.add(new PlatformObject(R.drawable.platform_3x1, 50, 75, 8f, true));
         totalPlatforms += 1;
 
+        // Create new Physics Simulation
         PhysicsWorld = new Physics2D(30000f);
         AudioManager.Get().PlayBGM(GameActivity.instance, R.raw.game_bg);
     }
@@ -86,9 +89,11 @@ public class MainGameScene extends GameScene {
     @Override
     public void onUpdate(float dt) {
 
+        // Platform + Coin Spawner Algorithm Timer
         spawnTimer = spawnTimer > 0f ? spawnTimer - dt : SpawnPlatform();
         coinSpawnTimer = coinSpawnTimer > 0f ? spawnTimer -= dt : SpawnCoin();
 
+        // Update all User Interface Elements.
         for (UIObject ui : _uiEntities) {ui.onUpdate(dt);}
 
         for (GameObject entity : _gameEntities) {
@@ -97,14 +102,16 @@ public class MainGameScene extends GameScene {
             // Compares player with other game objects for resolution
             if (entity instanceof PlayerObject) {
                 for (GameObject other : _gameEntities) {
-                    // Coin Collided
+
+                    // Coin Collided.
                     if (other instanceof CoinObject && CollisionManager.isColliding(entity, other)) {
                         other.destroy();
                         scoreText.IncrementScore(1);
-//                        AudioController.PlaySFX(R.raw.sonic_ring_sound);
+                        AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.collect_coin);
                         AudioManager.Get().PlayVibration(100, 10);
                     }
 
+                    // Screen Border collided.
                     if (other instanceof BoundingBox && CollisionManager.isColliding(entity, other)) {
                         Vector2 snapAdd;
 
@@ -114,7 +121,6 @@ public class MainGameScene extends GameScene {
                             GameActivity.instance.Gameover(scoreText.GetScore());
                             return;
                         }
-
                         snap.x += snapAdd.x;
                         snap.y += snapAdd.y;
                     }
@@ -171,15 +177,16 @@ public class MainGameScene extends GameScene {
 
     @Override
     public void onExit() {
+        // Release memory allocation in MediaPlayer and GameObject/UIObject List.
         AudioManager.Get().TerminateSFXPlayer();
         FreeMemory();
     }
 
+    // GameObject Randomised Spawner Algorithm
     private float SpawnPlatform() {
         float spawnDuration = 3f;
-
         Random rand = new Random();
-        int randX = rand.nextInt((80 - 20 + 1) + 20);
+        int randX = rand.nextInt((80 - 40 + 1) + 40);
         _platformEntities.add(new PlatformObject(R.drawable.platform_3x1, randX, 0, 10f, false));
         totalPlatforms += 1;
         return spawnDuration;
@@ -188,11 +195,12 @@ public class MainGameScene extends GameScene {
     private float SpawnCoin() {
         float coinDuration = 5f;
         Random rand = new Random();
-        int randX = rand.nextInt((80 - 20 + 1) + 20);
+        int randX = rand.nextInt((80 - 40 + 1) + 40);
         _gameEntities.add(new CoinObject(R.drawable.flystar, randX, 0, 10f, false));
         return coinDuration;
     }
 
+    // Removed Destroyed Objects during runtime.
     private void DestroyObjects() {
 
         for (int i = _gameEntities.size() - 1; i >= 0; i--) {

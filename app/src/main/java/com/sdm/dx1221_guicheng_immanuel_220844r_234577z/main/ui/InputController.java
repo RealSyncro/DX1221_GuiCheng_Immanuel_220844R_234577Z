@@ -5,6 +5,7 @@ import android.view.MotionEvent;
 
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.PlayerObject;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.AudioManager;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.extra.ButtonUI;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameActivity;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.Vector2;
@@ -20,7 +21,7 @@ public class InputController {
     private final PlayerObject player;
     public final PauseButton pauseButton;
     public final ButtonUI leftArrow, rightArrow;
-    public final ButtonUI jumpButton, debugButton;
+    public final ButtonUI jumpButton;
     private final Vector<ButtonUI> _controls;
 
     public InputController(PlayerObject reference) {
@@ -37,23 +38,25 @@ public class InputController {
         Vector2 J_POS = new Vector2(screenX * 16, screenY * 18);
         Vector2 DEBUG_POS = new Vector2(screenX * 16, screenY * 12);
 
-        pauseButton = new PauseButton(PAUSE_POS, new Vector2(screenX * 4f, screenX * 4f), R.drawable.pause);
-        leftArrow = new ButtonUI(LA_POS, _buttonSize, R.drawable.left_arrow, -1);
-        rightArrow = new ButtonUI(RA_POS, _buttonSize, R.drawable.right_arrow, -1);
-        jumpButton = new ButtonUI(J_POS, _buttonSize, R.drawable.jump, -1);
-        debugButton = new ButtonUI(DEBUG_POS, _buttonSize, R.drawable.jump, -1);
+        pauseButton = new PauseButton(PAUSE_POS, new Vector2(screenX * 4f, screenX * 4f), R.drawable.inactive_pause, R.drawable.active_pause);
+        leftArrow = new ButtonUI(LA_POS, _buttonSize, R.drawable.inactive_left, R.drawable.active_left);
+        rightArrow = new ButtonUI(RA_POS, _buttonSize, R.drawable.inactive_right, R.drawable.active_right);
+        jumpButton = new ButtonUI(J_POS, _buttonSize, R.drawable.inactive_jump, R.drawable.active_jump);
+//        debugButton = new ButtonUI(DEBUG_POS, _buttonSize, R.drawable.jump, -1);
 
         _controls = new Vector<>();
         _controls.add(pauseButton);
         _controls.add(leftArrow);
         _controls.add(rightArrow);
         _controls.add(jumpButton);
-        _controls.add(debugButton);
+//        _controls.add(debugButton);
 
         player = reference;
     }
 
     public void OnUpdate(float dt) {
+
+        // Linearly Interpolate player jump force over time.
         if (player.jumpTimer > 0f) {
             player.jumpTimer -= dt;
             player.upForce = -player.speed * 500f;
@@ -64,6 +67,7 @@ public class InputController {
 
         player.jumpButtonCD = player.jumpButtonCD > 0f ? player.jumpButtonCD - dt : 0f;
 
+        // Checks if buttons is active. If so, do something/
         if (leftArrow._isActive)
             player.rigidbody._force.x = -player.speed * 150f;
 
@@ -73,8 +77,8 @@ public class InputController {
         if (jumpButton._isActive && player.jumpButtonCD <= 0f && player.rigidbody._isGrounded)
             player.Jump();
 
-        if (debugButton._isActive)
-            player.rigidbody._force.y = player.speed * 100f;
+//        if (debugButton._isActive)
+//            player.rigidbody._force.y = player.speed * 100f;
 
 
         player.rigidbody._force.y += player.upForce;
@@ -82,13 +86,12 @@ public class InputController {
     }
 
     public void onRender(Canvas canvas) {
-        pauseButton.onRender(canvas);
-        leftArrow.onRender(canvas);
-        rightArrow.onRender(canvas);
-        jumpButton.onRender(canvas);
-        debugButton.onRender(canvas);
+        for (ButtonUI buttonUI : _controls)
+            buttonUI.onRender(canvas);
     }
 
+
+    // Checks user finger touch input on the phone screen. (Called from GameActivity).
     public void onTouchEvent(MotionEvent event) {
         if (event != null) {
             int action = event.getActionMasked();
@@ -104,8 +107,11 @@ public class InputController {
                     float tapY = event.getY(actionIndex);
 
                     for (ButtonUI button : _controls) {
-                        if (button.isPressed(tapX, tapY, 0f, pointerId))
+                        if (button.isPressed(tapX, tapY, 0f, pointerId)) {
+                            AudioManager.Get().PlayVibration(100, 10);
                             break;
+                        }
+
                     }
 
                     System.out.println("Action: " + action);

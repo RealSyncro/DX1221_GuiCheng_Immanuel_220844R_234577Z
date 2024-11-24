@@ -8,7 +8,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.AudioManager;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.SaveSystem;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameActivity;
 
 public class GameoverPage extends Activity implements View.OnClickListener{
     private TextView _textView;
@@ -26,8 +28,11 @@ public class GameoverPage extends Activity implements View.OnClickListener{
     @Override
     protected void onStart() {
         super.onStart();
+
+        // Update player score
          CharSequence score = String.valueOf(SaveSystem.Get().GetScore());
         _textView.append(" " + score);
+        AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.player_lose);
     }
 
     @Override

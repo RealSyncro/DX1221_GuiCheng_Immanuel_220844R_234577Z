@@ -10,6 +10,7 @@ public class SaveSystem {
         _score = 0;
     }
 
+    // Always Call this when you want to save/retrieve player data.
     public static SaveSystem Get() {
         if (instance == null) instance = new SaveSystem();
         return instance;

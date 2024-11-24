@@ -7,16 +7,11 @@ public class Rigidbody2D {
     }
 
     public TYPE type;
-    public Vector2 _position;
-    public Vector2 _size;
-    public Vector2 _force;
-    public Vector2 _airDrag;
-
-    public Vector2 _vel;
+    public Vector2 _position, _size, _force;
+    public Vector2 _airDrag, _vel;
     public float _mass;
     public boolean _active;
     public boolean _isGrounded;
-
 
     public Rigidbody2D(){
         type = TYPE.STATIC;
@@ -36,7 +31,6 @@ public class Rigidbody2D {
     }
 
     public Vector2 getPosition() { return _position.copy(); }
-
     public Vector2 getSize() { return _size.copy(); }
     public void setSize(Vector2 size) { _size = size; }
 }

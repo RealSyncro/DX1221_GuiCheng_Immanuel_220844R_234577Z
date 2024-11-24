@@ -38,6 +38,6 @@ public class BoundingBox extends GameObject {
 
     @Override
     public void onRender(Canvas canvas) {
-        _animatedSprite.onRender(canvas, (int) rigidbody._position.x, (int) rigidbody._position.y, null);
+//        _animatedSprite.onRender(canvas, (int) rigidbody._position.x, (int) rigidbody._position.y, null);
     }
 }

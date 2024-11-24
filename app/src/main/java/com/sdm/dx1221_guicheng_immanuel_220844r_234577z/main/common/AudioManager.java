@@ -2,7 +2,6 @@ package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common;
 
 import android.content.Context;
 import android.media.MediaPlayer;
-import android.media.session.MediaController;
 import android.os.CombinedVibration;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -16,6 +15,7 @@ public class AudioManager {
     private VibratorManager _vibratorManager;
     private float masterBGM;
     private float masterSFX;
+
     private AudioManager(Vibrator vibrator, VibratorManager vibratorManager) {
         _sfxPlayer = null;
         _bgmPlayer = null;
@@ -25,6 +25,7 @@ public class AudioManager {
         masterSFX = 1f;
     }
 
+    // Always call this when you want to play Audio.
     public static AudioManager Get(){
         if (instance == null) instance = new AudioManager(null, null);
         return instance;
@@ -62,13 +63,6 @@ public class AudioManager {
     }
 
     public void PlaySFX(Context context, int filePath) {
-        if (_sfxPlayer != null)
-        {
-            if (_sfxPlayer.isPlaying())
-                _sfxPlayer.stop();
-        }
-
-//        _sfxPlayer = MediaPlayer.create(GameActivity.instance.getApplicationContext(), filePath);
         _sfxPlayer = MediaPlayer.create(context.getApplicationContext(), filePath);
         _sfxPlayer.setVolume(masterSFX, masterSFX);
         _sfxPlayer.start();

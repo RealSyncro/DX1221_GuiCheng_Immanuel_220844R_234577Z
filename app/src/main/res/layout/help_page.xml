@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0F0F16"
+    android:background="@drawable/bg_menu"
     android:visibility="visible">
 
     <TextView
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="39dp"
         android:layout_marginTop="90dp"
-        android:layout_marginBottom="94dp"
+        android:layout_marginBottom="81dp"
         android:fontFamily="sans-serif-medium"
         android:text="@string/help_header_text"
         android:textAlignment="center"
@@ -27,11 +27,11 @@
 
     <TextView
         android:id="@+id/help_page_description_1"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="47dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="60dp"
         android:fontFamily="sans-serif"
         android:text="@string/help_page_description_1_text"
         android:textAlignment="textStart"
@@ -45,11 +45,11 @@
 
     <TextView
         android:id="@+id/help_page_description_2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="13dp"
-        android:layout_marginEnd="13dp"
-        android:layout_marginBottom="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="62dp"
         android:fontFamily="sans-serif"
         android:text="@string/help_page_description_2_text"
         android:textAlignment="textStart"
@@ -63,38 +63,38 @@
 
     <TextView
         android:id="@+id/help_page_description_3"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="179dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="181dp"
         android:fontFamily="sans-serif"
         android:text="@string/help_page_description_3_text"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/help_back_button"
+        app:layout_constraintBottom_toTopOf="@+id/game_over_back_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/help_page_description_2" />
 
     <Button
-        android:id="@+id/help_back_button"
+        android:id="@+id/game_over_back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="76dp"
-        android:background="#45638E"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="10dp"
-        android:text="@string/help_back_text"
+        android:backgroundTint="#3D69A8"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/settings_back_text"
+        android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="34sp"
+        android:textStyle="normal"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/help_page_description_3"
-        app:strokeColor="#FFFFFF" />
+        app:layout_constraintTop_toBottomOf="@+id/help_page_description_3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

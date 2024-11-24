@@ -3,7 +3,6 @@ package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.FileSystem;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameActivity;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameObject;
@@ -12,20 +11,28 @@ import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.extra.A
 
 public class CoinObject extends GameObject {
     private final AnimatedSprite _animatedSprite;
+    private float _lifeTime;
 
-    public CoinObject() {
-        rigidbody._position.x = (float) (GameActivity.instance.getResources().getDisplayMetrics().widthPixels / 4);
-        rigidbody._position.y = (float) (GameActivity.instance.getResources().getDisplayMetrics().heightPixels / 3);
+    public CoinObject(int filepath, float xPosFlex, float yPosFlex, float lifeTime, boolean isStatic) {
+        rigidbody._position.x = (float) (GameActivity.instance.getResources().getDisplayMetrics().widthPixels / 100) * xPosFlex;
+        rigidbody._position.y = (float) (GameActivity.instance.getResources().getDisplayMetrics().heightPixels / 100) * yPosFlex;
 
-        Bitmap _sprite = FileSystem.LoadScaledSprite(R.drawable.flystar, 1.5f, 1.5f, true);
+        Bitmap _sprite = FileSystem.LoadScaledSprite(filepath, 1.5f, 1.5f, true);
         _animatedSprite = new AnimatedSprite(_sprite, 1,  5, 24);
         rigidbody._size = new Vector2((float) _sprite.getWidth() / 5, (float) _sprite.getHeight());
+        _lifeTime = lifeTime;
+
+        if (!isStatic)
+            rigidbody._InitDynamicBody(1);
     }
 
     @Override
     public void onUpdate(float dt) {
         super.onUpdate(dt);
         _animatedSprite.update(dt);
+
+        if (_lifeTime > 0f) _lifeTime -= dt;
+        else destroy();
     }
 
     @Override

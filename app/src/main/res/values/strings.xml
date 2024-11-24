@@ -1,8 +1,30 @@
 <resources>
-    <string name="app_name">DX1221_GuiCheng_Immanuel_220844R_234577Z</string>
+    <string name="app_name">Trashio</string>
+
+    // Splash Page Accessibility
+    <string name="splash_logo"> Logo </string>
+
+    // Main Menu Page
     <string name="game_title">Trashio</string>
     <string name="start_button_text">Play</string>
     <string name="settings_button_text">Settings</string>
     <string name="help_button_text">Help</string>
-    <string name="back">Back</string>
+
+    // Help Page
+    <string name="help_header_text">Help Page</string>
+    <string name="help_page_description_1_text">1. This game is created by: Gui Cheng and Immanuel Ng.</string>
+    <string name="help_page_description_2_text">2. Try to jump between platforms and collect as much as possible!</string>
+    <string name="help_page_description_3_text">3. The game ends where you fall to the bottom or jump too high up!</string>
+    <string name="help_back_text">Back to Menu</string>
+
+    // Settings Page
+    <string name="settings_header_text">Settings </string>
+    <string name="settings_master_bgm_text">Background (BGM):</string>
+    <string name="settings_master_sfx_text">Sound SFX:</string>
+    <string name="settings_back_text">Back to Menu</string>
+
+    // Game Over Page
+    <string name="game_over_header_text">Game Over</string>
+    <string name="game_over_back_text">Back to Menu</string>
+    <string name="game_over_score_text">Score: </string>
 </resources>

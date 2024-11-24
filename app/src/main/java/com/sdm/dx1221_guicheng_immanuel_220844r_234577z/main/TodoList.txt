@@ -1,11 +1,14 @@
 // To do (MGP A1) [Gui Cheng]:
-1. Fix sprite - collision rendering accuracy
-2. Get multi-touch controls working POINTER_UP, POINTER_DOWN
-3. Fix collision resolution behaviour (doesn't clip through floors)
-4. Get scoring & winning condition system working
 5. Import / Design / Fix the animated assets
 
+
 Additional Tasks
-6. Do UI layout for pages (if enough time)
-7. Get haptic audio feedback working
+// Fully Fixed
+1. Balance Gameplay elements (platform, gravity, coins)
+2. Get multi-touch controls working POINTER_UP, POINTER_DOWN  (Done)
+3. Fix collision resolution behaviour (doesn't clip through floors) // Relatively fixed
+6. Do UI layout for pages (if enough time) // Help Page
+- Fixed bugs for Java 8 regarding thread safety in GameScene Hashmap -> ConcurrentHashMap
+(I hate Java and Android Studios someone please relieve me of this misery!!!! ~^~)
+
 

@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/blank_bg">
 
-    <EditText
-        android:id="@+id/editTextText"
+    <TextView
+        android:id="@+id/main_menu_header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
@@ -17,7 +17,6 @@
         android:autofillHints=""
         android:ems="10"
         android:fontFamily="sans-serif-black"
-        android:inputType="text"
         android:text="@string/game_title"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
@@ -27,33 +26,40 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="LabelFor"
-        tools:text="Trashio" />
+        tools:ignore="LabelFor" />
 
     <Button
         android:id="@+id/start_button"
-        android:layout_width="260dp"
-        android:layout_height="100dp"
-        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="75dp"
+        android:layout_marginEnd="75dp"
+        android:layout_marginBottom="49dp"
         android:backgroundTint="#539E40"
         android:fontFamily="sans-serif-medium"
+        android:paddingHorizontal="80dp"
+        android:paddingVertical="20dp"
         android:text="@string/start_button_text"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="34sp"
-        app:layout_constraintBottom_toTopOf="@id/settings_button"
+        app:layout_constraintBottom_toTopOf="@+id/settings_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText"
+        app:layout_constraintTop_toBottomOf="@+id/main_menu_header"
         app:strokeColor="#FFFFFF" />
 
     <Button
         android:id="@+id/settings_button"
-        android:layout_width="260dp"
-        android:layout_height="100dp"
-        android:layout_marginBottom="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="75dp"
+        android:layout_marginEnd="75dp"
+        android:layout_marginBottom="49dp"
         android:backgroundTint="#A26216"
         android:fontFamily="sans-serif-medium"
+        android:paddingHorizontal="40dp"
+        android:paddingVertical="20dp"
         android:text="@string/settings_button_text"
         android:textColor="#FFFFFF"
         android:textSize="34sp"
@@ -65,11 +71,15 @@
 
     <Button
         android:id="@+id/help_button"
-        android:layout_width="260dp"
-        android:layout_height="100dp"
-        android:layout_marginBottom="162dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="75dp"
+        android:layout_marginEnd="75dp"
+        android:layout_marginBottom="229dp"
         android:backgroundTint="#4676A6"
         android:fontFamily="sans-serif-medium"
+        android:paddingHorizontal="75dp"
+        android:paddingVertical="20dp"
         android:text="@string/help_button_text"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
@@ -77,6 +87,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/settings_button" />
+        app:layout_constraintTop_toBottomOf="@+id/settings_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

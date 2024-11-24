@@ -15,7 +15,7 @@ public class HelpPage extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.help_page);
-        _backButton = findViewById(R.id.back_button);
+        _backButton = findViewById(R.id.help_back_button);
         _backButton.setOnClickListener(this);
     }
 

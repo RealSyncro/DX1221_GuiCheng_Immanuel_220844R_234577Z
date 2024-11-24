@@ -3,34 +3,34 @@ package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.FileSystem;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameActivity;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameObject;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.Vector2;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.extra.AnimatedSprite;
 
-import java.io.File;
-
 public class PlatformObject extends GameObject {
     private final AnimatedSprite _animatedSprite;
-    private final Bitmap _collider = null;
-
-    public PlatformObject(int resID) {
-        Bitmap _sprite =  FileSystem.LoadScaledSprite(resID, 0.5f, 0.5f, true);
+    private float _lifeTime;
+    public PlatformObject(int resID, int xPosFlex, int yPosFlex, float lifeTime, boolean isStatic) {
+        Bitmap _sprite =  FileSystem.LoadScaledSprite(resID, 0.25f, 0.25f, true);
         _animatedSprite = new AnimatedSprite(_sprite, 1, 1, 1);
 
-        rigidbody._position.x = (float) (GameActivity.instance.getResources().getDisplayMetrics().widthPixels / 16) * 6f;
-        rigidbody._position.y = (float) (GameActivity.instance.getResources().getDisplayMetrics().heightPixels / 16) * 12f;
+        if (!isStatic) rigidbody._InitDynamicBody(1f);
+        rigidbody._position.x = (float) (GameActivity.instance.getResources().getDisplayMetrics().widthPixels / 100) * xPosFlex;
+        rigidbody._position.y = (float) (GameActivity.instance.getResources().getDisplayMetrics().heightPixels / 100) * yPosFlex;
         rigidbody._size = new Vector2((float) _sprite.getWidth(), (float) _sprite.getHeight());
 
-//        _collider = FileSystem.LoadCustomSprite(R.drawable.collider,
-//                _sprite.getWidth(), _sprite.getHeight(), true);
+        _lifeTime = lifeTime;
     }
 
     @Override
     public void onUpdate(float dt) {
         super.onUpdate(dt);
+
+        if (_lifeTime > 0f) _lifeTime -= dt;
+        else destroy();
+
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.graphics.Rect;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class AnimatedSprite {
     public static class animation {
@@ -33,7 +34,7 @@ public class AnimatedSprite {
         _col = col;
         _width = _bmp.getWidth() / _col;
         _height = _bmp.getHeight() / row;
-        _animationMap = new HashMap<>();
+        _animationMap = new ConcurrentHashMap<>();
         _timePerFrame = 1f / fps;
         _src = new Rect();
         _dst = new Rect();

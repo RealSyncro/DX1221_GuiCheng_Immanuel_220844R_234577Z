@@ -13,6 +13,7 @@ public class SplashPage extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_page);
+
         Thread splashThread = new Thread() {
             @Override
             public void run() {

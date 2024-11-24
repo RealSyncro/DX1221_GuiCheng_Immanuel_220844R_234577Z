@@ -36,24 +36,48 @@ public class CollisionManager {
 
     public static Vector2 ResolutionCalc(GameObject player, GameObject entity) {
         float[] snap = new float[4];
-        //0: Up, 1: Down, 2: Left, 3: Right
-        snap[0] = (entity.rigidbody._position.y + entity.rigidbody._size.y * 0.5f) - (player.rigidbody._position.y + player.rigidbody._size.y * 0.5f);
-        snap[1] = (entity.rigidbody._position.y - entity.rigidbody._size.y * 0.5f) - (player.rigidbody._position.y - player.rigidbody._size.y * 0.5f);
-        snap[2] = (entity.rigidbody._position.x - entity.rigidbody._size.x * 0.5f) - (player.rigidbody._position.x - player.rigidbody._size.x * 0.5f);
-        snap[3] = (entity.rigidbody._position.x + entity.rigidbody._size.x * 0.5f) - (player.rigidbody._position.x + player.rigidbody._size.x * 0.5f);
+        //0: Down, 1: Up, 2: Left, 3: Right
+        snap[0] = (entity.rigidbody._position.y + entity.rigidbody._size.y * 0.5f) - (player.rigidbody._position.y - player.rigidbody._size.y * 0.5f);
+        snap[1] = (entity.rigidbody._position.y - entity.rigidbody._size.y * 0.5f) - (player.rigidbody._position.y + player.rigidbody._size.y * 0.5f);
+        snap[2] = (entity.rigidbody._position.x - entity.rigidbody._size.x * 0.5f) - (player.rigidbody._position.x + player.rigidbody._size.x * 0.5f);
+        snap[3] = (entity.rigidbody._position.x + entity.rigidbody._size.x * 0.5f) - (player.rigidbody._position.x - player.rigidbody._size.x * 0.5f);
 
         int shortest = 0;
+
         for (int i = 1; i < 4; i++)
         {
             if (Math.abs(snap[i]) < Math.abs(snap[shortest]))
                 shortest = i;
         }
 
-        if (shortest == 2 || shortest == 3) {player.rigidbody._vel.x = 0f;}
-
         if (shortest <= 1)
             return new Vector2(0, snap[shortest]);
         else
             return new Vector2(snap[shortest], 0);
+    }
+
+    public static Vector2 ResolutionXCalc(GameObject player, GameObject entity)
+    {
+        float[] snap = new float[2];
+        snap[0] = (entity.rigidbody._position.x - entity.rigidbody._size.x * 0.5f) - (player.rigidbody._position.x + player.rigidbody._size.x * 0.5f);
+        snap[1] = (entity.rigidbody._position.x + entity.rigidbody._size.x * 0.5f) - (player.rigidbody._position.x - player.rigidbody._size.x * 0.5f);
+
+        int shortest = 0;
+
+        for (int i = 1; i < 2; i++)
+        {
+            if (Math.abs(snap[i]) < Math.abs(snap[shortest]))
+                shortest = i;
+        }
+
+        return new Vector2(snap[shortest], 0);
+    }
+
+    public static Vector2 ResolutionYCalc(GameObject player, GameObject entity)
+    {
+        float snap = (entity.rigidbody._position.y - entity.rigidbody._size.y * 0.5f) -
+                (player.rigidbody._position.y + player.rigidbody._size.y * 0.5f);
+
+        return new Vector2(0, snap);
     }
 }

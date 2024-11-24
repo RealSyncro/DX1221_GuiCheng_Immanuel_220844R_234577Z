@@ -26,7 +26,17 @@
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
         </activity>
 
+        <activity android:name=".main.pages.Settings"
+            android:screenOrientation ="sensorPortrait"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity">
+        </activity>
+
         <activity android:name=".mgp2d.mgp2d.core.GameActivity"
+            android:screenOrientation ="sensorPortrait"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity">
+        </activity>
+
+        <activity android:name=".main.pages.GameoverPage"
             android:screenOrientation ="sensorPortrait"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
         </activity>

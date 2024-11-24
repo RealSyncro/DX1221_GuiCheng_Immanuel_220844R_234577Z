@@ -2,7 +2,7 @@ package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core;
 
 import android.graphics.Canvas;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class GameScene {
 
@@ -16,7 +16,7 @@ public abstract class GameScene {
 
     public static GameScene getNext() { return _next; }
 
-    private static final HashMap<Class<?>, GameScene> map = new HashMap<>();
+    private static final ConcurrentHashMap<Class<?>, GameScene> map = new ConcurrentHashMap<>();
 
     public static void enter(Class<?> gameSceneClass) {
         if (!map.containsKey(gameSceneClass)) {
@@ -40,6 +40,17 @@ public abstract class GameScene {
         if (_current == null) return;
         _current.onExit();
         _current = null;
+    }
+
+    // Only call this when you want to reset everything to 0.
+    public static void exitAll() {
+        if (_current == null) return;
+        _current.onExit();
+        _current = null;
+
+        if (!map.isEmpty()) {
+            map.clear();
+        }
     }
 
     // endregion

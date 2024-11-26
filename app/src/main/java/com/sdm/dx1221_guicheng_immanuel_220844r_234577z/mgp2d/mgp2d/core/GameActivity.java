@@ -55,6 +55,7 @@ Each GameObject contains these methods:
 
 package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core;
 
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -64,6 +65,11 @@ import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
+
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.SaveSystem;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.pages.GameoverPage;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.pages.MainMenu;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ui.InputController;
 
 public class GameActivity extends FragmentActivity {
 
@@ -118,6 +124,18 @@ public class GameActivity extends FragmentActivity {
     }
 
     public static GameActivity instance = null;
+    public static InputController _InputController = null;
+
+    public void Gameover(int score) {
+        SaveSystem.Get().UpdateSave("null", score);
+        GameScene.exitAll();
+        instance.startActivity(new Intent().setClass(instance, GameoverPage.class));
+    }
+
+    public void ExitGame() {
+        GameScene.exitAll();
+        instance.startActivity(new Intent().setClass(instance, MainMenu.class));
+    }
 
     private static float _timeScale = 1;
     public void setTimeScale(float timeScale) { _timeScale = timeScale; }
@@ -139,6 +157,11 @@ public class GameActivity extends FragmentActivity {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         _motionEvent = event;
+
+        if (_InputController != null) {
+            _InputController.onTouchEvent(event);
+        }
+
         return true;
     }
 

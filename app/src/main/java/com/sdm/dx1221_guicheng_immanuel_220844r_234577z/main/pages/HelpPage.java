@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.AudioManager;
 
 public class HelpPage extends Activity implements View.OnClickListener{
 
@@ -15,8 +16,14 @@ public class HelpPage extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.help_page);
-        _backButton = findViewById(R.id.back_button);
+        _backButton = findViewById(R.id.game_over_back_button);
         _backButton.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        AudioManager.Get().PlaySFX(this, R.raw.button_click);
     }
 
     @Override

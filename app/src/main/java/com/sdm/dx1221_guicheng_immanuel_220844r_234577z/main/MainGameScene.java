@@ -32,7 +32,7 @@ public class MainGameScene extends GameScene {
 
     private float TrickOrTrickTimer = 12f;
 
-    private  boolean PowerupActive = false;
+    private  boolean PowerUpActive = false;
     private float PowerUpDuration = 0f;
 
     private Vector2 snap = Vector2.zero();
@@ -98,18 +98,33 @@ public class MainGameScene extends GameScene {
         // Platform + Coin Spawner Algorithm Timer
         spawnTimer = spawnTimer > 0f ? spawnTimer - dt : SpawnPlatform();
         coinSpawnTimer = coinSpawnTimer > 0f ? spawnTimer -= dt : SpawnCoin();
-        Random rand = new Random();
-        int randSpawn = 1 + rand.nextInt(2);
-        if(randSpawn == 1)
-            TrickOrTrickTimer = TrickOrTrickTimer > 0f? spawnTimer -= dt:SpawnFireBall();
+
+        if (TrickOrTrickTimer > 0f)
+            TrickOrTrickTimer -= dt;
         else {
-            TrickOrTrickTimer = TrickOrTrickTimer > 0f? spawnTimer -= dt:SpawnSpikeBall();
+            Random rand = new Random();
+            int randSpawn = rand.nextInt(2);
+
+            switch (randSpawn)
+            {
+                case 0:
+                    TrickOrTrickTimer = SpawnFireBall();
+                    break;
+
+                case 1:
+                    TrickOrTrickTimer = SpawnSpikeBall();
+                    break;
+
+                default:
+                    TrickOrTrickTimer = SpawnPowerUp();
+                    break;
+            }
         }
 
-        TrickOrTrickTimer = TrickOrTrickTimer > 0f? spawnTimer -= 5 - dt:SpawnPowerup();
+        if(PowerUpDuration <= 0f) PowerUpActive = false;
+        else PowerUpDuration = PowerUpDuration > 0f ? PowerUpDuration - dt : 0f;
 
-        if(dt == PowerUpDuration)
-            PowerupActive = false;
+
         // Update all User Interface Elements.
         for (UIObject ui : _uiEntities) {ui.onUpdate(dt);}
 
@@ -126,32 +141,36 @@ public class MainGameScene extends GameScene {
                         scoreText.IncrementScore(1);
                         AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.collect_coin);
                         AudioManager.Get().PlayVibration(100, 10);
+                        continue;
                     }
+
+                    // Fire-ball collided
                     if(other instanceof  FireBall && CollisionManager.isColliding(entity, other)){
-                        if(PowerupActive)
-                            return;
-                        else{
-                            AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.firesound);
-                            AudioManager.Get().PlayVibration(100, 10);
-                            GameActivity.instance.Gameover(scoreText.GetScore());
-                            return;
-                        }
+                        if (PowerUpActive) return;
+
+                        AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.firesound);
+                        AudioManager.Get().PlayVibration(100, 10);
+                        GameActivity.instance.Gameover(scoreText.GetScore());
+                        return;
                     }
+
+                    // Spike-ball collided
                     if(other instanceof  SpikeBall && CollisionManager.isColliding(entity, other)){
-                        if(PowerupActive)
-                            return;
-                        else{
-                            AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.spikesound);
-                            AudioManager.Get().PlayVibration(100, 10);
-                            GameActivity.instance.Gameover(scoreText.GetScore());
-                            return;
-                        }
+                        if(PowerUpActive) return;
+
+                        AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.spikesound);
+                        AudioManager.Get().PlayVibration(100, 10);
+                        GameActivity.instance.Gameover(scoreText.GetScore());
+                        return;
                     }
+
+                    // Power-Up Collided
                     if(other instanceof  Powerup && CollisionManager.isColliding(entity, other)){
-                        PowerupActive = true;
+                        PowerUpActive = true;
                         AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.powerupsound);
                         AudioManager.Get().PlayVibration(100, 10);
-                        PowerUpDuration = dt + 10f;
+                        PowerUpDuration = 10f;
+                        continue;
                     }
 
                     // Screen Border collided.
@@ -242,12 +261,12 @@ public class MainGameScene extends GameScene {
         _gameEntities.add(new CoinObject(R.drawable.flystar, randX, 0, 10f, false));
         return coinDuration;
     }
-    private float SpawnPowerup() {
-        float Powerduration = 5f;
+    private float SpawnPowerUp() {
+        float PowerDuration = 5f;
         Random rand = new Random();
         int randX = rand.nextInt((80 - 40 + 1) + 40);
         _gameEntities.add(new Powerup(R.drawable.powerup, randX, 0, 10f, false));
-        return Powerduration;
+        return PowerDuration;
     }
     private float SpawnFireBall() {
         float FireDuration = 5f;

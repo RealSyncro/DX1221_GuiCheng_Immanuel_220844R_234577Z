@@ -59,7 +59,7 @@ public class InputController {
         // Linearly Interpolate player jump force over time.
         if (player.jumpTimer > 0f) {
             player.jumpTimer -= 0.01f;
-            player.upForce = -player.speed * 1250f; // 500f
+            player.upForce = -player.speed * 500f; // 500f
         }
         else {
             player.upForce = 0f;
@@ -69,10 +69,10 @@ public class InputController {
 
         // Checks if buttons is active. If so, do something/
         if (leftArrow._isActive)
-            player.rigidbody._force.x = -player.speed * 150f;
+            player.rigidbody._force.x = -player.speed * 100f;
 
         if (rightArrow._isActive)
-            player.rigidbody._force.x = player.speed * 150f;
+            player.rigidbody._force.x = player.speed * 100f;
 
         if (jumpButton._isActive && player.jumpButtonCD <= 0f && player.rigidbody._isGrounded)
             player.Jump();

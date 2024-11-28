@@ -40,9 +40,9 @@ public class FPSCounter {
             if (dDelayTime < 0.0)
                 dDelayTime = 0.0;
 
-            long lDelayTime = (long) (dDelayTime * 300);
+            long lDelayTime = (long) (dDelayTime * 350);
             // Wait until the delay time is up
-            Thread.sleep(lDelayTime);
+            TimeUnit.MILLISECONDS.sleep(lDelayTime);
 //            cStopWatch.WaitUntil((const long long)dDelayTime);
 
             // Update the FPS Counter

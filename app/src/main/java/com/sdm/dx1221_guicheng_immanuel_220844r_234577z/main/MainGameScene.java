@@ -43,9 +43,6 @@ public class MainGameScene extends GameScene {
     private Vector<GameObject> _platformEntities;
     private Vector<UIObject> _uiEntities;
 
-    private final float _fixedDt = 0.01f;
-    private float _accumulator = 0f;
-
     @SuppressLint("ObsoleteSdkInt")
     @Override
     public void onCreate() {
@@ -92,168 +89,145 @@ public class MainGameScene extends GameScene {
         totalPlatforms += 1;
 
         // Create new Physics Simulation
-        PhysicsWorld = new Physics2D(50000f);
+        PhysicsWorld = new Physics2D(30000f);
         AudioManager.Get().PlayBGM(GameActivity.instance, R.raw.game_bg);
     }
 
     @Override
     public void onUpdate(float dt) {
-        if (dt >= _fixedDt) {
-            int accumulated = 0;
+        // Platform + Coin Spawner Algorithm Timer
+        spawnTimer = spawnTimer > 0f ? spawnTimer - dt : SpawnPlatform();
+        coinSpawnTimer = coinSpawnTimer > 0f ? spawnTimer -= dt : SpawnCoin();
 
-            // Update the number of physics simulations based on past frames accumulated.
-            if (_accumulator >= _fixedDt) {
-                accumulated = (int) Math.floor(_accumulator / _fixedDt);
-                _accumulator -= accumulated * _fixedDt;
-            }
+        if (TrickOrTrickTimer > 0f)
+            TrickOrTrickTimer -= dt;
+        else {
+            Random rand = new Random();
+            int randSpawn = rand.nextInt(2);
 
-            int runSimulation = (int) Math.floor(dt / _fixedDt) + accumulated;
-            float elapsedFrame = dt - (_fixedDt * runSimulation);
-
-            // Add left over frames to timer for future use.
-            _accumulator += elapsedFrame;
-
-            for (int i = 0; i < runSimulation; i++)
+            switch (randSpawn)
             {
-                // Platform + Coin Spawner Algorithm Timer
-                spawnTimer = spawnTimer > 0f ? spawnTimer - _fixedDt : SpawnPlatform();
-                coinSpawnTimer = coinSpawnTimer > 0f ? spawnTimer -= _fixedDt : SpawnCoin();
+                case 0:
+                    TrickOrTrickTimer = SpawnFireBall();
+                    break;
 
-                if (TrickOrTrickTimer > 0f)
-                    TrickOrTrickTimer -= _fixedDt;
-                else {
-                    Random rand = new Random();
-                    int randSpawn = rand.nextInt(2);
+                case 1:
+                    TrickOrTrickTimer = SpawnSpikeBall();
+                    break;
 
-                    switch (randSpawn)
-                    {
-                        case 0:
-                            TrickOrTrickTimer = SpawnFireBall();
-                            break;
+                default:
+                    TrickOrTrickTimer = SpawnPowerUp();
+                    break;
+            }
+        }
 
-                        case 1:
-                            TrickOrTrickTimer = SpawnSpikeBall();
-                            break;
+        if(PowerUpDuration <= 0f) PowerUpActive = false;
+        else PowerUpDuration = PowerUpDuration > 0f ? PowerUpDuration - dt : 0f;
 
-                        default:
-                            TrickOrTrickTimer = SpawnPowerUp();
-                            break;
+
+        // Update all User Interface Elements.
+        for (UIObject ui : _uiEntities) {ui.onUpdate(dt);}
+
+        for (GameObject entity : _gameEntities) {
+            entity.onUpdate(dt);
+
+            // Compares player with other game objects for resolution
+            if (entity instanceof PlayerObject) {
+                for (GameObject other : _gameEntities) {
+
+                    // Coin Collided.
+                    if (other instanceof CoinObject && CollisionManager.isColliding(entity, other)) {
+                        other.destroy();
+                        scoreText.IncrementScore(1);
+                        AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.collect_coin);
+                        AudioManager.Get().PlayVibration(100, 10);
+                        continue;
                     }
-                }
 
-                if(PowerUpDuration <= 0f) PowerUpActive = false;
-                else PowerUpDuration = PowerUpDuration > 0f ? PowerUpDuration - _fixedDt : 0f;
+                    // Fire-ball collided
+                    if(other instanceof  FireBall && CollisionManager.isColliding(entity, other)){
+                        if (PowerUpActive) return;
 
+                        AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.firesound);
+                        AudioManager.Get().PlayVibration(100, 10);
+                        GameActivity.instance.Gameover(scoreText.GetScore());
+                        return;
+                    }
 
-                // Update all User Interface Elements.
-                for (UIObject ui : _uiEntities) {ui.onUpdate(_fixedDt);}
+                    // Spike-ball collided
+                    if(other instanceof  SpikeBall && CollisionManager.isColliding(entity, other)){
+                        if(PowerUpActive) return;
 
-                for (GameObject entity : _gameEntities) {
-                    entity.onUpdate(_fixedDt);
+                        AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.spikesound);
+                        AudioManager.Get().PlayVibration(100, 10);
+                        GameActivity.instance.Gameover(scoreText.GetScore());
+                        return;
+                    }
 
-                    // Compares player with other game objects for resolution
-                    if (entity instanceof PlayerObject) {
-                        for (GameObject other : _gameEntities) {
+                    // Power-Up Collided
+                    if(other instanceof  Powerup && CollisionManager.isColliding(entity, other)){
+                        PowerUpActive = true;
+                        AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.powerupsound);
+                        AudioManager.Get().PlayVibration(100, 10);
+                        PowerUpDuration = 10f;
+                        continue;
+                    }
 
-                            // Coin Collided.
-                            if (other instanceof CoinObject && CollisionManager.isColliding(entity, other)) {
-                                other.destroy();
-                                scoreText.IncrementScore(1);
-                                AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.collect_coin);
-                                AudioManager.Get().PlayVibration(100, 10);
-                                continue;
-                            }
+                    // Screen Border collided.
+                    if (other instanceof BoundingBox && CollisionManager.isColliding(entity, other)) {
+                        Vector2 snapAdd;
 
-                            // Fire-ball collided
-                            if(other instanceof  FireBall && CollisionManager.isColliding(entity, other)){
-                                if (PowerUpActive) return;
-
-                                AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.firesound);
-                                AudioManager.Get().PlayVibration(100, 10);
-                                GameActivity.instance.Gameover(scoreText.GetScore());
-                                return;
-                            }
-
-                            // Spike-ball collided
-                            if(other instanceof  SpikeBall && CollisionManager.isColliding(entity, other)){
-                                if(PowerUpActive) return;
-
-                                AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.spikesound);
-                                AudioManager.Get().PlayVibration(100, 10);
-                                GameActivity.instance.Gameover(scoreText.GetScore());
-                                return;
-                            }
-
-                            // Power-Up Collided
-                            if(other instanceof  Powerup && CollisionManager.isColliding(entity, other)){
-                                PowerUpActive = true;
-                                AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.powerupsound);
-                                AudioManager.Get().PlayVibration(100, 10);
-                                PowerUpDuration = 10f;
-                                continue;
-                            }
-
-                            // Screen Border collided.
-                            if (other instanceof BoundingBox && CollisionManager.isColliding(entity, other)) {
-                                Vector2 snapAdd;
-
-                                if (((BoundingBox) other)._isHorizontal)
-                                    snapAdd = CollisionManager.ResolutionXCalc(player, other);
-                                else {
-                                    GameActivity.instance.Gameover(scoreText.GetScore());
-                                    return;
-                                }
-                                snap.x += snapAdd.x;
-                                snap.y += snapAdd.y;
-                            }
+                        if (((BoundingBox) other)._isHorizontal)
+                            snapAdd = CollisionManager.ResolutionXCalc(player, other);
+                        else {
+                            GameActivity.instance.Gameover(scoreText.GetScore());
+                            return;
                         }
-                    }
-                }
-
-                for (GameObject platform : _platformEntities) {
-                    platform.onUpdate(_fixedDt);
-
-                    // Checks whether player is on a platform. Increments 1 if not on a platform.
-                    if (CollisionManager.isColliding(player, platform) && player.jumpTimer <= 0f) {
-                        Vector2 snapAdd = CollisionManager.ResolutionYCalc(player, platform);
                         snap.x += snapAdd.x;
                         snap.y += snapAdd.y;
-
-                        if (snap.y >= 0f)
-                            checked -= 1;
-                    }
-                    else {
-                        checked += 1;
                     }
                 }
-
-                // Resolves player collision
-                if (player != null) {
-                    player.rigidbody._position.x += snap.x;
-                    player.rigidbody._position.y += snap.y;
-
-                    // Sets Grounded status based on the combined platform checks.
-                    if (checked < totalPlatforms)
-                        player.rigidbody._isGrounded = true;
-                    else if (checked == totalPlatforms)
-                        player.rigidbody._isGrounded = false;
-
-                    // Resets used variables
-                    snap = Vector2.zero();
-                    checked = 0;
-                }
-
-                // Updates physics of all affected rigidbody.
-                PhysicsWorld.onUpdate(_fixedDt, _gameEntities, _platformEntities);
-
-                // Clean up "destroyed" entities by removing them
-                DestroyObjects();
             }
         }
-        else
-        {
-            _accumulator += dt;
+
+        for (GameObject platform : _platformEntities) {
+            platform.onUpdate(dt);
+
+            // Checks whether player is on a platform. Increments 1 if not on a platform.
+            if (CollisionManager.isColliding(player, platform) && player.jumpTimer <= 0f) {
+                Vector2 snapAdd = CollisionManager.ResolutionYCalc(player, platform);
+                snap.x += snapAdd.x;
+                snap.y += snapAdd.y;
+
+                if (snap.y >= 0f)
+                    checked -= 1;
+            }
+            else {
+                checked += 1;
+            }
         }
+
+        // Resolves player collision
+        if (player != null) {
+            player.rigidbody._position.x += snap.x;
+            player.rigidbody._position.y += snap.y;
+
+            // Sets Grounded status based on the combined platform checks.
+            if (checked < totalPlatforms)
+                player.rigidbody._isGrounded = true;
+            else if (checked == totalPlatforms)
+                player.rigidbody._isGrounded = false;
+
+            // Resets used variables
+            snap = Vector2.zero();
+            checked = 0;
+        }
+
+        // Updates physics of all affected rigidbody.
+        PhysicsWorld.onUpdate(dt, _gameEntities, _platformEntities);
+
+        // Clean up "destroyed" entities by removing them
+        DestroyObjects();
     }
 
     @Override

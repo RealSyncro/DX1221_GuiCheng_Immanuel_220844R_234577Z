@@ -43,7 +43,7 @@ public class MainGameScene extends GameScene {
     private Vector<GameObject> _platformEntities;
     private Vector<UIObject> _uiEntities;
 
-    private final float _fixedDt = 0.008f;
+    private final float _fixedDt = 0.01f;
     private float _accumulator = 0f;
 
     @SuppressLint("ObsoleteSdkInt")

@@ -25,35 +25,11 @@ public class Physics2D {
 
         if (_countdown == 0f) {
 
-            // Run simulation if delta time is greater than fixed dt.
-            if (dt >= _fixedDt) {
-                int accumulated = 0;
+            for (GameObject go : goList)
+                PhysicsCalculation(go);
 
-                // Update the number of physics simulations based on past frames accumulated.
-                if (_accumulator >= _fixedDt) {
-                    accumulated = (int) Math.floor(_accumulator / _fixedDt);
-                    _accumulator -= accumulated *_fixedDt;
-                }
-
-                int runSimulation = (int) Math.floor(dt / _fixedDt) + accumulated;
-                float elapsedFrame = dt - (_fixedDt * runSimulation);
-
-                // Add left over frames to timer for future use.
-                _accumulator += elapsedFrame;
-
-                // Run simulation based on delta time value and past frames accumulation value.
-                for (int i = 0; i < runSimulation; i++) {
-
-                    for (GameObject go : goList)
-                        PhysicsCalculation(go);
-
-                    for (GameObject platform : platformList)
-                        PhysicsCalculation(platform);
-                }
-            }
-            else {
-                _accumulator += dt;
-            }
+            for (GameObject platform : platformList)
+                PhysicsCalculation(platform);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ui;
 
 import android.graphics.Canvas;
+import android.hardware.SensorEvent;
 import android.view.MotionEvent;
 
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
@@ -55,6 +56,12 @@ public class InputController {
     }
 
     public void OnUpdate(float dt) {
+
+        if (GameActivity.instance.areSensorsWorking()) {
+            // Control player movement using accelerometer
+            SensorEvent sensorEvent = GameActivity.instance.getSensorEvent();
+            float z = sensorEvent.values[1];
+        }
 
         // Linearly Interpolate player jump force over time.
         if (player.jumpTimer > 0f) {

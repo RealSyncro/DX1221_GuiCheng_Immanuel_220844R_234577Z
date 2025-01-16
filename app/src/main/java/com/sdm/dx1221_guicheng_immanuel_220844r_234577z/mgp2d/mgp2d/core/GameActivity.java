@@ -55,9 +55,14 @@ Each GameObject contains these methods:
 
 package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -71,8 +76,7 @@ import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.pages.GameoverPage;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.pages.MainMenu;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ui.InputController;
 
-public class GameActivity extends FragmentActivity {
-
+public class GameActivity extends FragmentActivity implements SensorEventListener {
     private static class UpdateThread extends Thread {
         public boolean _isRunning = true;
         public void terminate() { _isRunning = false; }
@@ -126,7 +130,7 @@ public class GameActivity extends FragmentActivity {
     public static GameActivity instance = null;
     public static InputController _InputController = null;
 
-    public void Gameover(int score) {
+    public void GameOver(int score) {
         SaveSystem.Get().UpdateSave("null", score);
         GameScene.exitAll();
         instance.startActivity(new Intent().setClass(instance, GameoverPage.class));
@@ -143,6 +147,13 @@ public class GameActivity extends FragmentActivity {
     private static MotionEvent _motionEvent = null;
     public MotionEvent getMotionEvent() { return _motionEvent; }
 
+    private SensorManager _sensorManager;
+    private Sensor _accelerometer;
+    public static SensorEvent _sensorEvent = null;
+    public SensorEvent getSensorEvent() { return _sensorEvent; }
+    public static int _currentSensorAccuracy = SensorManager.SENSOR_STATUS_ACCURACY_HIGH;
+    public boolean areSensorsWorking() { return  _currentSensorAccuracy >= SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM; }
+
     private UpdateThread _updateThread;
 
     @Override
@@ -152,6 +163,9 @@ public class GameActivity extends FragmentActivity {
         SurfaceView surfaceView = new SurfaceView(this);
         setContentView(surfaceView);
         _updateThread = new UpdateThread(surfaceView);
+
+        _sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        _accelerometer = _sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
     }
 
     @Override
@@ -166,10 +180,23 @@ public class GameActivity extends FragmentActivity {
     }
 
     @Override
+    public void onSensorChanged(SensorEvent event) {
+        _sensorEvent = event;
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        _currentSensorAccuracy = accuracy;
+    }
+
+
+    @Override
     protected void onStart() {
         super.onStart();
         if (!_updateThread.isRunning())
             _updateThread.start();
+
+        _sensorManager.registerListener(this, _accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
@@ -177,6 +204,7 @@ public class GameActivity extends FragmentActivity {
         super.onStop();
         _updateThread.terminate();
         GameScene.exitCurrent();
+        _sensorManager.unregisterListener(this);
     }
 
     @Override
@@ -184,5 +212,12 @@ public class GameActivity extends FragmentActivity {
         super.onPause();
         _updateThread.terminate();
         GameScene.exitCurrent();
+        _sensorManager.unregisterListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        _sensorManager.registerListener(this, _accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 }

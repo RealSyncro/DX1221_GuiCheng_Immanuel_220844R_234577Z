@@ -23,6 +23,16 @@
     <string name="settings_master_sfx_text">Sound SFX:</string>
     <string name="settings_back_text">Back to Menu</string>
 
+    // Shop Page
+    <string name="shop_header_text">Shop</string>
+    <string name="shop_currency_text">Coins: </string>
+
+    <string name="shop_item_01_header">Item Name 1</string>
+    <string name="shop_item_01_cost">Cost: 100</string>
+    <string name="shop_sample_text">Buy</string>
+    <string name="shop_back_text">Back to Menu</string>
+
+
     // Game Over Page
     <string name="game_over_header_text">Game Over</string>
     <string name="game_over_back_text">Back to Menu</string>

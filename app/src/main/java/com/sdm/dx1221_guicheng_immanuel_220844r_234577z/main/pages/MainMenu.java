@@ -2,6 +2,7 @@ package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.pages;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.MainGameScene;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.AudioManager;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.SaveSystem;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameActivity;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameScene;
 
@@ -22,6 +24,9 @@ public class MainMenu extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.main_menu);
+
+        SharedPreferences _sharedData = getSharedPreferences("Statistics", MODE_PRIVATE);
+        SaveSystem.Get().InitPreferences(_sharedData);
 
         _startButton = findViewById(R.id.start_button);
         _startButton.setOnClickListener(this);
@@ -63,7 +68,7 @@ public class MainMenu extends Activity implements View.OnClickListener{
             startActivity(new Intent().setClass(this, Settings.class));
         }
         else if (v == _helpButton) {
-            startActivity(new Intent().setClass(this, HelpPage.class));
+            startActivity(new Intent().setClass(this, ShopPage.class));
         }
     }
 }

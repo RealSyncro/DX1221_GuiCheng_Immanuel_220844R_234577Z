@@ -180,7 +180,7 @@ public class MainGameScene extends GameScene {
                         if (((BoundingBox) other)._isHorizontal)
                             snapAdd = CollisionManager.ResolutionXCalc(player, other);
                         else {
-                            GameActivity.instance.Gameover(scoreText.GetScore());
+                            GameActivity.instance.GameOver(scoreText.GetScore());
                             return;
                         }
                         snap.x += snapAdd.x;

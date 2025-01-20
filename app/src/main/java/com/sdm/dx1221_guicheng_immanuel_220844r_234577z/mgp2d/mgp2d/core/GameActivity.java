@@ -95,14 +95,18 @@ public class GameActivity extends FragmentActivity implements SensorEventListene
         @Override
         public void run()
         {
-            long prevTime = System.nanoTime();
+//            long prevTime = System.nanoTime();
+            FPSCounter fpsCounter = new FPSCounter(true, 0.0333333333333333, 0.05);
+
+            double dElapsedTime = 0.0;
+
             _isRunning = true;
 
             while(_isRunning) {
                 // Calculating deltaTime
-                long currentTime = System.nanoTime();
-                float deltaTime = (currentTime-prevTime)/1000000000.0f;
-                prevTime = currentTime;
+//                long currentTime = System.nanoTime();
+//                float deltaTime = (currentTime-prevTime)/1000000000.0f;
+//                prevTime = currentTime;
 
                 if (GameScene.getNext() != GameScene.getCurrent())
                     GameScene.enter(GameScene.getNext());
@@ -111,7 +115,7 @@ public class GameActivity extends FragmentActivity implements SensorEventListene
                     continue;
 
                 // Update current game scene
-                GameScene.getCurrent().onUpdate(deltaTime * _timeScale);
+                GameScene.getCurrent().onUpdate((float)dElapsedTime * _timeScale);
 
                 // Render current game scene
                 Canvas canvas = _surfaceHolder.lockCanvas(null);
@@ -123,6 +127,13 @@ public class GameActivity extends FragmentActivity implements SensorEventListene
                     }
                     _surfaceHolder.unlockCanvasAndPost(canvas);
                 }
+
+                try {
+                    fpsCounter.Update();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                dElapsedTime = fpsCounter.GetDeltaTime();
             }
         }
     }

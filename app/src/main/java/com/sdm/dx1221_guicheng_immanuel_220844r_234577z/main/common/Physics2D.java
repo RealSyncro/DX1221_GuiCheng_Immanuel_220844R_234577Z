@@ -10,8 +10,6 @@ import java.util.Vector;
 public class Physics2D {
     private final float _gravity;
     private float _countdown = 1.5f;
-    private final float _fixedDt = 0.01f;
-    private float _accumulator = 0f;
 
     public Physics2D(float gravity) {
         _gravity = gravity;
@@ -24,40 +22,15 @@ public class Physics2D {
         else if (_countdown <= 0f) _countdown = 0f;
 
         if (_countdown == 0f) {
+            for (GameObject go : goList)
+                PhysicsCalculation(go, dt);
 
-            // Run simulation if delta time is greater than fixed dt.
-            if (dt >= _fixedDt) {
-                int accumulated = 0;
-
-                // Update the number of physics simulations based on past frames accumulated.
-                if (_accumulator >= _fixedDt) {
-                    accumulated = (int) Math.floor(_accumulator / _fixedDt);
-                    _accumulator -= accumulated *_fixedDt;
-                }
-
-                int runSimulation = (int) Math.floor(dt / _fixedDt) + accumulated;
-                float elapsedFrame = dt - (_fixedDt * runSimulation);
-
-                // Add left over frames to timer for future use.
-                _accumulator += elapsedFrame;
-
-                // Run simulation based on delta time value and past frames accumulation value.
-                for (int i = 0; i < runSimulation; i++) {
-
-                    for (GameObject go : goList)
-                        PhysicsCalculation(go);
-
-                    for (GameObject platform : platformList)
-                        PhysicsCalculation(platform);
-                }
-            }
-            else {
-                _accumulator += dt;
-            }
+            for (GameObject platform : platformList)
+                PhysicsCalculation(platform, dt);
         }
     }
 
-    private void PhysicsCalculation(GameObject go) {
+    private void PhysicsCalculation(GameObject go, float dt) {
         // Check if Rigidbody is affected by gravity
         if (go.rigidbody.type == Rigidbody2D.TYPE.DYNAMIC)
         {
@@ -84,7 +57,7 @@ public class Physics2D {
             // Add additional gravity for player so they fall to platform faster.
             if (go instanceof PlayerObject){
                 if (!go.rigidbody._isGrounded)
-                    acceleration.y += _gravity + 30000f;
+                    acceleration.y += _gravity + 25000f;
             }
             else {
                 acceleration.y += _gravity;
@@ -92,8 +65,8 @@ public class Physics2D {
 
 
             // Update velocity
-            acceleration.x *= _fixedDt;
-            acceleration.y *= _fixedDt;
+            acceleration.x *= dt;
+            acceleration.y *= dt;
             temp.x += acceleration.x;
             temp.y += acceleration.y;
             go.rigidbody._vel = temp;
@@ -108,7 +81,7 @@ public class Physics2D {
             // Update position
             if (go.rigidbody._force.x < 0 || go.rigidbody._force.x > 0 ||
                     go.rigidbody._force.y < 0 || go.rigidbody._force.y > 0 || !go.rigidbody._isGrounded) {
-                float displace = (0.5f * _fixedDt);
+                float displace = (0.5f * dt);
                 go.rigidbody._vel.x += temp.x;
                 go.rigidbody._vel.y += temp.y;
 

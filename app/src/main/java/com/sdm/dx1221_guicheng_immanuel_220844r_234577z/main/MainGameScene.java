@@ -42,6 +42,7 @@ public class MainGameScene extends GameScene {
     private Vector<GameObject> _gameEntities;
     private Vector<GameObject> _platformEntities;
     private Vector<UIObject> _uiEntities;
+
     @SuppressLint("ObsoleteSdkInt")
     @Override
     public void onCreate() {
@@ -88,13 +89,12 @@ public class MainGameScene extends GameScene {
         totalPlatforms += 1;
 
         // Create new Physics Simulation
-        PhysicsWorld = new Physics2D(50000f);
+        PhysicsWorld = new Physics2D(30000f);
         AudioManager.Get().PlayBGM(GameActivity.instance, R.raw.game_bg);
     }
 
     @Override
     public void onUpdate(float dt) {
-
         // Platform + Coin Spawner Algorithm Timer
         spawnTimer = spawnTimer > 0f ? spawnTimer - dt : SpawnPlatform();
         coinSpawnTimer = coinSpawnTimer > 0f ? spawnTimer -= dt : SpawnCoin();

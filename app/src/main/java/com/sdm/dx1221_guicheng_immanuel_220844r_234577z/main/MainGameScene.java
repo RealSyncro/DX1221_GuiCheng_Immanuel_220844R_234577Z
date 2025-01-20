@@ -150,7 +150,7 @@ public class MainGameScene extends GameScene {
 
                         AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.firesound);
                         AudioManager.Get().PlayVibration(100, 10);
-                        GameActivity.instance.Gameover(scoreText.GetScore());
+                        GameActivity.instance.GameOver(scoreText.GetScore());
                         return;
                     }
 
@@ -160,7 +160,7 @@ public class MainGameScene extends GameScene {
 
                         AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.spikesound);
                         AudioManager.Get().PlayVibration(100, 10);
-                        GameActivity.instance.Gameover(scoreText.GetScore());
+                        GameActivity.instance.GameOver(scoreText.GetScore());
                         return;
                     }
 

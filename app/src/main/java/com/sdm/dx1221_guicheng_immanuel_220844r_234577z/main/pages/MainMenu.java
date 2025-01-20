@@ -20,6 +20,8 @@ public class MainMenu extends Activity implements View.OnClickListener{
     private Button _settingsButton;
     private Button _helpButton;
 
+    private Button _LeaderButton;
+
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
@@ -30,6 +32,9 @@ public class MainMenu extends Activity implements View.OnClickListener{
 
         _startButton = findViewById(R.id.start_button);
         _startButton.setOnClickListener(this);
+
+        _LeaderButton = findViewById(R.id.Leaderboard_button);
+        _LeaderButton.setOnClickListener(this);
 
         _settingsButton = findViewById(R.id.settings_button);
         _settingsButton.setOnClickListener(this);
@@ -66,6 +71,9 @@ public class MainMenu extends Activity implements View.OnClickListener{
         }
         else if (v == _settingsButton) {
             startActivity(new Intent().setClass(this, Settings.class));
+        }
+        else if (v==_LeaderButton){
+            startActivity(new Intent().setClass(this, LeaderboardPage.class));
         }
         else if (v == _helpButton) {
             startActivity(new Intent().setClass(this, ShopPage.class));

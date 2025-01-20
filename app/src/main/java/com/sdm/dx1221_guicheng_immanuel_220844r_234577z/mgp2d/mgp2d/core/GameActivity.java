@@ -57,6 +57,7 @@ package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -131,7 +132,9 @@ public class GameActivity extends FragmentActivity implements SensorEventListene
     public static InputController _InputController = null;
 
     public void GameOver(int score) {
-        SaveSystem.Get().UpdateSave("null", score);
+        SharedPreferences _sharedPreference = getSharedPreferences("Statistics", MODE_PRIVATE);
+        SaveSystem.Get().InitShared(_sharedPreference);
+        SaveSystem.Get().UpdateSave(_sharedPreference, "null", score);
         GameScene.exitAll();
         instance.startActivity(new Intent().setClass(instance, GameoverPage.class));
     }

@@ -59,7 +59,6 @@ public class MainGameScene extends GameScene {
         super.onEnter();
         AudioManager.Get().TerminateSFXPlayer();
 
-        // Initialise GameObject & UIObject List
         _gameEntities = new Vector<>();
         _platformEntities = new Vector<>();
         _uiEntities = new Vector<>();
@@ -180,6 +179,13 @@ public class MainGameScene extends GameScene {
         // Release memory allocation in MediaPlayer and GameObject/UIObject List.
         AudioManager.Get().TerminateSFXPlayer();
         FreeMemory();
+    }
+
+    // Object Pooling
+    private GameObject FetchGO(GameObject go) {
+
+
+        return go;
     }
 
     // GameObject Randomised Spawner Algorithm

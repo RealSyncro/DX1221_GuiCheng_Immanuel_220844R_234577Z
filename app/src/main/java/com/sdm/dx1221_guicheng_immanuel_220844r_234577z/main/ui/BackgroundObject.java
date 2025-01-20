@@ -9,8 +9,8 @@ import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameAct
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.extra.UIObject;
 
 public class BackgroundObject extends UIObject {
-    private final Bitmap _backgroundBitmap0;
-    private final Bitmap _backgroundBitmap1;
+    private static Bitmap _backgroundBitmap0;
+    private static Bitmap _backgroundBitmap1;
     private float _backgroundPosition;
     private final int screenWidth;
     private final int screenHeight;
@@ -18,9 +18,13 @@ public class BackgroundObject extends UIObject {
     public BackgroundObject() {
         screenWidth = GameActivity.instance.getResources().getDisplayMetrics().widthPixels;
         screenHeight = GameActivity.instance.getResources().getDisplayMetrics().heightPixels;
-        Bitmap bmp = FileSystem.LoadCustomSprite(R.drawable.bg_night, screenWidth, screenHeight, true);
-        _backgroundBitmap0 = bmp;
-        _backgroundBitmap1 = bmp;
+
+        if (_backgroundBitmap0 == null || _backgroundBitmap1 == null)
+        {
+            Bitmap bmp = FileSystem.LoadCustomSprite(R.drawable.bg_night, screenWidth, screenHeight, true);
+            _backgroundBitmap0 = bmp;
+            _backgroundBitmap1 = bmp;
+        }
     }
 
     @Override

@@ -51,11 +51,13 @@ public class AudioManager {
     public void PlayBGM(Context context, int filePath) {
         if (_bgmPlayer != null)
         {
-            if (_bgmPlayer.isPlaying())
+            if (_bgmPlayer.isPlaying()) {
                 _bgmPlayer.stop();
+                _bgmPlayer.release();
+                _bgmPlayer = null;
+            }
         }
 
-//        _bgmPlayer = MediaPlayer.create(GameActivity.instance.getApplicationContext(), filePath);
         _bgmPlayer = MediaPlayer.create(context.getApplicationContext(), filePath);
         _bgmPlayer.setLooping(true);
         _bgmPlayer.setVolume(masterBGM, masterBGM);
@@ -63,6 +65,14 @@ public class AudioManager {
     }
 
     public void PlaySFX(Context context, int filePath) {
+        if (_sfxPlayer != null)
+        {
+            if (_sfxPlayer.isPlaying()) {
+                _sfxPlayer.stop();
+                _sfxPlayer.release();
+                _sfxPlayer = null;
+            }
+        }
         _sfxPlayer = MediaPlayer.create(context.getApplicationContext(), filePath);
         _sfxPlayer.setVolume(masterSFX, masterSFX);
         _sfxPlayer.start();

@@ -13,31 +13,38 @@ import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.Vector2
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.extra.AnimatedSprite;
 
 public class PlayerObject extends GameObject {
-    private final InputController _inputReceiver;
-    public final AnimatedSprite _animatedSprite;
+    private static InputController _inputReceiver;
+    private static Bitmap _sprite;
+    public static AnimatedSprite _animatedSprite;
     public final float speed = 400f;
     public float upForce;
     public float jumpTimer = 0f;
     public float jumpButtonCD = 0f;
+    private static final Vector2 size = new Vector2(0, 0);
 
     public PlayerObject() {
-        rigidbody._InitDynamicBody(1f);
-        rigidbody._position.x = (float) GameActivity.instance.getResources().getDisplayMetrics().widthPixels / 2;
-        rigidbody._position.y = (float) GameActivity.instance.getResources().getDisplayMetrics().heightPixels / 2;
-
-        Bitmap sprite = FileSystem.LoadScaledSprite(R.drawable.sonic, 0.5f, 0.5f, true);
         _inputReceiver = new InputController(this);
-        _animatedSprite = new AnimatedSprite(sprite, 1,  15, 12);
-        rigidbody._size = new Vector2((float) sprite.getWidth() / 15, (float) sprite.getHeight());
+        GameActivity._InputController = _inputReceiver;
 
+        if (_sprite == null)
+        {
+            _sprite = FileSystem.LoadScaledSprite(R.drawable.sonic, 0.5f, 0.5f, true);
+            size.x = (float) _sprite.getWidth() / 15;
+            size.y = (float) _sprite.getHeight();
+        }
+
+        _animatedSprite = new AnimatedSprite(_sprite, 1,  15, 12);
         _animatedSprite.AddAnimation("idle", 0, 0);
         _animatedSprite.AddAnimation("walkRight", 5, 9);
         _animatedSprite.AddAnimation("walkLeft", 10, 13);
-
         _animatedSprite.PlayAnimation("idle");
 
+        rigidbody._InitDynamicBody(1f);
+        rigidbody._position.x = (float) GameActivity.instance.getResources().getDisplayMetrics().widthPixels / 2;
+        rigidbody._position.y = (float) GameActivity.instance.getResources().getDisplayMetrics().heightPixels / 2;
+        rigidbody._size = size;
+
         upForce = 0f;
-        GameActivity._InputController = _inputReceiver;
 
         //_srcRect = new Rect(0, 0, _sprite.getWidth() / 7, _sprite.getHeight());
         //_dstRect = new Rect();

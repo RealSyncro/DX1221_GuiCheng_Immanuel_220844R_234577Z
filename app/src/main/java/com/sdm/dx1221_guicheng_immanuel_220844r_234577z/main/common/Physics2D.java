@@ -13,6 +13,10 @@ public class Physics2D {
     private final float _fixedDt = 0.01f;
     private float _accumulator = 0f;
 
+    private final Vector2 temp = new Vector2(0, 0);
+    private final Vector2 acceleration = new Vector2(0, 0);
+    private final Vector2 displacement = new Vector2(0, 0);
+
     public Physics2D(float gravity) {
         _gravity = gravity;
     }
@@ -61,7 +65,9 @@ public class Physics2D {
         // Check if Rigidbody is affected by gravity
         if (go.rigidbody.type == Rigidbody2D.TYPE.DYNAMIC)
         {
-            Vector2 temp = new Vector2(go.rigidbody._vel);
+            temp.x = go.rigidbody._vel.x;
+            temp.y = go.rigidbody._vel.y;
+
             float density = 3.0f;
 
             go.rigidbody._airDrag.x = (0.5f * density * 1.0f * 1.0f) * temp.x * temp.x;
@@ -79,7 +85,8 @@ public class Physics2D {
             go.rigidbody._force.x *= multiplier;
             go.rigidbody._force.y *= multiplier;
 
-            Vector2 acceleration = new Vector2(go.rigidbody._force);
+            acceleration.x = go.rigidbody._force.x;
+            acceleration.y = go.rigidbody._force.y;
 
             // Add additional gravity for player so they fall to platform faster.
             if (go instanceof PlayerObject){
@@ -115,7 +122,9 @@ public class Physics2D {
                 go.rigidbody._vel.x *= displace;
                 go.rigidbody._vel.y *= displace;
 
-                Vector2 displacement = new Vector2(go.rigidbody._vel);
+                displacement.x = go.rigidbody._vel.x;
+                displacement.y = go.rigidbody._vel.y;
+                
                 go.rigidbody._position.x += displacement.x;
                 go.rigidbody._position.y += displacement.y;
             }

@@ -52,7 +52,7 @@ public class GameoverPage extends Activity implements View.OnClickListener{
         if(v == _SubmitRun){
             if(_NameInput != null){
                 String finalstring = _NameInput.toString() + " " + String.valueOf(SaveSystem.Get().GetScore());
-                //FileSystem.writeToAssets("leaderboard.txt", finalstring);
+                FileSystem.writeToAssets("leaderboard.txt", finalstring);
             }
         }
     }

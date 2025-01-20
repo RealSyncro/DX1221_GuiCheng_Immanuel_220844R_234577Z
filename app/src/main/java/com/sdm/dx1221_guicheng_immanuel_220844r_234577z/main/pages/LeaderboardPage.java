@@ -36,49 +36,18 @@ public class LeaderboardPage extends Activity implements View.OnClickListener {
     protected void onStart() {
         super.onStart();
 
-        String result = readFromAssets("leaderboard.txt");
-//        String[] displayNames = result[0];
-//        String[] values = result[1];
-//        for (int i =0; i<displayNames.length;i++){
-//            String Finalstring = displayNames[i] + ": " + values[i] + "\n";
-//            _Leaderboardtext.append(Finalstring);
-//        }
-        String Finalstring = result + "\n";
-        _Leaderboardtext.append(Finalstring);
+        String[][] result = FileSystem.readFromAssets("leaderboard.txt");
+        String[] displayNames = result[0];
+        String[] values = result[1];
+        for (int i =0; i<displayNames.length;i++){
+            String Finalstring = displayNames[i] + ": " + values[i] + "\n";
+            _Leaderboardtext.append(Finalstring);
+        }
     }
     @Override
     public void onClick(View v) {
         if(v == _BackTomain){
             startActivity(new Intent().setClass(this, MainMenu.class));
         }
-    }
-    private String readFromAssets(String filename) {
-        StringBuilder result = new StringBuilder();
-        try {
-            InputStream inputStream = GameActivity.instance.getAssets().open(filename);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            String line = reader.readLine();
-            while (line != null) {
-                result.append(line);
-                line = reader.readLine();
-            }
-            reader.close();
-        } catch (IOException e) {
-            Log.e("ERROR", "readFromAssets: ", e);
-        }
-        return result.toString();
-    }
-
-    private String writeToAssets(String filename, String Line) {
-        try {
-            OutputStream outputStream = GameActivity.instance.openFileOutput(filename, Context.MODE_APPEND);
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
-            writer.newLine();
-            writer.write(Line);
-            writer.close();
-        } catch (IOException e) {
-            Log.e("ERROR", "WriteToAsset: ", e);
-        }
-        return Line;
     }
 }

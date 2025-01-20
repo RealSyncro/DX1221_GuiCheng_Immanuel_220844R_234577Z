@@ -35,46 +35,46 @@ public class FileSystem {
         Bitmap original = BitmapFactory.decodeResource(GameActivity.instance.getResources(), filePath);
         return Bitmap.createScaledBitmap(original, xWidth, yHeight, filter);
     }
-//    public static String[][] readFromAssets(String filename) {
-//        List<String> displayNames = new ArrayList<>();
-//        List<String> values = new ArrayList<>();
-//
-//        try {
-//            InputStream inputStream = GameActivity.instance.getAssets().open(filename);
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-//            String line = reader.readLine();
-//
-//            while (line != null) {
-//                // Split the line into display name and value
-//                String[] parts = line.split(" ");
-//                if (parts.length == 2) {
-//                    displayNames.add(parts[0]); // First part as display name
-//                    values.add(parts[1]); // Second part as value
-//                }
-//                line = reader.readLine();
-//            }
-//            reader.close();
-//        } catch (IOException e) {
-//            Log.e("ERROR", "readFromAssets: ", e);
-//        }
-//
-//        // Convert lists to arrays
-//        String[] displayNamesArray = displayNames.toArray(new String[0]);
-//        String[] valuesArray = values.toArray(new String[0]);
-//
-//        return new String[][]{displayNamesArray, valuesArray};
-//    }
-//
-//    public static String writeToAssets(String filename, String Line) {
-//        try {
-//            OutputStream outputStream = GameActivity.instance.openFileOutput(filename,Context.MODE_APPEND);
-//            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
-//            writer.newLine();
-//            writer.write(Line);
-//            writer.close();
-//        } catch (IOException e) {
-//            Log.e("ERROR", "WriteToAsset: ", e);
-//        }
-//        return Line;
-//    }
+    public static String[][] readFromAssets(String filename) {
+        List<String> displayNames = new ArrayList<>();
+        List<String> values = new ArrayList<>();
+
+        try {
+            InputStream inputStream = GameActivity.instance.getAssets().open(filename);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            String line = reader.readLine();
+
+            while (line != null) {
+                // Split the line into display name and value
+                String[] parts = line.split(" ");
+                if (parts.length == 2) {
+                    displayNames.add(parts[0]); // First part as display name
+                    values.add(parts[1]); // Second part as value
+                }
+                line = reader.readLine();
+            }
+            reader.close();
+        } catch (IOException e) {
+            Log.e("ERROR", "readFromAssets: ", e);
+        }
+
+        // Convert lists to arrays
+        String[] displayNamesArray = displayNames.toArray(new String[0]);
+        String[] valuesArray = values.toArray(new String[0]);
+
+        return new String[][]{displayNamesArray, valuesArray};
+    }
+
+    public static String writeToAssets(String filename, String Line) {
+        try {
+            OutputStream outputStream = GameActivity.instance.openFileOutput(filename,Context.MODE_APPEND);
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
+            writer.newLine();
+            writer.write(Line);
+            writer.close();
+        } catch (IOException e) {
+            Log.e("ERROR", "WriteToAsset: ", e);
+        }
+        return Line;
+    }
 }

@@ -3,21 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_menu">
 
     <EditText
         android:id="@+id/editTextText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="19dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="5dp"
         android:ems="10"
         android:inputType="text"
         android:minHeight="48dp"
-        android:text="Welcome to Leaderboard"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        android:text="@string/leaderboard_header_text"
+        android:textColor="#FFFFFF"
+        android:textColorLink="#FFFFFF"
+        android:textSize="34sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="Autofill,HardcodedText,LabelFor" />
 
@@ -25,13 +28,16 @@
         android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="13dp"
-        android:layout_marginEnd="13dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="12dp"
         android:layout_marginBottom="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText">
+        app:layout_constraintTop_toBottomOf="@+id/editTextText"
+        app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,18 +45,30 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/Leaderboard"
+                android:id="@+id/leaderboard_content"
                 android:layout_width="match_parent"
                 android:layout_height="565dp"
+                android:layout_gravity="center"
+                android:background="#000000"
                 android:text="Leaderboard Example"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
                 tools:ignore="HardcodedText" />
 
             <Button
-                android:id="@+id/Leaderboard_Quit_btn"
-                android:layout_width="match_parent"
+                android:id="@+id/leaderboard_back_button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Back To Main"
-                tools:ignore="HardcodedText,VisualLintButtonSize" />
+                android:layout_gravity="center"
+                android:layout_marginBottom="0dp"
+                android:backgroundTint="#4676A6"
+                android:fontFamily="sans-serif-medium"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="5dp"
+                android:text="@string/leaderboard_back_text"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp" />
 
         </LinearLayout>
     </ScrollView>

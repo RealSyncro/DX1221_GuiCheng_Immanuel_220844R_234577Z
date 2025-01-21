@@ -5,13 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.MainGameScene;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameActivity;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,8 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileSystem {
-
-    private Context context;
 
     // Load Sprite using pre-existing aspect ratio and scaling it.
     public static Bitmap LoadScaledSprite(int filePath, float xScale, float yScale, boolean filter) {
@@ -35,12 +30,12 @@ public class FileSystem {
         Bitmap original = BitmapFactory.decodeResource(GameActivity.instance.getResources(), filePath);
         return Bitmap.createScaledBitmap(original, xWidth, yHeight, filter);
     }
-    public static String[][] readFromAssets(String filename) {
+    public static String[][] readFromAssets(String filename, Context m_Context) {
         List<String> displayNames = new ArrayList<>();
         List<String> values = new ArrayList<>();
 
         try {
-            InputStream inputStream = GameActivity.instance.getAssets().open(filename);
+            InputStream inputStream = m_Context.getAssets().open(filename);
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String line = reader.readLine();
 
@@ -65,9 +60,9 @@ public class FileSystem {
         return new String[][]{displayNamesArray, valuesArray};
     }
 
-    public static String writeToAssets(String filename, String Line) {
+    public static void writeToAssets(String filename, String Line, Context m_Context) {
         try {
-            OutputStream outputStream = GameActivity.instance.openFileOutput(filename,Context.MODE_APPEND);
+            OutputStream outputStream = m_Context.openFileOutput(filename, Context.MODE_APPEND);
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
             writer.newLine();
             writer.write(Line);
@@ -75,6 +70,5 @@ public class FileSystem {
         } catch (IOException e) {
             Log.e("ERROR", "WriteToAsset: ", e);
         }
-        return Line;
     }
 }

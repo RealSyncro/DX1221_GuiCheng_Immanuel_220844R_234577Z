@@ -57,6 +57,7 @@ package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -193,6 +194,10 @@ public class GameActivity extends FragmentActivity implements SensorEventListene
     @Override
     protected void onStart() {
         super.onStart();
+
+        SharedPreferences _sharedData = getSharedPreferences("Statistics", MODE_PRIVATE);
+        SaveSystem.Get().InitPreferences(_sharedData);
+
         if (!_updateThread.isRunning())
             _updateThread.start();
 

@@ -50,16 +50,18 @@ public class SaveSystem {
         if (_score > _highScore)
             _highScore = score;
 
-        Editor editor = _sharedPreferences.edit();
-        editor.putString("playerName", _playerName);
+        if (_sharedPreferences != null) {
+            Editor editor = _sharedPreferences.edit();
+            editor.putString("playerName", _playerName);
 
-        _coins = _sharedPreferences.getInt("coins", -1);
-        _coins += score;
-        editor.putInt("coins", _coins);
+            _coins = _sharedPreferences.getInt("coins", -1);
+            _coins += score;
+            editor.putInt("coins", _coins);
 
-        editor.putInt("score", _score);
-        editor.putInt("highScore", _highScore);
-        editor.apply();
+            editor.putInt("score", _score);
+            editor.putInt("highScore", _highScore);
+            editor.apply();
+        }
     }
 
     public String GetName() {return _playerName;}

@@ -13,10 +13,9 @@ import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.Vector2
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.extra.AnimatedSprite;
 
 public class PlayerObject extends GameObject {
-    private static InputController _inputReceiver;
-    private static Bitmap _sprite;
-    public static AnimatedSprite _animatedSprite;
-    public final float speed = 400f;
+    private final InputController _inputReceiver;
+    public final AnimatedSprite _animatedSprite;
+    public final float speed = 300f;
     public float upForce;
     public float jumpTimer = 0f;
     public float jumpButtonCD = 0f;

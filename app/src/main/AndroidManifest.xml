@@ -26,6 +26,11 @@
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
         </activity>
 
+        <activity android:name=".main.pages.LeaderboardPage"
+            android:screenOrientation ="sensorPortrait"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity">
+        </activity>
+
         <activity android:name=".main.pages.Settings"
             android:screenOrientation ="sensorPortrait"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">

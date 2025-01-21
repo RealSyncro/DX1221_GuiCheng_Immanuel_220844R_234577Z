@@ -16,6 +16,7 @@ public class MainMenu extends Activity implements View.OnClickListener{
     private Button _startButton;
     private Button _settingsButton;
     private Button _helpButton;
+    private Button _leaderButton;
 
     @Override
     protected void onCreate(Bundle saveInstanceState) {
@@ -24,6 +25,9 @@ public class MainMenu extends Activity implements View.OnClickListener{
 
         _startButton = findViewById(R.id.start_button);
         _startButton.setOnClickListener(this);
+
+        _leaderButton = findViewById(R.id.Leaderboard_button);
+        _leaderButton.setOnClickListener(this);
 
         _settingsButton = findViewById(R.id.settings_button);
         _settingsButton.setOnClickListener(this);
@@ -37,6 +41,9 @@ public class MainMenu extends Activity implements View.OnClickListener{
         super.onStart();
         AudioManager.Get().PlayBGM(this, R.raw.shinytech);
         AudioManager.Get().PlaySFX(this, R.raw.button_click);
+
+        SharedPreferences _sharedData = getSharedPreferences("Statistics", MODE_PRIVATE);
+        SaveSystem.Get().InitPreferences(_sharedData);
     }
 
     @Override
@@ -61,8 +68,12 @@ public class MainMenu extends Activity implements View.OnClickListener{
         else if (v == _settingsButton) {
             startActivity(new Intent().setClass(this, Settings.class));
         }
+        else if (v== _leaderButton) {
+            startActivity(new Intent().setClass(this, LeaderboardPage.class));
+        }
         else if (v == _helpButton) {
             startActivity(new Intent().setClass(this, HelpPage.class));
+            //startActivity(new Intent().setClass(this, ShopPage.class));
         }
     }
 }

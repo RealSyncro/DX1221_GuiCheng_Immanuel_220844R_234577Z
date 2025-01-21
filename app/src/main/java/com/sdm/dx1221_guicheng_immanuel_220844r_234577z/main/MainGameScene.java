@@ -29,6 +29,12 @@ public class MainGameScene extends GameScene {
     private int totalPlatforms = 0, checked = 0;
     private float spawnTimer = 5f;
     private float coinSpawnTimer = 6f;
+
+    private float TrickOrTrickTimer = 12f;
+
+    private  boolean PowerUpActive = false;
+    private float PowerUpDuration = 0f;
+
     private Vector2 snap = Vector2.zero();
     private PlayerObject player = null;
     private ScoreText scoreText = null;
@@ -36,6 +42,7 @@ public class MainGameScene extends GameScene {
     private Vector<GameObject> _gameEntities;
     private Vector<GameObject> _platformEntities;
     private Vector<UIObject> _uiEntities;
+
     @SuppressLint("ObsoleteSdkInt")
     @Override
     public void onCreate() {
@@ -81,16 +88,41 @@ public class MainGameScene extends GameScene {
         totalPlatforms += 1;
 
         // Create new Physics Simulation
-        PhysicsWorld = new Physics2D(50000f);
+        PhysicsWorld = new Physics2D(30000f);
         AudioManager.Get().PlayBGM(GameActivity.instance, R.raw.game_bg);
     }
 
     @Override
     public void onUpdate(float dt) {
-
         // Platform + Coin Spawner Algorithm Timer
         spawnTimer = spawnTimer > 0f ? spawnTimer - dt : SpawnPlatform();
         coinSpawnTimer = coinSpawnTimer > 0f ? spawnTimer -= dt : SpawnCoin();
+
+        if (TrickOrTrickTimer > 0f)
+            TrickOrTrickTimer -= dt;
+        else {
+            Random rand = new Random();
+            int randSpawn = rand.nextInt(2);
+
+            switch (randSpawn)
+            {
+                case 0:
+                    TrickOrTrickTimer = SpawnFireBall();
+                    break;
+
+                case 1:
+                    TrickOrTrickTimer = SpawnSpikeBall();
+                    break;
+
+                default:
+                    TrickOrTrickTimer = SpawnPowerUp();
+                    break;
+            }
+        }
+
+        if(PowerUpDuration <= 0f) PowerUpActive = false;
+        else PowerUpDuration = PowerUpDuration > 0f ? PowerUpDuration - dt : 0f;
+
 
         // Update all User Interface Elements.
         for (UIObject ui : _uiEntities) {ui.onUpdate(dt);}
@@ -108,6 +140,36 @@ public class MainGameScene extends GameScene {
                         scoreText.IncrementScore(1);
                         AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.collect_coin);
                         AudioManager.Get().PlayVibration(100, 10);
+                        continue;
+                    }
+
+                    // Fire-ball collided
+                    if(other instanceof  FireBall && CollisionManager.isColliding(entity, other)){
+                        if (PowerUpActive) return;
+
+                        AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.firesound);
+                        AudioManager.Get().PlayVibration(100, 10);
+                        GameActivity.instance.GameOver(scoreText.GetScore());
+                        return;
+                    }
+
+                    // Spike-ball collided
+                    if(other instanceof  SpikeBall && CollisionManager.isColliding(entity, other)){
+                        if(PowerUpActive) return;
+
+                        AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.spikesound);
+                        AudioManager.Get().PlayVibration(100, 10);
+                        GameActivity.instance.GameOver(scoreText.GetScore());
+                        return;
+                    }
+
+                    // Power-Up Collided
+                    if(other instanceof  Powerup && CollisionManager.isColliding(entity, other)){
+                        PowerUpActive = true;
+                        AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.powerupsound);
+                        AudioManager.Get().PlayVibration(100, 10);
+                        PowerUpDuration = 10f;
+                        continue;
                     }
 
                     // Screen Border collided.
@@ -204,6 +266,27 @@ public class MainGameScene extends GameScene {
         int randX = rand.nextInt((80 - 40 + 1) + 40);
         _gameEntities.add(new CoinObject(R.drawable.flystar, randX, 0, 10f, false));
         return coinDuration;
+    }
+    private float SpawnPowerUp() {
+        float PowerDuration = 5f;
+        Random rand = new Random();
+        int randX = rand.nextInt((80 - 40 + 1) + 40);
+        _gameEntities.add(new Powerup(R.drawable.powerup, randX, 0, 10f, false));
+        return PowerDuration;
+    }
+    private float SpawnFireBall() {
+        float FireDuration = 5f;
+        Random rand = new Random();
+        int randX = rand.nextInt((80 - 40 + 1) + 40);
+        _gameEntities.add(new FireBall(R.drawable.fire, randX, 0, 10f, false));
+        return FireDuration;
+    }
+    private float SpawnSpikeBall() {
+        float SpikeDuration = 5f;
+        Random rand = new Random();
+        int randX = rand.nextInt((80 - 40 + 1) + 40);
+        _gameEntities.add(new SpikeBall(R.drawable.suriken, randX, 0, 10f, false));
+        return SpikeDuration;
     }
 
     // Removed Destroyed Objects during runtime.

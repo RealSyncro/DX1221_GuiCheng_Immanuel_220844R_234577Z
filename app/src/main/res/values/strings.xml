@@ -8,6 +8,7 @@
     <string name="game_title">Trashio</string>
     <string name="start_button_text">Play</string>
     <string name="settings_button_text">Settings</string>
+    <string name="leaderboard_button_text">Leaderboard</string>
     <string name="help_button_text">Help</string>
 
     // Help Page
@@ -22,6 +23,10 @@
     <string name="settings_master_bgm_text">Background (BGM):</string>
     <string name="settings_master_sfx_text">Sound SFX:</string>
     <string name="settings_back_text">Back to Menu</string>
+
+    // Leaderboard Page
+    <string name="leaderboard_header_text">Welcome to Leaderboard!</string>
+    <string name="leaderboard_back_text">Back to Main</string>
 
     // Shop Page
     <string name="shop_header_text">Shop</string>

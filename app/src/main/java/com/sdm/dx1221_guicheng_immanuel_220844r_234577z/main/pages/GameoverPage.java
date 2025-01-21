@@ -7,22 +7,32 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.AudioManager;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.SaveSystem;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameActivity;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.FileSystem;
 
 public class GameoverPage extends Activity implements View.OnClickListener{
-    private TextView _textView;
+    private TextView _scoreText;
+    private TextInputEditText _nameInput;
     private Button _backButton;
+    private  Button _submitRun;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_over_page);
+
         _backButton = findViewById(R.id.game_over_back_button);
         _backButton.setOnClickListener(this);
 
-        _textView = findViewById(R.id.game_over_score);
+        _submitRun = findViewById(R.id.game_over_SubmitRun);
+        _submitRun.setOnClickListener(this);
+
+        _nameInput = findViewById(R.id.game_over_Input);
+        _scoreText = findViewById(R.id.game_over_score);
     }
 
     @Override
@@ -31,7 +41,7 @@ public class GameoverPage extends Activity implements View.OnClickListener{
 
         // Update player score
          CharSequence score = String.valueOf(SaveSystem.Get().GetScore());
-        _textView.append(" " + score);
+        _scoreText.append(" " + score);
         AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.player_lose);
     }
 
@@ -39,6 +49,12 @@ public class GameoverPage extends Activity implements View.OnClickListener{
     public void onClick(View v) {
         if (v == _backButton) {
             startActivity(new Intent().setClass(this, MainMenu.class));
+        }
+        if(v == _submitRun){
+            if(_nameInput != null){
+                String finalstring = _nameInput.getText().toString() + " " + SaveSystem.Get().GetScore();
+                FileSystem.writeToAssets("leaderboard.txt", finalstring, this);
+            }
         }
     }
 }

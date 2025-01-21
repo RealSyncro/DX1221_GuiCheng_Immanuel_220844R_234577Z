@@ -3,6 +3,7 @@ package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
 import android.util.Log;
 
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameActivity;
@@ -15,6 +16,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class FileSystem {
@@ -30,6 +33,7 @@ public class FileSystem {
         Bitmap original = BitmapFactory.decodeResource(GameActivity.instance.getResources(), filePath);
         return Bitmap.createScaledBitmap(original, xWidth, yHeight, filter);
     }
+
     public static String[][] readFromAssets(String filename, Context m_Context) {
         List<String> displayNames = new ArrayList<>();
         List<String> values = new ArrayList<>();
@@ -57,7 +61,30 @@ public class FileSystem {
         String[] displayNamesArray = displayNames.toArray(new String[0]);
         String[] valuesArray = values.toArray(new String[0]);
 
-        return new String[][]{displayNamesArray, valuesArray};
+        // Sort displayNamesArray and keep track of original indices
+        Integer[] indices = new Integer[displayNamesArray.length];
+        for (int i = 0; i < displayNamesArray.length; i++) {
+            indices[i] = i; // Initialize indices array
+        }
+
+        // Sort the indices based on the display names
+        Arrays.sort(indices, new Comparator<Integer>() {
+            @Override
+            public int compare(Integer index1, Integer index2) {
+                return displayNamesArray[index1].compareTo(displayNamesArray[index2]);
+            }
+        });
+
+        // Create new arrays for sorted display names and values
+        String[] sortedDisplayNames = new String[displayNamesArray.length];
+        String[] sortedValues = new String[valuesArray.length];
+
+        for (int i = 0; i < indices.length; i++) {
+            sortedDisplayNames[i] = displayNamesArray[indices[i]];
+            sortedValues[i] = valuesArray[indices[i]];
+        }
+
+        return new String[][]{sortedDisplayNames, sortedValues};
     }
 
     public static void writeToAssets(String filename, String Line, Context m_Context) {

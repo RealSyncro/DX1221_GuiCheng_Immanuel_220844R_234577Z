@@ -19,6 +19,7 @@ public class PlayerObject extends GameObject {
     public float upForce;
     public float jumpTimer = 0f;
     public float jumpButtonCD = 0f;
+    private Bitmap _sprite;
     private static final Vector2 size = new Vector2(0, 0);
 
     public PlayerObject() {

@@ -209,7 +209,7 @@ public class GameActivity extends FragmentActivity implements SensorEventListene
         super.onStart();
 
         SharedPreferences _sharedData = getSharedPreferences("Statistics", MODE_PRIVATE);
-        SaveSystem.Get().InitPreferences(_sharedData);
+        SaveSystem.Get().InitShared(_sharedData);
 
         if (!_updateThread.isRunning())
             _updateThread.start();

@@ -8,6 +8,7 @@ public class SaveSystem {
     private int _coins;
     private int _score;
     private int _highScore;
+    private SharedPreferences _sharedPreferences;
 
     private SaveSystem() {
         _playerName = "null";

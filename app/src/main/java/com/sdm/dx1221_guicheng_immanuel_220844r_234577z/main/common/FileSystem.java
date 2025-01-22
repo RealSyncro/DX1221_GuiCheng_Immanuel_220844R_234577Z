@@ -3,6 +3,7 @@ package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
 import android.util.Log;
 
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ui.Item;
@@ -10,13 +11,16 @@ import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameAct
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
 
@@ -33,13 +37,19 @@ public class FileSystem {
         Bitmap original = BitmapFactory.decodeResource(GameActivity.instance.getResources(), filePath);
         return Bitmap.createScaledBitmap(original, xWidth, yHeight, filter);
     }
+
     public static String[][] readFromAssets(String filename, Context m_Context) {
         List<String> displayNames = new ArrayList<>();
         List<String> values = new ArrayList<>();
 
+        File file = new File(m_Context.getExternalFilesDir(null), filename);
+        if (!file.exists()) {
+            return null;
+        }
         try {
-            FileInputStream fis = m_Context.openFileInput(filename);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+            String filePath = m_Context.getFilesDir().getAbsolutePath() + filename;
+            FileInputStream InputStream = new FileInputStream(file);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(InputStream));
             String line = reader.readLine();
 
             while (line != null) {
@@ -60,7 +70,30 @@ public class FileSystem {
         String[] displayNamesArray = displayNames.toArray(new String[0]);
         String[] valuesArray = values.toArray(new String[0]);
 
-        return new String[][]{displayNamesArray, valuesArray};
+        // Sort displayNamesArray and keep track of original indices
+        Integer[] indices = new Integer[displayNamesArray.length];
+        for (int i = 0; i < displayNamesArray.length; i++) {
+            indices[i] = i; // Initialize indices array
+        }
+
+        // Sort the indices based on the display names
+        Arrays.sort(indices, new Comparator<Integer>() {
+            @Override
+            public int compare(Integer index1, Integer index2) {
+                return displayNamesArray[index1].compareTo(displayNamesArray[index2]);
+            }
+        });
+
+        // Create new arrays for sorted display names and values
+        String[] sortedDisplayNames = new String[displayNamesArray.length];
+        String[] sortedValues = new String[valuesArray.length];
+
+        for (int i = 0; i < indices.length; i++) {
+            sortedDisplayNames[i] = displayNamesArray[indices[i]];
+            sortedValues[i] = valuesArray[indices[i]];
+        }
+
+        return new String[][]{sortedDisplayNames, sortedValues};
     }
 
     public static void LoadItemAssets(String filename, Vector<Item> itemBuffer, Context m_Context) {
@@ -102,16 +135,21 @@ public class FileSystem {
 
 
     public static void writeToAssets(String filename, String Line, Context m_Context) {
+
+        File file = new File(m_Context.getExternalFilesDir(null), filename);
+
         try {
-            Log.e("WRITING", "Trying to write:");
-            OutputStream outputStream = m_Context.openFileOutput(filename, Context.MODE_APPEND);
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
+            // Get the path to your app's internal storage
+            //String filePath = m_Context.getFilesDir().getAbsolutePath() + filename;
 
-            // Update player score
-            CharSequence serializeLine = String.valueOf(Line);
+            // Create a new file at that path
+            FileOutputStream fos = new FileOutputStream(file);
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
 
-            writer.newLine();
-            writer.append(serializeLine);
+            // Write some data to the file
+            writer.write("\n" + Line);
+
+        // Don't forget to close the writer when you're done!
             writer.close();
         } catch (IOException e) {
             Log.e("ERROR", "WriteToAsset: ", e);

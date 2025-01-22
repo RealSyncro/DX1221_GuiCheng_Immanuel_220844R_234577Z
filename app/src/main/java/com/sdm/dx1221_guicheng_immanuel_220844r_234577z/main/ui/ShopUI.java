@@ -1,32 +1,87 @@
 package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ui;
 
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
+
 public class ShopUI {
-    public int ID = -1;
-    public LinearLayout LL_ItemContainer = null;
-    public LinearLayout LL_Sale = null;
-    public LinearLayout LL_BuyFunction = null;
+    protected final Context context;
+    protected final Item item;
 
-    public TextView Text_ItemHeader = null;
-    public ImageView Image_ItemIcon = null;
-    public TextView Text_ItemCost = null;
-    public Button Button_BuyItem = null;
+    public LinearLayout LL_ItemContainer; // Contains the entire item box.
+    public LinearLayout LL_Sale; // Contains the content of the individual item.
+    public LinearLayout LL_BuyFunction; // Contains the layout of buying item.
 
-    public ShopUI(int ID, LinearLayout Container, LinearLayout Sale, LinearLayout Buy,
-                  TextView itemName, ImageView icon, TextView cost, Button buyButton)
+    protected final TextView Text_ItemHeader;
+    protected final ImageView Image_ItemIcon;
+    protected final TextView Text_ItemCost;
+    public Button Button_BuyItem;
+
+    public ShopUI(Item _item, Context _context, int imageDim)
     {
-        this.ID = ID;
-        LL_ItemContainer = Container;
-        LL_Sale = Sale;
-        LL_BuyFunction = Buy;
+        context = _context;
+        item = _item;
 
-        Text_ItemHeader = itemName;
-        Image_ItemIcon = icon;
-        Text_ItemCost = cost;
-        Button_BuyItem = buyButton;
+        // Item Container
+        LL_ItemContainer = new LinearLayout(context);
+        LL_ItemContainer.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        LL_ItemContainer.setOrientation(LinearLayout.VERTICAL);
+
+        // Item Header
+        Text_ItemHeader = new TextView(context);
+        Text_ItemHeader.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        Text_ItemHeader.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        Text_ItemHeader.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        Text_ItemHeader.setTextSize(34);
+        Text_ItemHeader.setTextColor(Color.WHITE);
+        Text_ItemHeader.append(item.name);
+        LL_ItemContainer.addView(Text_ItemHeader);
+
+        // Item Display
+        LL_Sale = new LinearLayout(context);
+        LL_Sale.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        LL_Sale.setOrientation(LinearLayout.HORIZONTAL);
+
+        // Item Icon
+        Image_ItemIcon = new ImageView(context);
+        Image_ItemIcon.setLayoutParams(new LinearLayout.LayoutParams(imageDim, imageDim));
+        Image_ItemIcon.setImageResource(item.resImageID);
+        LL_Sale.addView(Image_ItemIcon);
+
+        // Item Buy Layout
+        {
+            LL_BuyFunction = new LinearLayout(context);
+            LL_BuyFunction.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            LL_BuyFunction.setOrientation(LinearLayout.VERTICAL);
+
+            Text_ItemCost = new TextView(context);
+            Text_ItemCost.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            Text_ItemCost.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            Text_ItemCost.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+            Text_ItemCost.setTextSize(34);
+            Text_ItemCost.setTextColor(Color.WHITE);
+            Text_ItemCost.append("Cost: " + item.cost);
+            LL_BuyFunction.addView(Text_ItemCost);
+
+            Button_BuyItem = new Button(context);
+            Button_BuyItem.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            Button_BuyItem.setBackgroundColor(Color.parseColor("#216EC7"));
+            Button_BuyItem.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            Button_BuyItem.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+            Button_BuyItem.setTextSize(34);
+            Button_BuyItem.setTextColor(Color.WHITE);
+            Button_BuyItem.setText(R.string.shop_sample_text);
+            LL_BuyFunction.addView(Button_BuyItem);
+        }
+        LL_Sale.addView(LL_BuyFunction);
+        LL_ItemContainer.addView(LL_Sale);
     }
 }

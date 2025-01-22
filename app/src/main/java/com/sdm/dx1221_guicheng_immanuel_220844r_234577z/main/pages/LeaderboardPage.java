@@ -30,8 +30,9 @@ public class LeaderboardPage extends Activity implements View.OnClickListener {
         String[][] result = FileSystem.readFromAssets("leaderboard.txt", this);
         String[] displayNames = result[0];
         String[] values = result[1];
-        for (int i =0; i<displayNames.length;i++){
-            String Finalstring = displayNames[i] + ": " + values[i] + "\n";
+
+        for (int i = 0; i < displayNames.length; i++){
+            String Finalstring = (i + 1) + ". " + displayNames[i] + ": " + values[i] + "\n";
             _leaderboardContent.append(Finalstring);
         }
     }

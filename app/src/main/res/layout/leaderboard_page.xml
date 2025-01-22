@@ -50,10 +50,8 @@
                 android:layout_height="565dp"
                 android:layout_gravity="center"
                 android:background="#000000"
-                android:text="Leaderboard Example"
                 android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                tools:ignore="HardcodedText" />
+                android:textSize="18sp"/>
 
             <Button
                 android:id="@+id/leaderboard_back_button"

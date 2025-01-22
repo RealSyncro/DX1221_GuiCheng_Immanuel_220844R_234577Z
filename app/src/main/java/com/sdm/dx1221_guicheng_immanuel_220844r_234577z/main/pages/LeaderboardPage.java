@@ -2,6 +2,7 @@ package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.pages;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -28,6 +29,13 @@ public class LeaderboardPage extends Activity implements View.OnClickListener {
         super.onStart();
         //ERROR WHEN READING NULL REFERENCE
         String[][] result = FileSystem.readFromAssets("leaderboard.txt", this);
+        if (result == null) {
+            //FileSystem.writeToAssets("leaderboard.txt", "testing test", this);
+            Log.d("FileSystem", "File was not found, creating new file...");
+            return;
+        }
+
+
         String[] displayNames = result[0];
         String[] values = result[1];
         for (int i =0; i<displayNames.length;i++){

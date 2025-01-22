@@ -10,6 +10,9 @@ import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameAct
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -38,9 +41,14 @@ public class FileSystem {
         List<String> displayNames = new ArrayList<>();
         List<String> values = new ArrayList<>();
 
+        File file = new File(m_Context.getExternalFilesDir(null), filename);
+        if (!file.exists()) {
+            return null;
+        }
         try {
-            InputStream inputStream = m_Context.getAssets().open(filename);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            String filePath = m_Context.getFilesDir().getAbsolutePath() + filename;
+            FileInputStream InputStream = new FileInputStream(file);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(InputStream));
             String line = reader.readLine();
 
             while (line != null) {
@@ -88,11 +96,22 @@ public class FileSystem {
     }
 
     public static void writeToAssets(String filename, String Line, Context m_Context) {
+
+        File file = new File(m_Context.getExternalFilesDir(null), filename);
+
         try {
-            OutputStream outputStream = m_Context.openFileOutput(filename, Context.MODE_APPEND);
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
+            // Get the path to your app's internal storage
+            //String filePath = m_Context.getFilesDir().getAbsolutePath() + filename;
+
+            // Create a new file at that path
+            FileOutputStream fos = new FileOutputStream(file);
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
+
+            // Write some data to the file
             writer.newLine();
             writer.write(Line);
+
+        // Don't forget to close the writer when you're done!
             writer.close();
         } catch (IOException e) {
             Log.e("ERROR", "WriteToAsset: ", e);

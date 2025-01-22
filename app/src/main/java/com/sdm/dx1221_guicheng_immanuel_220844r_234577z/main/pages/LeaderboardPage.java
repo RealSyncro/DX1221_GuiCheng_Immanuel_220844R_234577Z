@@ -31,6 +31,7 @@ public class LeaderboardPage extends Activity implements View.OnClickListener {
         String[][] result = FileSystem.readFromAssets("leaderboard.txt", this);
         if (result == null) {
             //FileSystem.writeToAssets("leaderboard.txt", "testing test", this);
+            //FileSystem.Readwrite("leaderboard.txt", this);
             Log.d("FileSystem", "File was not found, creating new file...");
             return;
         }

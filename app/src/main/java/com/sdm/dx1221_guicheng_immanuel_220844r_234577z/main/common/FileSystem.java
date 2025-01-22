@@ -16,7 +16,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -108,8 +107,7 @@ public class FileSystem {
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
 
             // Write some data to the file
-            writer.newLine();
-            writer.write(Line);
+            writer.write("\n" + Line);
 
         // Don't forget to close the writer when you're done!
             writer.close();

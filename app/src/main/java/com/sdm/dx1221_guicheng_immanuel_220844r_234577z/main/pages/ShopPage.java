@@ -1,21 +1,25 @@
 package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.pages;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+
+import androidx.fragment.app.FragmentActivity;
+
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.AudioManager;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.FileSystem;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.SaveSystem;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ui.BuyDialog;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ui.Item;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ui.ShopUI;
 
 import java.util.Vector;
 
-public class ShopPage extends Activity implements View.OnClickListener {
+public class ShopPage extends FragmentActivity implements View.OnClickListener {
     private Button _backButton;
     private LinearLayout _shopLayout;
     private final Vector<Item> _items = new Vector<>();
@@ -48,9 +52,17 @@ public class ShopPage extends Activity implements View.OnClickListener {
         }
 
         if (!_shopItemUI.isEmpty()) {
-            for (ShopUI item : _shopItemUI) {
-                if (v == item.Button_BuyItem) {
+            for (ShopUI SUI : _shopItemUI) {
+                if (v == SUI.Button_BuyItem) {
                     // Do Something
+                    BuyDialog confirmBuy = new BuyDialog();
+
+                    int currentCoins = SaveSystem.Get().GetCoins();
+                    if (currentCoins >= SUI.item.cost)
+                    {
+                        SaveSystem.Get().AddItem(SUI.item);
+                        SaveSystem.Get().SetCoins(currentCoins - SUI.item.cost);
+                    }
                     break;
                 }
             }

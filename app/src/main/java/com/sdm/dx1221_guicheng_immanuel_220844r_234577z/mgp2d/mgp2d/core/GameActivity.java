@@ -145,7 +145,7 @@ public class GameActivity extends FragmentActivity implements SensorEventListene
     public void GameOver(int score) {
         SharedPreferences _sharedPreference = getSharedPreferences("Statistics", MODE_PRIVATE);
         SaveSystem.Get().InitShared(_sharedPreference);
-        SaveSystem.Get().UpdateSave(_sharedPreference, "null", score);
+        SaveSystem.Get().UpdateSave("null", score, 1000);
         GameScene.exitAll();
         instance.startActivity(new Intent().setClass(instance, GameoverPage.class));
     }

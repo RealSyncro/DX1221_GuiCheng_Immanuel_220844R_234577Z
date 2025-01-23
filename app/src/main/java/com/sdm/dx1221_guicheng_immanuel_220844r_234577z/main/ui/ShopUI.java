@@ -14,7 +14,7 @@ import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
 
 public class ShopUI {
     protected final Context context;
-    protected final Item item;
+    public final Item item;
 
     public LinearLayout LL_ItemContainer; // Contains the entire item box.
     public LinearLayout LL_Sale; // Contains the content of the individual item.

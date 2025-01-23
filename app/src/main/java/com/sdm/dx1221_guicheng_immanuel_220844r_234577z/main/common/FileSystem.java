@@ -31,71 +31,18 @@ public class FileSystem {
         Bitmap original = BitmapFactory.decodeResource(GameActivity.instance.getResources(), filePath);
         return Bitmap.createScaledBitmap(original, (int) (original.getWidth() * xScale), (int) (original.getHeight() * yScale), filter);
     }
-
     // Load Sprite with specified x width and y height.
     public static Bitmap LoadCustomSprite(int filePath, int xWidth, int yHeight, boolean filter) {
         Bitmap original = BitmapFactory.decodeResource(GameActivity.instance.getResources(), filePath);
         return Bitmap.createScaledBitmap(original, xWidth, yHeight, filter);
     }
 
-    public static String[][] readFromAssets(String filename, Context m_Context) {
-        List<String> displayNames = new ArrayList<>();
-        List<String> values = new ArrayList<>();
+    public static void LoadInventory(String filename, Vector<Item> inventory, Context m_Context) {
 
-        File file = new File(m_Context.getExternalFilesDir(null), filename);
-        if (!file.exists()) {
-            return null;
-        }
-        try {
-            String filePath = m_Context.getFilesDir().getAbsolutePath() + filename;
-            FileInputStream InputStream = new FileInputStream(file);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(InputStream));
-            String line = reader.readLine();
-
-            while (line != null) {
-                // Split the line into display name and value
-                String[] parts = line.split(" ");
-                if (parts.length == 2) {
-                    displayNames.add(parts[0]); // First part as display name
-                    values.add(parts[1]); // Second part as value
-                }
-                line = reader.readLine();
-            }
-            reader.close();
-        } catch (IOException e) {
-            Log.e("ERROR", "readFromAssets: ", e);
-        }
-
-        // Convert lists to arrays
-        String[] displayNamesArray = displayNames.toArray(new String[0]);
-        String[] valuesArray = values.toArray(new String[0]);
-
-        // Sort displayNamesArray and keep track of original indices
-        Integer[] indices = new Integer[displayNamesArray.length];
-        for (int i = 0; i < displayNamesArray.length; i++) {
-            indices[i] = i; // Initialize indices array
-        }
-
-        // Sort the indices based on the display names
-        Arrays.sort(indices, new Comparator<Integer>() {
-            @Override
-            public int compare(Integer index1, Integer index2) {
-                return displayNamesArray[index1].compareTo(displayNamesArray[index2]);
-            }
-        });
-
-        // Create new arrays for sorted display names and values
-        String[] sortedDisplayNames = new String[displayNamesArray.length];
-        String[] sortedValues = new String[valuesArray.length];
-
-        for (int i = 0; i < indices.length; i++) {
-            sortedDisplayNames[i] = displayNamesArray[indices[i]];
-            sortedValues[i] = valuesArray[indices[i]];
-        }
-
-        return new String[][]{sortedDisplayNames, sortedValues};
     }
+    public static void WriteToInventory(String filename, Vector<Item> inventory, Context m_Context) {
 
+    }
     public static void LoadItemAssets(String filename, Vector<Item> itemBuffer, Context m_Context) {
         List<String> _ID = new ArrayList<>();
         List<String> _ItemName = new ArrayList<>();
@@ -134,7 +81,60 @@ public class FileSystem {
     }
 
 
-    public static void writeToAssets(String filename, String Line, Context m_Context) {
+
+    public static String[][] ReadLeaderboard(String filename, Context m_Context) {
+        List<String> displayNames = new ArrayList<>();
+        List<String> values = new ArrayList<>();
+
+        File file = new File(m_Context.getExternalFilesDir(null), filename);
+        if (!file.exists()) {
+            return null;
+        }
+        try {
+//            String filePath = m_Context.getFilesDir().getAbsolutePath() + filename;
+            FileInputStream InputStream = new FileInputStream(file);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(InputStream));
+            String line = reader.readLine();
+
+            while (line != null) {
+                // Split the line into display name and value
+                String[] parts = line.split(" ");
+                if (parts.length == 2) {
+                    displayNames.add(parts[0]); // First part as display name
+                    values.add(parts[1]); // Second part as value
+                }
+                line = reader.readLine();
+            }
+            reader.close();
+        } catch (IOException e) {
+            Log.e("ERROR", "ReadLeaderboard: ", e);
+        }
+
+        // Convert lists to arrays
+        String[] displayNamesArray = displayNames.toArray(new String[0]);
+        String[] valuesArray = values.toArray(new String[0]);
+
+        // Sort displayNamesArray and keep track of original indices
+        Integer[] indices = new Integer[displayNamesArray.length];
+        for (int i = 0; i < displayNamesArray.length; i++) {
+            indices[i] = i; // Initialize indices array
+        }
+
+        // Sort the indices based on the display names
+        Arrays.sort(indices, Comparator.comparing(index -> displayNamesArray[index]));
+
+        // Create new arrays for sorted display names and values
+        String[] sortedDisplayNames = new String[displayNamesArray.length];
+        String[] sortedValues = new String[valuesArray.length];
+
+        for (int i = 0; i < indices.length; i++) {
+            sortedDisplayNames[i] = displayNamesArray[indices[i]];
+            sortedValues[i] = valuesArray[indices[i]];
+        }
+
+        return new String[][]{sortedDisplayNames, sortedValues};
+    }
+    public static void WriteToLeaderboard(String filename, String Line, Context m_Context) {
 
         File file = new File(m_Context.getExternalFilesDir(null), filename);
 

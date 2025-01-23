@@ -53,7 +53,7 @@ public class GameoverPage extends Activity implements View.OnClickListener{
         if(v == _submitRun){
             if(_nameInput != null){
                 StringBuilder currStringAppended = new StringBuilder();
-                String[][] result = FileSystem.readFromAssets("leaderboard.txt", this);
+                String[][] result = FileSystem.ReadLeaderboard("leaderboard.txt", this);
 
                 if (result != null) {
                     String[] displayNames = result[0];
@@ -65,7 +65,7 @@ public class GameoverPage extends Activity implements View.OnClickListener{
                 }
 
                 String finalstring = currStringAppended.toString() + _nameInput.getText() + " " + SaveSystem.Get().GetScore();
-                FileSystem.writeToAssets("leaderboard.txt", finalstring, this);
+                FileSystem.WriteToLeaderboard("leaderboard.txt", finalstring, this);
             }
         }
     }

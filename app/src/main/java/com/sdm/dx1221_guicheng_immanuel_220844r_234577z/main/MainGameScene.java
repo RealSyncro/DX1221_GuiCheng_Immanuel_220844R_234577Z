@@ -10,6 +10,11 @@ import android.os.Vibrator;
 import android.os.VibratorManager;
 
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.GameObjects.BoundingBox;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.GameObjects.CoinObject;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.GameObjects.FireBall;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.GameObjects.PlatformObject;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.GameObjects.SpikeBall;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.AudioManager;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.CollisionManager;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.Physics2D;
@@ -144,7 +149,7 @@ public class MainGameScene extends GameScene {
                     }
 
                     // Fire-ball collided
-                    if(other instanceof  FireBall && CollisionManager.isColliding(entity, other)){
+                    if(other instanceof FireBall && CollisionManager.isColliding(entity, other)){
                         if (PowerUpActive) return;
 
                         AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.firesound);
@@ -154,7 +159,7 @@ public class MainGameScene extends GameScene {
                     }
 
                     // Spike-ball collided
-                    if(other instanceof  SpikeBall && CollisionManager.isColliding(entity, other)){
+                    if(other instanceof SpikeBall && CollisionManager.isColliding(entity, other)){
                         if(PowerUpActive) return;
 
                         AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.spikesound);

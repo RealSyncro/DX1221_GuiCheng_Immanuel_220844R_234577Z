@@ -28,7 +28,7 @@ public class LeaderboardPage extends Activity implements View.OnClickListener {
     protected void onStart() {
         super.onStart();
         //ERROR WHEN READING NULL REFERENCE
-        String[][] result = FileSystem.readFromAssets("leaderboard.txt", this);
+        String[][] result = FileSystem.ReadLeaderboard("leaderboard.txt", this);
         if (result == null) {
             //FileSystem.writeToAssets("leaderboard.txt", "testing test", this);
             //FileSystem.Readwrite("leaderboard.txt", this);

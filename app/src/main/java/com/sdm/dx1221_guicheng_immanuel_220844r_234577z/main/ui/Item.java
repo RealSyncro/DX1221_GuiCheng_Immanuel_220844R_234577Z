@@ -7,6 +7,7 @@ public class Item {
     public int resImageID;
     public String name;
     public int cost;
+    public int quantity;
 
     public Item(int _ID, String _name, int _cost)
     {
@@ -14,6 +15,15 @@ public class Item {
         resImageID = RetrieveImageID();
         name = _name;
         cost = _cost;
+        quantity = 1;
+    }
+
+    public Item(Item _temp){
+        ID = _temp.ID;
+        resImageID = _temp.resImageID;
+        name = _temp.name;
+        cost = _temp.cost;
+        quantity = 1;
     }
 
     public int RetrieveImageID()

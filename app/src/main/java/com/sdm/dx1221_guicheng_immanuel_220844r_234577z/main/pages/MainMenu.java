@@ -74,7 +74,7 @@ public class MainMenu extends Activity implements View.OnClickListener{
             startActivity(new Intent().setClass(this, LeaderboardPage.class));
         }
         else if (v == _helpButton) {
-            startActivity(new Intent().setClass(this, ShopPage.class));
+            startActivity(new Intent().setClass(this, HelpPage.class));
             //startActivity(new Intent().setClass(this, ShopPage.class));
         }
     }

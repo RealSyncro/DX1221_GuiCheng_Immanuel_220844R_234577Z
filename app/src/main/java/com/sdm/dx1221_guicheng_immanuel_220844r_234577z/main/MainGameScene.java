@@ -27,6 +27,7 @@ import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameSce
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.extra.UIObject;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.Vector2;
 
+import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
@@ -300,6 +301,7 @@ public class MainGameScene extends GameScene {
         for (int i = _gameEntities.size() - 1; i >= 0; i--) {
             if (_gameEntities.get(i).canDestroy()) {
                 _gameEntities.remove(i);
+
             }
         }
 
@@ -332,6 +334,7 @@ public class MainGameScene extends GameScene {
         spawnTimer = 0f;
         coinSpawnTimer = 0f;
     }
+
 }
 
 

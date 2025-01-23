@@ -14,6 +14,7 @@ public class PlatformObject extends GameObject {
     private static final Vector2 size = new Vector2(0, 0);
     private final AnimatedSprite _animatedSprite;
     private float _lifeTime;
+
     public PlatformObject(int resID, int xPosFlex, int yPosFlex, float lifeTime, boolean isStatic) {
 
         if (_sprite == null)
@@ -48,5 +49,8 @@ public class PlatformObject extends GameObject {
     @Override
     public void onRender(Canvas canvas) {
         _animatedSprite.onRender(canvas, (int) rigidbody._position.x, (int) rigidbody._position.y, null);
+    }
+    public float GetLifetime(){
+        return  _lifeTime;
     }
 }

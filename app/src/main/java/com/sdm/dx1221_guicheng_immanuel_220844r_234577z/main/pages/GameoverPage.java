@@ -20,6 +20,8 @@ public class GameoverPage extends Activity implements View.OnClickListener{
     private Button _backButton;
     private  Button _submitRun;
 
+    private boolean Clicked = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +54,12 @@ public class GameoverPage extends Activity implements View.OnClickListener{
             startActivity(new Intent().setClass(this, MainMenu.class));
         }
         if(v == _submitRun){
+            if(Clicked){
+                _nameInput.setEnabled(false);
+                _submitRun.setEnabled(false);
+            }
             if(_nameInput != null){
+                Clicked = true;
                 StringBuilder currStringAppended = new StringBuilder();
                 String[][] result = FileSystem.ReadLeaderboard("leaderboard.txt", this);
 
@@ -69,5 +76,8 @@ public class GameoverPage extends Activity implements View.OnClickListener{
                 FileSystem.WriteToLeaderboard("leaderboard.txt", finalstring, this);
             }
         }
+    }
+    public void SetNameFalse(){
+        Clicked = true;
     }
 }

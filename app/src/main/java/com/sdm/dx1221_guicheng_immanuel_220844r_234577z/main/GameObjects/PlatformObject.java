@@ -70,4 +70,7 @@ public class PlatformObject extends GameObject {
     public void onRender(Canvas canvas) {
         _animatedSprite.onRender(canvas, (int) rigidbody._position.x, (int) rigidbody._position.y, null);
     }
+    public float GetLifetime(){
+        return  _lifeTime;
+    }
 }

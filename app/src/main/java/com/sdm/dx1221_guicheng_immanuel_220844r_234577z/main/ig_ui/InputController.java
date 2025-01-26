@@ -60,8 +60,13 @@ public class InputController {
             SensorEvent sensorEvent = GameActivity.instance.getSensorEvent();
 
             if (sensorEvent != null) {
-                if (sensorEvent.values != null) {
-                    float z = sensorEvent.values[1];
+                if (sensorEvent.values != null) 
+                {
+                    float z = Math.max(player.rigidbody._force.x + 10 * sensorEvent.values[1], 20);
+                        if(z > 0)
+                            player.rigidbody._force.x = player.speed * z;
+                        else if (z < 0)
+                            player.rigidbody._force.x = -player.speed * z;
                 }
             }
         }

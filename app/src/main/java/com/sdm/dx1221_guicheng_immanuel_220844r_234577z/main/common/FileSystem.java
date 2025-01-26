@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Vector;
 
 public class FileSystem {
@@ -150,5 +151,42 @@ public class FileSystem {
             Log.e("LEADERBOARD", "WriteToLeaderboard: ", e);
         }
     }
-    //**********************************************************************************************
+    public static String[][] ReadStats(String filename, Context m_Context, String SearchedName) {
+        List<String> displayNames = new ArrayList<>();
+        List<String> values = new ArrayList<>();
+
+        File file = new File(m_Context.getExternalFilesDir(null), filename);
+        if (!file.exists()) {
+            return null;
+        }
+        try {
+//            String filePath = m_Context.getFilesDir().getAbsolutePath() + filename;
+            FileInputStream InputStream = new FileInputStream(file);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(InputStream));
+            String line = reader.readLine();
+
+            while (line != null) {
+                // Split the line into display name and value
+                String[] parts = line.split(" ");
+                if (parts.length == 2) {
+                    if(Objects.equals(parts[0], SearchedName)) {
+                        displayNames.add(parts[0]);
+                        values.add(parts[1]); // Second part as value
+                    }
+                }
+                line = reader.readLine();
+            }
+            reader.close();
+        } catch (IOException e) {
+            Log.e("ERROR", "ReadLeaderboard: ", e);
+        }
+
+        // Convert lists to arrays
+        String[] displayNamesArray = displayNames.toArray(new String[0]);
+        String[] valuesArray = values.toArray(new String[0]);
+
+
+
+        return new String[][]{displayNamesArray, valuesArray};
+    }
 }

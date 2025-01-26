@@ -15,11 +15,11 @@ public class Rigidbody2D {
 
     public Rigidbody2D(){
         type = TYPE.STATIC;
-        _position = Vector2.zero();
-        _size = Vector2.zero();
-        _force = Vector2.zero();
-        _airDrag = Vector2.zero();
-        _vel = new Vector2(0f, 0f);
+        _position = new Vector2(0, 0);
+        _size = new Vector2(0, 0);
+        _force = new Vector2(0, 0);
+        _airDrag = new Vector2(0, 0);
+        _vel = new Vector2(0, 0);
         _mass = 0f;
         _active = true;
         _isGrounded = false;
@@ -30,7 +30,7 @@ public class Rigidbody2D {
         _mass = mass;
     }
 
-    public Vector2 getPosition() { return _position.copy(); }
-    public Vector2 getSize() { return _size.copy(); }
+    public Vector2 getPosition() { return _position; }
+    public Vector2 getSize() { return _size; }
     public void setSize(Vector2 size) { _size = size; }
 }

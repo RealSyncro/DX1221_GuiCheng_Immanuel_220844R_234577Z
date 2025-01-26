@@ -1,4 +1,4 @@
-package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ui;
+package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ig_ui;
 
 import android.graphics.Canvas;
 import android.hardware.SensorEvent;
@@ -6,7 +6,7 @@ import android.view.MotionEvent;
 
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.PlayerObject;
-import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.AudioManager;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.AudioController;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.extra.ButtonUI;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameActivity;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.Vector2;
@@ -37,20 +37,18 @@ public class InputController {
         Vector2 LA_POS = new Vector2(screenX * 3, screenY * 18);
         Vector2 RA_POS = new Vector2(screenX * 10, screenY * 18);
         Vector2 J_POS = new Vector2(screenX * 16, screenY * 18);
-        Vector2 DEBUG_POS = new Vector2(screenX * 16, screenY * 12);
+//        Vector2 DEBUG_POS = new Vector2(screenX * 16, screenY * 12);
 
         pauseButton = new PauseButton(PAUSE_POS, new Vector2(screenX * 4f, screenX * 4f), R.drawable.inactive_pause, R.drawable.active_pause);
         leftArrow = new ButtonUI(LA_POS, _buttonSize, R.drawable.inactive_left, R.drawable.active_left);
         rightArrow = new ButtonUI(RA_POS, _buttonSize, R.drawable.inactive_right, R.drawable.active_right);
         jumpButton = new ButtonUI(J_POS, _buttonSize, R.drawable.inactive_jump, R.drawable.active_jump);
-//        debugButton = new ButtonUI(DEBUG_POS, _buttonSize, R.drawable.jump, -1);
 
         _controls = new Vector<>();
         _controls.add(pauseButton);
         _controls.add(leftArrow);
         _controls.add(rightArrow);
         _controls.add(jumpButton);
-//        _controls.add(debugButton);
 
         player = reference;
     }
@@ -60,7 +58,12 @@ public class InputController {
         if (GameActivity.instance.areSensorsWorking()) {
             // Control player movement using accelerometer
             SensorEvent sensorEvent = GameActivity.instance.getSensorEvent();
-            float z = sensorEvent.values[1];
+
+            if (sensorEvent != null) {
+                if (sensorEvent.values != null) {
+                    float z = sensorEvent.values[1];
+                }
+            }
         }
 
         // Linearly Interpolate player jump force over time.
@@ -83,9 +86,6 @@ public class InputController {
 
         if (jumpButton._isActive && player.jumpButtonCD <= 0f && player.rigidbody._isGrounded)
             player.Jump();
-
-//        if (debugButton._isActive)
-//            player.rigidbody._force.y = player.speed * 100f;
 
 
         player.rigidbody._force.y += player.upForce;
@@ -115,10 +115,9 @@ public class InputController {
 
                     for (ButtonUI button : _controls) {
                         if (button.isPressed(tapX, tapY, 0f, pointerId)) {
-                            AudioManager.Get().PlayVibration(100, 10);
+                            AudioController.Get().PlayVibration(100, 10);
                             break;
                         }
-
                     }
 
 //                    System.out.println("Action: " + action);
@@ -135,11 +134,6 @@ public class InputController {
                         if (button.isDeactivated(pointerId))
                             break;
                     }
-
-//                    System.out.println("Action: " + action);
-//                    System.out.println("Action Index: " + actionIndex);
-//                    System.out.println("Pointer ID: " + pointerId);
-//                    System.out.println("___________________________");
                     break;
                 }
             }

@@ -1,4 +1,4 @@
-package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ui;
+package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ig_ui;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;

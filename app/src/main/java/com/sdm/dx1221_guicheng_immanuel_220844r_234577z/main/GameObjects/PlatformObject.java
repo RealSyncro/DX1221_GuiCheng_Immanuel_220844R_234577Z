@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.FileSystem;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameActivity;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameObject;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.Rigidbody2D;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.Vector2;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.extra.AnimatedSprite;
 
@@ -14,11 +15,13 @@ public class PlatformObject extends GameObject {
     private static final Vector2 size = new Vector2(0, 0);
     private final AnimatedSprite _animatedSprite;
     private float _lifeTime;
+
     public PlatformObject(int resID, int xPosFlex, int yPosFlex, float lifeTime, boolean isStatic) {
+        type = TYPE.PLATFORM;
 
         if (_sprite == null)
         {
-            _sprite =  FileSystem.LoadScaledSprite(resID, 0.25f, 0.25f, true);
+            _sprite = FileSystem.LoadScaledSprite(resID, 0.25f, 0.25f, true);
             size.x = (float) _sprite.getWidth();
             size.y = (float) _sprite.getHeight();
         }
@@ -37,9 +40,27 @@ public class PlatformObject extends GameObject {
     public void onUpdate(float dt) {
         super.onUpdate(dt);
 
-        if (_lifeTime > 0f) _lifeTime -= dt;
-        else destroy();
+        if (_isActive)
+        {
+            _animatedSprite.update(dt);
 
+            if (_lifeTime > 0f) _lifeTime -= dt;
+            else onDisable();
+        }
+    }
+
+    public void onEnable(float xPos, float yPos, float lifeTime) {
+        rigidbody._position.x = (float) (GameActivity.instance.getResources().getDisplayMetrics().widthPixels / 100) * xPos;
+        rigidbody._position.y = (float) (GameActivity.instance.getResources().getDisplayMetrics().heightPixels / 100) * yPos;
+        _lifeTime = lifeTime;
+        _isActive = true;
+    }
+    @Override
+    public void onDisable() {
+        _isActive = false;
+        _lifeTime = 10;
+        rigidbody._position.x = -10000.0f;
+        rigidbody._position.y = -10000.0f;
     }
 
     @Override

@@ -5,12 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 
 import androidx.fragment.app.FragmentActivity;
 
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
-import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.AudioManager;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.AudioController;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.FileSystem;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.SaveSystem;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ui.BuyDialog;
@@ -22,8 +23,10 @@ import java.util.Vector;
 public class ShopPage extends FragmentActivity implements View.OnClickListener {
     private Button _backButton;
     private LinearLayout _shopLayout;
+    private TextView Text_UserCoins;
     private final Vector<Item> _items = new Vector<>();
     private final Vector<ShopUI> _shopItemUI = new Vector<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +36,10 @@ public class ShopPage extends FragmentActivity implements View.OnClickListener {
         _backButton = findViewById(R.id.shop_back_button);
         _backButton.setOnClickListener(this);
 
-        // Main Scroll UI
+        // Scrollable Shop Container
         _shopLayout = findViewById(R.id.shop_layout);
+
+        Text_UserCoins = findViewById(R.id.shop_currency_text);
 
         LoadShop();
     }
@@ -42,26 +47,27 @@ public class ShopPage extends FragmentActivity implements View.OnClickListener {
     @Override
     protected void onStart() {
         super.onStart();
-        AudioManager.Get().PlaySFX(this, R.raw.button_click);
+        AudioController.Get().StopAllSFXPlayer();
+        AudioController.Get().PlaySFX(R.raw.button_click);
+
+        // Update coins
+        CharSequence coins = "Coins: " + SaveSystem.Get().GetCoins();
+        Text_UserCoins.append(coins);
     }
 
     @Override
     public void onClick(View v) {
         if (v == _backButton) {
-            startActivity(new Intent().setClass(this, MainMenu.class));
+            startActivity(new Intent().setClass(this, OtherPage.class));
         }
 
         if (!_shopItemUI.isEmpty()) {
             for (ShopUI SUI : _shopItemUI) {
                 if (v == SUI.Button_BuyItem) {
-                    // Do Something
-                    BuyDialog confirmBuy = new BuyDialog();
-
-                    int currentCoins = SaveSystem.Get().GetCoins();
-                    if (currentCoins >= SUI.item.cost)
-                    {
-                        SaveSystem.Get().AddItem(SUI.item);
-                        SaveSystem.Get().SetCoins(currentCoins - SUI.item.cost);
+                    // When Buy item button is pressed.
+                    if (!BuyDialog.isShowing()) {
+                        BuyDialog confirmBuy = new BuyDialog(_shopItemUI, SUI.item, Text_UserCoins);
+                        confirmBuy.show(getSupportFragmentManager(), "Buy Dialog");
                     }
                     break;
                 }
@@ -70,7 +76,7 @@ public class ShopPage extends FragmentActivity implements View.OnClickListener {
     }
 
     private void LoadShop() {
-        FileSystem.LoadItemAssets("Items.txt", _items, this);
+        FileSystem.LoadShop("Items.txt", _items, this);
         for (int i = 0; i < _items.size(); i++)
             UploadShopItemUI(_items.get(i));
     }

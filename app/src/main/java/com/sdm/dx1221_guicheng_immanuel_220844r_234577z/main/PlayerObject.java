@@ -4,9 +4,9 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
-import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.AudioManager;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.AudioController;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.FileSystem;
-import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ui.InputController;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ig_ui.InputController;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameActivity;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameObject;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.Vector2;
@@ -19,10 +19,12 @@ public class PlayerObject extends GameObject {
     public float upForce;
     public float jumpTimer = 0f;
     public float jumpButtonCD = 0f;
-    private Bitmap _sprite;
+    private static Bitmap _sprite;
     private static final Vector2 size = new Vector2(0, 0);
 
     public PlayerObject() {
+        type = TYPE.PLAYER;
+
         _inputReceiver = new InputController(this);
         GameActivity._InputController = _inputReceiver;
 
@@ -45,6 +47,7 @@ public class PlayerObject extends GameObject {
         rigidbody._size = size;
 
         upForce = 0f;
+        _isActive = true;
 
         //_srcRect = new Rect(0, 0, _sprite.getWidth() / 7, _sprite.getHeight());
         //_dstRect = new Rect();
@@ -62,6 +65,9 @@ public class PlayerObject extends GameObject {
         else if (rigidbody._vel.x < 0) _animatedSprite.PlayAnimation("walkLeft");
         else if (rigidbody._vel.x > 0) _animatedSprite.PlayAnimation("walkRight");
     }
+
+    @Override
+    public void onDisable() {}
 
     @Override
     public void onUpdate() {}
@@ -82,12 +88,9 @@ public class PlayerObject extends GameObject {
     public void Jump() {
         jumpButtonCD = 1f;
         jumpTimer = 0.15f;
-        AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.player_jump);
+        AudioController.Get().PlaySFX(R.raw.player_jump);
     }
 }
-
-
-
 
 
 

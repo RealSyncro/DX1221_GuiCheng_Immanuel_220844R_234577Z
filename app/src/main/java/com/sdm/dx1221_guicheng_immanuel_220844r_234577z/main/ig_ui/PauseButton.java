@@ -1,9 +1,9 @@
-package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ui;
+package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ig_ui;
 
 import android.view.MotionEvent;
 
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
-import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.AudioManager;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.AudioController;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.extra.ButtonUI;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameActivity;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.Vector2;
@@ -30,8 +30,8 @@ public class PauseButton extends ButtonUI {
                 isPressed(tapX, tapY, 0f, pointerID)
         )
         {
-            AudioManager.Get().PlayVibration(100, 10);
-            AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.player_pause);
+            AudioController.Get().PlayVibration(100, 10);
+            AudioController.Get().PlaySFX(R.raw.player_pause);
             BackDialog backDialog = new BackDialog();
             backDialog.show(GameActivity.instance.getSupportFragmentManager(), "Back dialog");
         }

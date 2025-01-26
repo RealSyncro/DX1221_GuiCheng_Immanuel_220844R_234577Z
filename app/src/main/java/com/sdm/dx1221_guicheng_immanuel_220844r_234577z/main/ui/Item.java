@@ -34,8 +34,12 @@ public class Item {
         ImageID[0] = R.drawable.collider;
         ImageID[1] = R.drawable.active_jump;
 
-        for (int i = 0; i < ImageID.length; i++)
-            if (ID == i) foundID = ImageID[i];
+        for (int i = 0; i < ImageID.length; i++) {
+            if (ID == i) {
+                foundID = ImageID[i];
+                break;
+            }
+        }
 
         return foundID;
     }

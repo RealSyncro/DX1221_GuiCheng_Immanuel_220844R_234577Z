@@ -57,7 +57,6 @@ package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -75,7 +74,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.SaveSystem;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.pages.GameoverPage;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.pages.MainMenu;
-import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ui.InputController;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ig_ui.InputController;
 
 public class GameActivity extends FragmentActivity implements SensorEventListener {
     private static class UpdateThread extends Thread {
@@ -143,9 +142,7 @@ public class GameActivity extends FragmentActivity implements SensorEventListene
     public static InputController _InputController = null;
 
     public void GameOver(int score) {
-        SharedPreferences _sharedPreference = getSharedPreferences("Statistics", MODE_PRIVATE);
-        SaveSystem.Get().InitShared(_sharedPreference);
-        SaveSystem.Get().UpdateSave("null", score, 1000);
+        SaveSystem.Get().UpdateSave("null", score, 100, getApplicationContext());
         GameScene.exitAll();
         instance.startActivity(new Intent().setClass(instance, GameoverPage.class));
     }
@@ -207,9 +204,6 @@ public class GameActivity extends FragmentActivity implements SensorEventListene
     @Override
     protected void onStart() {
         super.onStart();
-
-        SharedPreferences _sharedData = getSharedPreferences("Statistics", MODE_PRIVATE);
-        SaveSystem.Get().InitShared(_sharedData);
 
         if (!_updateThread.isRunning())
             _updateThread.start();

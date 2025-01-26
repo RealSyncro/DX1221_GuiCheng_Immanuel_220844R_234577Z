@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
-import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.AudioManager;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.AudioController;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.SaveSystem;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameActivity;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.FileSystem;
@@ -38,11 +38,12 @@ public class GameoverPage extends Activity implements View.OnClickListener{
     @Override
     protected void onStart() {
         super.onStart();
+        AudioController.Get().StopAllSFXPlayer();
+        AudioController.Get().PlaySFX(R.raw.player_lose);
 
         // Update player score
          CharSequence score = String.valueOf(SaveSystem.Get().GetScore());
         _scoreText.append(" " + score);
-        AudioManager.Get().PlaySFX(GameActivity.instance, R.raw.player_lose);
     }
 
     @Override

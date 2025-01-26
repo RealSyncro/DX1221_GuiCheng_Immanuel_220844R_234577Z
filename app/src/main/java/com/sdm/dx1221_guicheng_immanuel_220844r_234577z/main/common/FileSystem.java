@@ -26,6 +26,7 @@ import java.util.Vector;
 
 public class FileSystem {
 
+    //**********************************************************************************************
     // Load Sprite using pre-existing aspect ratio and scaling it.
     public static Bitmap LoadScaledSprite(int filePath, float xScale, float yScale, boolean filter) {
         Bitmap original = BitmapFactory.decodeResource(GameActivity.instance.getResources(), filePath);
@@ -36,17 +37,13 @@ public class FileSystem {
         Bitmap original = BitmapFactory.decodeResource(GameActivity.instance.getResources(), filePath);
         return Bitmap.createScaledBitmap(original, xWidth, yHeight, filter);
     }
+    //**********************************************************************************************
 
-    public static void LoadInventory(String filename, Vector<Item> inventory, Context m_Context) {
 
-    }
-    public static void WriteToInventory(String filename, Vector<Item> inventory, Context m_Context) {
-
-    }
-    public static void LoadItemAssets(String filename, Vector<Item> itemBuffer, Context m_Context) {
+    public static void LoadShop(String filename, Vector<Item> itemBuffer, Context m_Context) {
         List<String> _ID = new ArrayList<>();
         List<String> _ItemName = new ArrayList<>();
-        List<String> _cost = new ArrayList<>();
+        List<String> _Cost = new ArrayList<>();
 
         try {
             InputStream is = m_Context.getAssets().open(filename);
@@ -59,13 +56,13 @@ public class FileSystem {
                 if (parts.length == 3) {
                     _ID.add(parts[0]);
                     _ItemName.add(parts[1]);
-                    _cost.add(parts[2]);
+                    _Cost.add(parts[2]);
                 }
                 line = reader.readLine();
             }
             reader.close();
         } catch (IOException e) {
-            Log.e("ERROR", "LoadItemAssets: ", e);
+            Log.e("ERROR", "LoadShop: ", e);
         }
 
         // Convert lists to arrays
@@ -73,7 +70,7 @@ public class FileSystem {
         {
             int _tempID = Integer.parseInt(_ID.get(i));
             String _tempName = _ItemName.get(i);
-            int _tempCost = Integer.parseInt(_cost.get(i));
+            int _tempCost = Integer.parseInt(_Cost.get(i));
 
             Item item = new Item(_tempID, _tempName, _tempCost);
             itemBuffer.add(item);
@@ -82,14 +79,16 @@ public class FileSystem {
 
 
 
+
+
+
+    //**********************************************************************************************
     public static String[][] ReadLeaderboard(String filename, Context m_Context) {
         List<String> displayNames = new ArrayList<>();
         List<String> values = new ArrayList<>();
 
         File file = new File(m_Context.getExternalFilesDir(null), filename);
-        if (!file.exists()) {
-            return null;
-        }
+        if (!file.exists()) return null;
         try {
 //            String filePath = m_Context.getFilesDir().getAbsolutePath() + filename;
             FileInputStream InputStream = new FileInputStream(file);
@@ -106,8 +105,9 @@ public class FileSystem {
                 line = reader.readLine();
             }
             reader.close();
+            Log.w("LEADERBOARD", "Read LB Success!");
         } catch (IOException e) {
-            Log.e("ERROR", "ReadLeaderboard: ", e);
+            Log.e("LEADERBOARD", "ReadLeaderboard: ", e);
         }
 
         // Convert lists to arrays
@@ -131,13 +131,10 @@ public class FileSystem {
             sortedDisplayNames[i] = displayNamesArray[indices[i]];
             sortedValues[i] = valuesArray[indices[i]];
         }
-
         return new String[][]{sortedDisplayNames, sortedValues};
     }
     public static void WriteToLeaderboard(String filename, String Line, Context m_Context) {
-
         File file = new File(m_Context.getExternalFilesDir(null), filename);
-
         try {
             // Get the path to your app's internal storage
             //String filePath = m_Context.getFilesDir().getAbsolutePath() + filename;
@@ -145,14 +142,13 @@ public class FileSystem {
             // Create a new file at that path
             FileOutputStream fos = new FileOutputStream(file);
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
-
-            // Write some data to the file
             writer.write("\n" + Line);
-
-        // Don't forget to close the writer when you're done!
             writer.close();
+
+            Log.w("LEADERBOARD", "Write LB Success!");
         } catch (IOException e) {
-            Log.e("ERROR", "WriteToAsset: ", e);
+            Log.e("LEADERBOARD", "WriteToLeaderboard: ", e);
         }
     }
+    //**********************************************************************************************
 }

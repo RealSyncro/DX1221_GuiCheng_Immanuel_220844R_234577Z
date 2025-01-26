@@ -1,4 +1,4 @@
-package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ui;
+package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ig_ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -19,12 +19,7 @@ public class BackDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         _isShowing = true;
         GameActivity.instance.setTimeScale(0);
-        // Build Dialog Box
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Return to main menu?");
-        builder.setPositiveButton("Yes", (dialog, which) -> GameActivity.instance.ExitGame());
-        builder.setNegativeButton("No", null);
-        return builder.create();
+        return Build_PauseDialog();
     }
 
     // Dialog Behaviour
@@ -39,5 +34,14 @@ public class BackDialog extends DialogFragment {
         super.onDismiss(dialog);
         _isShowing = false;
         GameActivity.instance.setTimeScale(1);
+    }
+    private AlertDialog Build_PauseDialog()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Game Paused");
+        builder.setMessage("Return to main menu?");
+        builder.setPositiveButton("Yes", (dialog, which) -> GameActivity.instance.ExitGame());
+        builder.setNegativeButton("No", null);
+        return builder.create();
     }
 }

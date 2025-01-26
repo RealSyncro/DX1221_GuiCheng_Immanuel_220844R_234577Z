@@ -1,6 +1,5 @@
 package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common;
 
-import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.PlayerObject;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameObject;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.Rigidbody2D;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.Vector2;
@@ -10,13 +9,13 @@ import java.util.Vector;
 public class Physics2D {
     private final float _gravity;
     private float _countdown = 1.5f;
-
-    private final Vector2 temp = new Vector2(0, 0);
-    private final Vector2 acceleration = new Vector2(0, 0);
-    private final Vector2 displacement = new Vector2(0, 0);
+    private final Vector2 temp, acceleration, displacement;
 
     public Physics2D(float gravity) {
         _gravity = gravity;
+        temp = new Vector2(0, 0);
+        acceleration = new Vector2(0, 0);
+        displacement = new Vector2(0, 0);
     }
 
     public void onUpdate(float dt, Vector<GameObject> goList, Vector<GameObject> platformList) {
@@ -26,11 +25,13 @@ public class Physics2D {
         else if (_countdown <= 0f) _countdown = 0f;
 
         if (_countdown == 0f) {
-            for (GameObject go : goList)
+            for (GameObject go : goList) {
                 PhysicsCalculation(go, dt);
+            }
 
-            for (GameObject platform : platformList)
+            for (GameObject platform : platformList) {
                 PhysicsCalculation(platform, dt);
+            }
         }
     }
 
@@ -38,8 +39,7 @@ public class Physics2D {
         // Check if Rigidbody is affected by gravity
         if (go.rigidbody.type == Rigidbody2D.TYPE.DYNAMIC)
         {
-            temp.x = go.rigidbody._vel.x;
-            temp.y = go.rigidbody._vel.y;
+            temp.SetTo(go.rigidbody._vel);
 
             float density = 3.0f;
 
@@ -55,14 +55,12 @@ public class Physics2D {
 
             // Calculate acceleration
             float multiplier = 1.0f / go.rigidbody._mass;
-            go.rigidbody._force.x *= multiplier;
-            go.rigidbody._force.y *= multiplier;
+            go.rigidbody._force.multiply(multiplier);
 
-            acceleration.x = go.rigidbody._force.x;
-            acceleration.y = go.rigidbody._force.y;
+            acceleration.SetTo(go.rigidbody._force);
 
             // Add additional gravity for player so they fall to platform faster.
-            if (go instanceof PlayerObject){
+            if (go.type == GameObject.TYPE.PLAYER){
                 if (!go.rigidbody._isGrounded)
                     acceleration.y += _gravity + 25000f;
             }
@@ -72,10 +70,8 @@ public class Physics2D {
 
 
             // Update velocity
-            acceleration.x *= dt;
-            acceleration.y *= dt;
-            temp.x += acceleration.x;
-            temp.y += acceleration.y;
+            acceleration.multiply(dt);
+            temp.add(acceleration);
             go.rigidbody._vel = temp;
 
             // Speed limit
@@ -87,19 +83,15 @@ public class Physics2D {
 
             // Update position
             if (go.rigidbody._force.x < 0 || go.rigidbody._force.x > 0 ||
-                    go.rigidbody._force.y < 0 || go.rigidbody._force.y > 0 || !go.rigidbody._isGrounded) {
+                    go.rigidbody._force.y < 0 || go.rigidbody._force.y > 0 || !go.rigidbody._isGrounded)
+            {
                 float displace = (0.5f * dt);
-                go.rigidbody._vel.x += temp.x;
-                go.rigidbody._vel.y += temp.y;
+                go.rigidbody._vel.add(temp);
+                go.rigidbody._vel.multiply(displace);
 
-                go.rigidbody._vel.x *= displace;
-                go.rigidbody._vel.y *= displace;
-
-                displacement.x = go.rigidbody._vel.x;
-                displacement.y = go.rigidbody._vel.y;
+                displacement.SetTo(go.rigidbody._vel);
                 
-                go.rigidbody._position.x += displacement.x;
-                go.rigidbody._position.y += displacement.y;
+                go.rigidbody._position.add(displacement);
             }
 
             ResetForce(go, go.rigidbody._force);
@@ -113,12 +105,9 @@ public class Physics2D {
         if (netForce.y == 0.0f)
             go.rigidbody._vel.y = 0.0f;
 
-        go.rigidbody._force = Vector2.zero();
+        go.rigidbody._force.SetZero();
     }
 }
-
-
-
 
 
 

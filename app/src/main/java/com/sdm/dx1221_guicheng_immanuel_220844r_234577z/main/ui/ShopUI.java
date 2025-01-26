@@ -17,8 +17,8 @@ public class ShopUI {
     public final Item item;
 
     public LinearLayout LL_ItemContainer; // Contains the entire item box.
-    public LinearLayout LL_Sale; // Contains the content of the individual item.
-    public LinearLayout LL_BuyFunction; // Contains the layout of buying item.
+    protected final LinearLayout LL_Sale; // Contains the content of the individual item.
+    protected final LinearLayout LL_BuyFunction; // Contains the layout of buying item.
 
     protected final TextView Text_ItemHeader;
     protected final ImageView Image_ItemIcon;
@@ -72,8 +72,11 @@ public class ShopUI {
             LL_BuyFunction.addView(Text_ItemCost);
 
             Button_BuyItem = new Button(context);
-            Button_BuyItem.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            Button_BuyItem.setBackgroundColor(Color.parseColor("#216EC7"));
+            ViewGroup.MarginLayoutParams _LP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            _LP.setMargins(40, 0, 40, 0);
+
+            Button_BuyItem.setLayoutParams(_LP);
+            Button_BuyItem.setBackgroundColor(Color.parseColor("#998227"));
             Button_BuyItem.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             Button_BuyItem.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
             Button_BuyItem.setTextSize(34);

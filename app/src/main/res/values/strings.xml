@@ -8,7 +8,7 @@
     <string name="game_title">Trashio</string>
     <string name="start_button_text">Play</string>
     <string name="settings_button_text">Settings</string>
-    <string name="leaderboard_button_text">Leaderboard</string>
+    <string name="other_button_text">Others</string>
     <string name="help_button_text">Help</string>
 
     // Help Page
@@ -24,18 +24,35 @@
     <string name="settings_master_sfx_text">Sound SFX:</string>
     <string name="settings_back_text">Back to Menu</string>
 
+    // Other Page - (Inventory, Shop, Profile, Leaderboard)
+    <string name="other_header_text">Miscellaneous</string>
+    <string name="other_inventory_text">Inventory</string>
+    <string name="other_shop_text">Shop</string>
+    <string name="other_profile_text">Profile</string>
+    <string name="other_leaderboard_text">Leaderboard</string>
+    <string name="other_back_text">Back to Menu</string>
+
     // Leaderboard Page
     <string name="leaderboard_header_text">Welcome to Leaderboard!</string>
-    <string name="leaderboard_back_text">Back to Main</string>
+    <string name="leaderboard_back_text">Back to Others</string>
 
     // Shop Page
     <string name="shop_header_text">Shop</string>
-    <string name="shop_currency_text">Coins: </string>
+    <string name="shop_currency_text"> </string>
 
     <string name="shop_item_01_header">Item Name 1</string>
     <string name="shop_item_01_cost">Cost: 100</string>
     <string name="shop_sample_text">Buy</string>
-    <string name="shop_back_text">Back to Menu</string>
+    <string name="shop_back_text">Back to Others</string>
+
+    // Inventory Page
+    <string name="inventory_header_text">Inventory</string>
+    <string name="inventory_currency_text"> </string>
+
+    <string name="inventory_item_01_header">The Item</string>
+    <string name="inventory_item_01_quantity">Quantity: 1</string>
+    <string name="inventory_sample_text">Equip</string>
+    <string name="inventory_back_text">Back to Others</string>
 
 
     // Game Over Page

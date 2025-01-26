@@ -10,12 +10,14 @@ import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.Vector2
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.extra.AnimatedSprite;
 
 public class CoinObject extends GameObject {
-    private static Bitmap _sprite;
+    private static Bitmap _sprite = null;
     private final AnimatedSprite _animatedSprite;
     private static final Vector2 size = new Vector2(0, 0);
     private float _lifeTime;
 
     public CoinObject(int filepath, float xPosFlex, float yPosFlex, float lifeTime, boolean isStatic) {
+        type = TYPE.COIN;
+
         if (_sprite == null)
         {
             _sprite = FileSystem.LoadScaledSprite(filepath, 1.5f, 1.5f, true);
@@ -38,10 +40,28 @@ public class CoinObject extends GameObject {
     @Override
     public void onUpdate(float dt) {
         super.onUpdate(dt);
-        _animatedSprite.update(dt);
 
-        if (_lifeTime > 0f) _lifeTime -= dt;
-        else destroy();
+        if (_isActive)
+        {
+            _animatedSprite.update(dt);
+
+            if (_lifeTime > 0f) _lifeTime -= dt;
+            else onDisable();
+        }
+    }
+
+    public void onEnable(float xPos, float yPos, float lifeTime) {
+        rigidbody._position.x = (float) (GameActivity.instance.getResources().getDisplayMetrics().widthPixels / 100) * xPos;
+        rigidbody._position.y = (float) (GameActivity.instance.getResources().getDisplayMetrics().heightPixels / 100) * yPos;
+        _lifeTime = lifeTime;
+        _isActive = true;
+    }
+    @Override
+    public void onDisable() {
+        _isActive = false;
+        _lifeTime = 10;
+        rigidbody._position.x = -10000.0f;
+        rigidbody._position.y = -10000.0f;
     }
 
     @Override

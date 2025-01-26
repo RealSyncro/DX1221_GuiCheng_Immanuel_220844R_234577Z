@@ -60,7 +60,13 @@ public class InputController {
         if (GameActivity.instance.areSensorsWorking()) {
             // Control player movement using accelerometer
             SensorEvent sensorEvent = GameActivity.instance.getSensorEvent();
-            float z = sensorEvent.values[1];
+            float z = Math.max(player.rigidbody._force.x + 10 * sensorEvent.values[1], 20);
+            if(z > 0){
+                player.rigidbody._force.x = player.speed * z;
+            }
+            else if (z < 0){
+                player.rigidbody._force.x = -player.speed * z;
+            }
         }
 
         // Linearly Interpolate player jump force over time.

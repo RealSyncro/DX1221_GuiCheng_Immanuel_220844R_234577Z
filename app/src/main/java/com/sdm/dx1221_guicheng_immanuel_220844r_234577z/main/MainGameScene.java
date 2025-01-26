@@ -329,7 +329,6 @@ public class MainGameScene extends GameScene {
         for (int i = _gameEntities.size() - 1; i >= 0; i--) {
             if (!_gameEntities.get(i)._isActive) {
                 _gameEntities.remove(i);
-
             }
         }
 

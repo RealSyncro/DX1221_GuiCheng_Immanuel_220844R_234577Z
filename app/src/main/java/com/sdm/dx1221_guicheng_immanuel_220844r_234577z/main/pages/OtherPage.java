@@ -66,7 +66,7 @@ public class OtherPage extends Activity implements View.OnClickListener{
             startActivity(new Intent().setClass(this, ShopPage.class));
         }
         else if (v == _profileButton) {
-            startActivity(new Intent().setClass(this, LeaderboardPage.class));
+            startActivity(new Intent().setClass(this, ProfilePage.class));
         }
         else if (v == _leaderboardButton) {
             startActivity(new Intent().setClass(this, LeaderboardPage.class));

@@ -22,6 +22,7 @@
     <string name="settings_header_text">Settings </string>
     <string name="settings_master_bgm_text">Background (BGM):</string>
     <string name="settings_master_sfx_text">Sound SFX:</string>
+    <string name="settings_accelerometer">Enable Accelerometer</string>
     <string name="settings_back_text">Back to Menu</string>
 
     // Other Page - (Inventory, Shop, Profile, Leaderboard)
@@ -32,9 +33,14 @@
     <string name="other_leaderboard_text">Leaderboard</string>
     <string name="other_back_text">Back to Menu</string>
 
-    // Leaderboard Page
-    <string name="leaderboard_header_text">Welcome to Leaderboard!</string>
-    <string name="leaderboard_back_text">Back to Others</string>
+    // Inventory Page
+    <string name="inventory_header_text">Inventory</string>
+    <string name="inventory_currency_text"> </string>
+
+    <string name="inventory_item_01_header">The Item</string>
+    <string name="inventory_item_01_quantity">Quantity: 1</string>
+    <string name="inventory_sample_text">Equip</string>
+    <string name="inventory_back_text">Back to Others</string>
 
     // Shop Page
     <string name="shop_header_text">Shop</string>
@@ -45,18 +51,21 @@
     <string name="shop_sample_text">Buy</string>
     <string name="shop_back_text">Back to Others</string>
 
-    // Inventory Page
-    <string name="inventory_header_text">Inventory</string>
-    <string name="inventory_currency_text"> </string>
+    // Leaderboard Page
+    <string name="leaderboard_header_text">Welcome to Leaderboard!</string>
+    <string name="leaderboard_back_text">Back to Others</string>
 
-    <string name="inventory_item_01_header">The Item</string>
-    <string name="inventory_item_01_quantity">Quantity: 1</string>
-    <string name="inventory_sample_text">Equip</string>
-    <string name="inventory_back_text">Back to Others</string>
-
+    // Profile Page
+    <string name="profile_header_text">Profile</string>
+    <string name="profile_placeholder_text">Name to search</string>
+    <string name="profile_search_text">Search</string>
+    <string name="profile_back_text">Back to Others</string>
 
     // Game Over Page
     <string name="game_over_header_text">Game Over</string>
-    <string name="game_over_back_text">Back to Menu</string>
     <string name="game_over_score_text">Score: </string>
+    <string name="game_over_coin_text">Coins Gained: </string>
+    <string name="game_over_SubmitText">Submit</string>
+    <string name="game_over_back_text">Back to Menu</string>
+
 </resources>

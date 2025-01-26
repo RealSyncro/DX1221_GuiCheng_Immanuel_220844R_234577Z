@@ -85,7 +85,7 @@ public class ShopPage extends FragmentActivity implements View.OnClickListener {
         _shopItem.Button_BuyItem.setOnClickListener(this);
 
         _shopItemUI.add(_shopItem);
-        _shopLayout.addView(_shopItem.LL_ItemContainer);
+        _shopLayout.addView(_shopItem.LL_ItemLayout);
     }
     private int dpToPx(int dp) {
         float density = this.getResources().getDisplayMetrics().density;

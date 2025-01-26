@@ -23,9 +23,11 @@ public class SaveSystem {
     private String _playerName;
     private int _coins, _score, _highScore;
     private boolean _firstInit;
+    private boolean isUsingAccelerometer;
     private SharedPreferences _sharedPreferences;
     private Item _currentItem;
     private final Vector<Item> _inventory;
+
 
     private SaveSystem() {
         _playerName = "null";
@@ -37,6 +39,7 @@ public class SaveSystem {
 
         _currentItem = null;
         _inventory = new Vector<>();
+        isUsingAccelerometer = false;
     }
 
     // Always Call this when you want to save/retrieve player data.
@@ -45,7 +48,7 @@ public class SaveSystem {
         return instance;
     }
 
-    public void InitShared(SharedPreferences _sharedData) {
+    public void InitShared(SharedPreferences _sharedData, Context context) {
         _sharedPreferences = _sharedData;
 
         if (_sharedData != null) {
@@ -57,11 +60,12 @@ public class SaveSystem {
             if (_playerName.equals("null") && _score == -1) {
                 Editor editor = _sharedData.edit();
                 editor.putString("playerName", "Default");
-                editor.putInt("coins", 0);
+                editor.putInt("coins", 100);
                 editor.putInt("score", 0);
                 editor.putInt("highScore", 0);
                 editor.putBoolean("firstInit", true);
                 editor.apply();
+                FileSystem.InitLeaderboard("initialise_leaderboard.txt", context);
             }
             else {
                 _firstInit = false;
@@ -143,6 +147,8 @@ public class SaveSystem {
         editor.apply();
     }
     public boolean isFirstInit() {return _firstInit;}
+    public boolean GetAccelSetting() {return isUsingAccelerometer;}
+    public void SetAccelSetting(boolean value) {isUsingAccelerometer = value;}
     public Item GetHeldItem() {return _currentItem;}
     public void SetHeldItem(Item item) {_currentItem = item;}
     public Vector<Item> GetInventory() {return _inventory;}

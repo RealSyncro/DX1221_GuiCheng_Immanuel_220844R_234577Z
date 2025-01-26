@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.PlayerObject;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.AudioController;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.SaveSystem;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.extra.ButtonUI;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameActivity;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.Vector2;
@@ -24,6 +25,8 @@ public class InputController {
     public final ButtonUI leftArrow, rightArrow;
     public final ButtonUI jumpButton;
     private final Vector<ButtonUI> _controls;
+    private final boolean isAccelEnabled;
+    private float _timerStart;
 
     public InputController(PlayerObject reference) {
         float screenRatio = 20;
@@ -51,22 +54,31 @@ public class InputController {
         _controls.add(jumpButton);
 
         player = reference;
+        _timerStart = 3.0f;
+        isAccelEnabled = SaveSystem.Get().GetAccelSetting();
     }
 
     public void OnUpdate(float dt) {
 
-        if (GameActivity.instance.areSensorsWorking()) {
-            // Control player movement using accelerometer
-            SensorEvent sensorEvent = GameActivity.instance.getSensorEvent();
+        if (_timerStart > 0.0f) {
+            _timerStart -= dt;
+            return;
+        }
 
-            if (sensorEvent != null) {
-                if (sensorEvent.values != null) 
-                {
-                    float z = Math.max(player.rigidbody._force.x + 10 * sensorEvent.values[1], 20);
-                        if(z > 0)
-                            player.rigidbody._force.x = player.speed * z;
-                        else if (z < 0)
-                            player.rigidbody._force.x = -player.speed * z;
+        if (isAccelEnabled)
+        {
+            if (GameActivity.instance.areSensorsWorking()) {
+                // Control player movement using accelerometer
+                SensorEvent sensorEvent = GameActivity.instance.getSensorEvent();
+
+                if (sensorEvent != null) {
+                    if (sensorEvent.values != null)
+                    {
+                        float direction = sensorEvent.values[0];
+
+                        if (direction < 0) player.rigidbody._force.x = player.speed * 50f;
+                        else if (direction > 0) player.rigidbody._force.x = -player.speed * 50f;
+                    }
                 }
             }
         }

@@ -84,6 +84,67 @@ public class FileSystem {
 
 
     //**********************************************************************************************
+    public static void InitLeaderboard(String initFile, Context context) {
+        List<String> displayNames = new ArrayList<>();
+        List<String> values = new ArrayList<>();
+
+        try {
+            InputStream is = context.getAssets().open(initFile);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            String line = reader.readLine();
+
+            while (line != null) {
+                // Split the line into display name and value
+                String[] parts = line.split(" ");
+                if (parts.length == 2) {
+                    displayNames.add(parts[0]);
+                    values.add(parts[1]);
+                }
+                line = reader.readLine();
+            }
+            reader.close();
+        } catch (IOException e) {
+            Log.e("ERROR", "LoadShop: ", e);
+        }
+
+        // Convert lists to arrays
+        String[] displayNamesArray = displayNames.toArray(new String[0]);
+        String[] valuesArray = values.toArray(new String[0]);
+
+        // Sort displayNamesArray and keep track of original indices
+        Integer[] indices = new Integer[displayNamesArray.length];
+        for (int i = 0; i < displayNamesArray.length; i++) {
+            indices[i] = i; // Initialize indices array
+        }
+
+        // Sort the indices based on the display names
+        Arrays.sort(indices, Comparator.comparing(index -> displayNamesArray[index]));
+
+        // Create new arrays for sorted display names and values
+        String[] sortedDisplayNames = new String[displayNamesArray.length];
+        String[] sortedValues = new String[valuesArray.length];
+
+        for (int i = 0; i < indices.length; i++) {
+            sortedDisplayNames[i] = displayNamesArray[indices[i]];
+            sortedValues[i] = valuesArray[indices[i]];
+        }
+
+        File file = new File(context.getExternalFilesDir(null), "leaderboard.txt");
+        try {
+            // Create a new file at that path
+            FileOutputStream fos = new FileOutputStream(file);
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
+            for (int i = 0; i < sortedDisplayNames.length; i++)
+            {
+                String Line = sortedDisplayNames[i] + " " + sortedValues[i] + "\n";
+                writer.write(Line);
+            }
+            writer.close();
+            Log.w("LEADERBOARD", "Initialised Leaderboard.");
+        } catch (IOException e) {
+            Log.e("LEADERBOARD", "InitLeaderboard failed: ", e);
+        }
+    }
     public static String[][] ReadLeaderboard(String filename, Context m_Context) {
         List<String> displayNames = new ArrayList<>();
         List<String> values = new ArrayList<>();

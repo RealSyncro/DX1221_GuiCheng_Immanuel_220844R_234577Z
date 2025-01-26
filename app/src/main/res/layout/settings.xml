@@ -10,7 +10,8 @@
         android:id="@+id/shop_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="19dp"
+        android:layout_marginTop="116dp"
+        android:layout_marginBottom="11dp"
         android:fontFamily="sans-serif"
         android:text="@string/settings_header_text"
         android:textAlignment="center"
@@ -18,87 +19,112 @@
         android:textSize="60sp"
         android:textStyle="bold"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/settings_master_sfx"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout7"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/settings_master_sfx"
+    <LinearLayout
+        android:id="@+id/linearLayout7"
+        android:layout_width="386dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="13dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout8"
+        app:layout_constraintEnd_toEndOf="@+id/shop_header"
+        app:layout_constraintStart_toStartOf="@+id/shop_header"
+        app:layout_constraintTop_toBottomOf="@+id/shop_header">
+
+        <TextView
+            android:id="@+id/settings_master_sfx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:ems="10"
+            android:fontFamily="sans-serif"
+            android:text="@string/settings_master_sfx_text"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            tools:ignore="LabelFor" />
+
+        <SeekBar
+            android:id="@+id/master_sfx_slider"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:hapticFeedbackEnabled="true"
+            android:max="100"
+            android:min="0"
+            android:progressBackgroundTint="#FF0000"
+            android:progressBackgroundTintMode="add"
+            android:progressTint="#00FF4E"
+            android:thumbTint="#FFFFFF"
+            android:visibility="visible" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout8"
+        android:layout_width="393dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="155dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/game_over_back_button"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout7"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
+
+        <TextView
+            android:id="@+id/settings_master_bgm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:ems="10"
+            android:fontFamily="sans-serif"
+            android:text="@string/settings_master_bgm_text"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            tools:ignore="LabelFor" />
+
+        <SeekBar
+            android:id="@+id/master_bgm_slider"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:hapticFeedbackEnabled="true"
+            android:max="100"
+            android:min="0"
+            android:progressBackgroundTint="#FF0000"
+            android:progressBackgroundTintMode="add"
+            android:progressTint="#00FF4E"
+            android:thumbTint="#FFFFFF"
+            android:visibility="visible" />
+
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/settings_accelerometer_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="152dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:fontFamily="sans-serif"
-        android:text="@string/settings_master_sfx_text"
-        android:textAlignment="center"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/settings_accelerometer"
         android:textColor="#FFFFFF"
-        android:textSize="34sp"
-        android:textStyle="bold"
-        android:visibility="visible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="LabelFor" />
-
-    <TextView
-        android:id="@+id/settings_master_bgm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="29dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:fontFamily="sans-serif"
-        android:text="@string/settings_master_bgm_text"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="34sp"
-        android:textStyle="bold"
-        android:visibility="visible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/master_sfx_slider"
-        tools:ignore="LabelFor" />
-
-    <SeekBar
-        android:id="@+id/master_sfx_slider"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="21dp"
-        android:hapticFeedbackEnabled="true"
-        android:max="100"
-        android:min="0"
-        android:progressBackgroundTint="#FF0000"
-        android:progressBackgroundTintMode="add"
-        android:progressTint="#00FF4E"
-        android:thumbTint="#FFFFFF"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settings_master_sfx" />
-
-    <SeekBar
-        android:id="@+id/master_bgm_slider"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:hapticFeedbackEnabled="true"
-        android:max="100"
-        android:min="0"
-        android:progressBackgroundTint="#FF0000"
-        android:progressBackgroundTintMode="add"
-        android:progressTint="#00FF4E"
-        android:thumbTint="#FFFFFF"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settings_master_bgm" />
+        android:textSize="28sp"
+        app:layout_constraintBottom_toTopOf="@+id/game_over_back_button"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout8"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout8"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout8" />
 
     <Button
         android:id="@+id/game_over_back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="111dp"
+        android:layout_marginBottom="152dp"
         android:backgroundTint="#216EC7"
         android:fontFamily="sans-serif-black"
         android:text="@string/settings_back_text"
@@ -108,7 +134,8 @@
         android:textStyle="bold"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/settings_accelerometer_button"
+        app:layout_constraintStart_toStartOf="@+id/settings_accelerometer_button"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

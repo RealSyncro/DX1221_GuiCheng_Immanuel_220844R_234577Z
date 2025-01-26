@@ -56,7 +56,7 @@ public class MainMenu extends Activity implements View.OnClickListener{
         AudioController.Get().PlaySFX(R.raw.button_click);
 
         SharedPreferences _sharedData = getSharedPreferences("Statistics", MODE_PRIVATE);
-        SaveSystem.Get().InitShared(_sharedData);
+        SaveSystem.Get().InitShared(_sharedData, getApplicationContext());
     }
 
     @Override

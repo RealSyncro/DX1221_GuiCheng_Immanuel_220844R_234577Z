@@ -5,28 +5,42 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.SeekBar;
 
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.AudioController;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.SaveSystem;
 
 public class Settings extends Activity implements View.OnClickListener{
-    private Button _backButton;
+
     private SeekBar _masterSFXSlider;
     private SeekBar _masterBGMSlider;
+    private CheckBox _enableAccelerometer;
+    private Button _backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
-        _backButton = findViewById(R.id.game_over_back_button);
-        _backButton.setOnClickListener(this);
 
         _masterSFXSlider = findViewById(R.id.master_sfx_slider);
         _masterSFXSlider.setProgress((int) AudioController.Get().GetSFXVolume() * 100);
 
         _masterBGMSlider = findViewById(R.id.master_bgm_slider);
         _masterBGMSlider.setProgress((int) AudioController.Get().GetBGMVolume() * 100);
+
+        _enableAccelerometer = findViewById(R.id.settings_accelerometer_button);
+
+        // If accelerometer is checked before
+        if (SaveSystem.Get().GetAccelSetting())
+            _enableAccelerometer.setChecked(true);
+
+        _enableAccelerometer.setOnCheckedChangeListener((buttonView, isChecked) -> OnCheckedAccelerometer());
+
+        _backButton = findViewById(R.id.game_over_back_button);
+        _backButton.setOnClickListener(this);
+
         onCreateButtonListeners();
     }
 
@@ -77,5 +91,10 @@ public class Settings extends Activity implements View.OnClickListener{
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
+    }
+
+    private void OnCheckedAccelerometer() {
+        boolean status = SaveSystem.Get().GetAccelSetting();
+        SaveSystem.Get().SetAccelSetting(!status);
     }
 }

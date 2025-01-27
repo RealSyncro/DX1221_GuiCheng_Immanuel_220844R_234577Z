@@ -2,6 +2,8 @@ package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.Resources;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
@@ -14,6 +16,7 @@ import android.util.Log;
 import androidx.annotation.RawRes;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -33,9 +36,9 @@ public class AudioController {
         }
     }
 
-    private final SoundPool _sfxPlayer;
-    private final SoundMap _sfxMap;
-    private MediaPlayer _bgmPlayer;
+    private static SoundPool _sfxPlayer;
+    private static SoundMap _sfxMap;
+    private static MediaPlayer _bgmPlayer;
     private Vibrator _vibrator;
     private VibratorManager _vibratorManager;
     private float masterBGM, masterSFX;
@@ -108,19 +111,34 @@ public class AudioController {
     }
 
     public void PlayBGM(Context context, @RawRes int resAudioID) {
+        AssetFileDescriptor assetFileDescriptor = context.getResources().openRawResourceFd(resAudioID);
+        if (assetFileDescriptor == null) return;
+
         if (_bgmPlayer != null)
         {
-            if (_bgmPlayer.isPlaying()) {
+            if (_bgmPlayer.isPlaying())
                 _bgmPlayer.stop();
-                _bgmPlayer.release();
-                _bgmPlayer = null;
+
+            _bgmPlayer.reset();
+
+            try {
+                _bgmPlayer.setDataSource(
+                        assetFileDescriptor.getFileDescriptor(),
+                        assetFileDescriptor.getStartOffset(),
+                        assetFileDescriptor.getDeclaredLength()
+                );
+                _bgmPlayer.prepare();
+            } catch (Exception e) {
+                Log.e("BGM PLAYER", "ERROR PLAYING: ", e);
             }
         }
 
-        _bgmPlayer = MediaPlayer.create(context.getApplicationContext(), resAudioID);
-        _bgmPlayer.setLooping(true);
-        _bgmPlayer.setVolume(masterBGM, masterBGM);
-        _bgmPlayer.start();
+
+
+//        _bgmPlayer = MediaPlayer.create(context.getApplicationContext(), resAudioID);
+//        _bgmPlayer.setLooping(true);
+//        _bgmPlayer.setVolume(masterBGM, masterBGM);
+//        _bgmPlayer.start();
     }
 
     public void PlaySFX(@RawRes int resAudioID) {

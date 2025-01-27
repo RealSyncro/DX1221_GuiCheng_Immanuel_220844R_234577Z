@@ -76,8 +76,8 @@ public class InputController {
                     {
                         float direction = sensorEvent.values[0];
 
-                        if (direction < 0) player.rigidbody._force.x = player.speed * 50f;
-                        else if (direction > 0) player.rigidbody._force.x = -player.speed * 50f;
+                        if (direction < 0) player.rigidbody._force.x = player.speed * 100f;
+                        else if (direction > 0) player.rigidbody._force.x = -player.speed * 100f;
                     }
                 }
             }

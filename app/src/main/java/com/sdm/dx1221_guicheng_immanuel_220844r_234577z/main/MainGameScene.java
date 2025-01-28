@@ -112,7 +112,7 @@ public class MainGameScene extends GameScene {
 
         if (TrickOrTrickTimer > 0f) TrickOrTrickTimer -= dt;
         else {
-            int randSpawn = RNG_GEN.nextInt(2);
+            int randSpawn = RNG_GEN.nextInt(3);
             switch (randSpawn)
             {
                 case 0:
@@ -194,6 +194,7 @@ public class MainGameScene extends GameScene {
                     // Power-Up Collided
                     if(other instanceof Powerup && CollisionManager.isColliding(entity, other)){
                         PowerUpActive = true;
+                        other.onDisable();
                         AudioController.Get().PlaySFX(R.raw.powerupsound);
                         AudioController.Get().PlayVibration(100, 10);
                         PowerUpDuration = 10f;

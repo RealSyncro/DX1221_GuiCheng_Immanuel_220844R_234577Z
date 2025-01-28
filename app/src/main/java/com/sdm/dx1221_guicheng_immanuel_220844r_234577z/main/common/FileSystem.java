@@ -80,11 +80,7 @@ public class FileSystem {
 
 
 
-
-
-
-    //**********************************************************************************************
-    public static void InitLeaderboard(String initFile, Context context) {
+    public static String[][] ReadNameLeaderboard(String filename, Context m_Context) {
         List<String> displayNames = new ArrayList<>();
         List<String> values = new ArrayList<>();
 
@@ -193,6 +189,67 @@ public class FileSystem {
             sortedDisplayNames[i] = displayNamesArray[indices[i]];
             sortedValues[i] = valuesArray[indices[i]];
         }
+        return new String[][]{sortedDisplayNames, sortedValues};
+    }
+    public static String[][] ReadNumLeaderboard(String filename, Context m_Context) {
+        List<String> displayNames = new ArrayList<>();
+        List<String> values = new ArrayList<>();
+
+        File file = new File(m_Context.getExternalFilesDir(null), filename);
+        if (!file.exists()) {
+            return null;
+        }
+        try {
+            FileInputStream InputStream = new FileInputStream(file);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(InputStream));
+            String line = reader.readLine();
+
+            while (line != null) {
+                // Split the line into display name and value
+                String[] parts = line.split(" ");
+                if (parts.length == 2) {
+                    displayNames.add(parts[0]); // First part as display name
+                    values.add(parts[1]); // Second part as value
+                }
+                line = reader.readLine();
+            }
+            reader.close();
+        } catch (IOException e) {
+            Log.e("ERROR", "ReadLeaderboard: ", e);
+        }
+
+        // Convert lists to arrays
+        String[] displayNamesArray = displayNames.toArray(new String[0]);
+        String[] valuesArray = values.toArray(new String[0]);
+
+        // Convert values from String to Integer for proper numerical sorting
+        Integer[] valuesIntArray = new Integer[valuesArray.length];
+        for (int i = 0; i < valuesArray.length; i++) {
+            try {
+                valuesIntArray[i] = Integer.parseInt(valuesArray[i]); // Parse values as integers
+            } catch (NumberFormatException e) {
+                valuesIntArray[i] = 0; // In case of malformed data, use 0 as the default
+            }
+        }
+
+        // Sort the indices based on values (descending order if you want highest first)
+        Integer[] indices = new Integer[displayNamesArray.length];
+        for (int i = 0; i < displayNamesArray.length; i++) {
+            indices[i] = i; // Initialize indices array
+        }
+
+        // Sort indices based on values
+        Arrays.sort(indices, (i1, i2) -> valuesIntArray[i2] - valuesIntArray[i1]); // Descending order
+
+        // Create new arrays for sorted display names and values
+        String[] sortedDisplayNames = new String[displayNamesArray.length];
+        String[] sortedValues = new String[valuesArray.length];
+
+        for (int i = 0; i < indices.length; i++) {
+            sortedDisplayNames[i] = displayNamesArray[indices[i]];
+            sortedValues[i] = valuesArray[indices[i]];
+        }
+
         return new String[][]{sortedDisplayNames, sortedValues};
     }
     public static void WriteToLeaderboard(String filename, String Line, Context m_Context) {

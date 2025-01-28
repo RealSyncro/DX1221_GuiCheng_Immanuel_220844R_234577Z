@@ -64,7 +64,7 @@ public class GameoverPage extends Activity implements View.OnClickListener{
             if(_nameInput != null){
                 Clicked = true;
                 StringBuilder currStringAppended = new StringBuilder();
-                String[][] result = FileSystem.ReadLeaderboard("leaderboard.txt", this);
+                String[][] result = FileSystem.ReadNumLeaderboard("leaderboard.txt", this);
 
                 if (result != null) {
                     String[] displayNames = result[0];

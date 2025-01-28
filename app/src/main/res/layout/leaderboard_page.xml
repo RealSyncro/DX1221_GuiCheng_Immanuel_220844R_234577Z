@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="3dp"
-        android:layout_marginBottom="9dp"
+        android:layout_marginBottom="557dp"
         android:ems="10"
         android:inputType="text"
         android:minHeight="48dp"
@@ -20,8 +20,8 @@
         android:textColorLink="#FFFFFF"
         android:textSize="34sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/leaderboardsort_btn"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="Autofill,HardcodedText,LabelFor" />
 
@@ -29,12 +29,11 @@
         android:id="@+id/linearLayout2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="22dp"
+        android:layout_marginTop="59dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/leaderboard_content"
@@ -45,20 +44,33 @@
             android:textColor="#FFFFFF"
             android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/leaderboard_back_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="0dp"
-            android:backgroundTint="#4676A6"
-            android:fontFamily="sans-serif-black"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="5dp"
-            android:text="@string/leaderboard_back_text"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:textSize="24sp" />
-
     </LinearLayout>
+
+    <Button
+        android:id="@+id/leaderboardsort_btn"
+        android:layout_width="142dp"
+        android:layout_height="0dp"
+        android:text="Sort"
+        app:layout_constraintBottom_toTopOf="@+id/leaderboard_back_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+
+    <Button
+        android:id="@+id/leaderboard_back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="77dp"
+        android:backgroundTint="#4676A6"
+        android:fontFamily="sans-serif-medium"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="5dp"
+        android:text="@string/leaderboard_back_text"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/leaderboardsort_btn" />
 </androidx.constraintlayout.widget.ConstraintLayout>

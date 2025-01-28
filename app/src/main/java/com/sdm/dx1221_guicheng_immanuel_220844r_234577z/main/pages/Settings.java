@@ -48,6 +48,7 @@ public class Settings extends Activity implements View.OnClickListener{
     protected void onStart() {
         super.onStart();
         AudioController.Get().StopAllSFXPlayer();
+        AudioController.Get().PlayBGM(this, R.raw.generic_music);
         AudioController.Get().PlaySFX(R.raw.button_click);
 
         // Update the slider to current BGM/SFX volume whenever user enters the page.
@@ -57,6 +58,18 @@ public class Settings extends Activity implements View.OnClickListener{
 
         int sfxBgm = (int) (AudioController.Get().GetBGMVolume() * 100);
         _masterBGMSlider.setProgress(sfxBgm);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AudioController.Get().ResumeAllSFXPlayer();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AudioController.Get().PauseAllSFXPlayer();
     }
 
     @Override

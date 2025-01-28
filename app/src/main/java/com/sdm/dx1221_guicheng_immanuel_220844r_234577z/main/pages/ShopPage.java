@@ -48,11 +48,24 @@ public class ShopPage extends FragmentActivity implements View.OnClickListener {
     protected void onStart() {
         super.onStart();
         AudioController.Get().StopAllSFXPlayer();
+        AudioController.Get().PlayBGM(this, R.raw.shop_music);
         AudioController.Get().PlaySFX(R.raw.button_click);
 
         // Update coins
         CharSequence coins = "Coins: " + SaveSystem.Get().GetCoins();
         Text_UserCoins.append(coins);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AudioController.Get().ResumeAllSFXPlayer();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AudioController.Get().PauseAllSFXPlayer();
     }
 
     @Override

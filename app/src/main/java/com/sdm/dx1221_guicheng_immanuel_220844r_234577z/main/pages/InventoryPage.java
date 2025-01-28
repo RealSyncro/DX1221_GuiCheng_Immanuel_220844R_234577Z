@@ -49,11 +49,24 @@ public class InventoryPage extends FragmentActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
         AudioController.Get().StopAllSFXPlayer();
+        AudioController.Get().PlayBGM(this, R.raw.generic_music);
         AudioController.Get().PlaySFX(R.raw.button_click);
 
         // Update coins
         CharSequence coins = "Coins: " + SaveSystem.Get().GetCoins();
         Text_UserCoins.append(coins);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AudioController.Get().ResumeAllSFXPlayer();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AudioController.Get().PauseAllSFXPlayer();
     }
 
     @Override

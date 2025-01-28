@@ -29,6 +29,7 @@ public class ProfilePage extends Activity implements View.OnClickListener{
     @Override
     protected void onStart() {
         super.onStart();
+        AudioController.Get().PlayBGM(this, R.raw.generic_music);
         AudioController.Get().PlaySFX(R.raw.button_click);
     }
 

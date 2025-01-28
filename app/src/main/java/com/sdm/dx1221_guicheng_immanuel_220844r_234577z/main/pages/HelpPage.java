@@ -24,7 +24,20 @@ public class HelpPage extends Activity implements View.OnClickListener{
     protected void onStart() {
         super.onStart();
         AudioController.Get().StopAllSFXPlayer();
+        AudioController.Get().PlayBGM(this, R.raw.generic_music);
         AudioController.Get().PlaySFX(R.raw.button_click);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AudioController.Get().ResumeAllSFXPlayer();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AudioController.Get().PauseAllSFXPlayer();
     }
 
     @Override

@@ -1,2 +1,2 @@
-0 Sigma 200
-1 Sigma2 10
+0 2xScore 2
+1 Shield 1

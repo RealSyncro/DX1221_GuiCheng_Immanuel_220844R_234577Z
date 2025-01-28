@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.SaveSystem;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.extra.Item;
 
 import java.util.Vector;
 
@@ -46,7 +47,6 @@ public class BuyDialog extends DialogFragment {
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         _isShowing = true;
-
         // Build dialog box based on conditions.
         return Show_Dialog();
     }

@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 
 import android.util.Log;
 
-import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ui.Item;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.extra.Item;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameActivity;
 
 import java.io.BufferedReader;
@@ -73,7 +73,7 @@ public class FileSystem {
             String _tempName = _ItemName.get(i);
             int _tempCost = Integer.parseInt(_Cost.get(i));
 
-            Item item = new Item(_tempID, _tempName, _tempCost);
+            Item item = new Item(_tempID, _tempName, _tempCost, 1);
             itemBuffer.add(item);
         }
     }

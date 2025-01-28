@@ -43,7 +43,7 @@ public class MainMenu extends Activity implements View.OnClickListener{
         AudioController.Get().PreloadSFX(this);
 
         if (!_isInitialised) {
-            SaveSystem.Get().LoadInventory("inventory.txt", this);
+            SaveSystem.Get().LoadInventory(this);
             _isInitialised = true;
         }
     }

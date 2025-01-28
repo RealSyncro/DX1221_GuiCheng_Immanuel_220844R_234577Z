@@ -142,7 +142,7 @@ public class GameActivity extends FragmentActivity implements SensorEventListene
     public static InputController _InputController = null;
 
     public void GameOver(int score) {
-        SaveSystem.Get().UpdateSave("null", score, 100, getApplicationContext());
+        SaveSystem.Get().UpdateSave("null", score, getApplicationContext());
         GameScene.exitAll();
         instance.startActivity(new Intent().setClass(instance, GameoverPage.class));
     }

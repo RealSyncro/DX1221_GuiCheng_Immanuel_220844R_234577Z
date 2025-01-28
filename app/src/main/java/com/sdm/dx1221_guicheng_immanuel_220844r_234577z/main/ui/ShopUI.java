@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.extra.Item;
 
 public class ShopUI {
     protected final Context context;

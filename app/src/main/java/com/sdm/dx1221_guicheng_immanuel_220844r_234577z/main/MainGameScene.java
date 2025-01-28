@@ -33,7 +33,7 @@ import java.util.Vector;
 
 public class MainGameScene extends GameScene {
     private int totalPlatforms = 0, checked = 0;
-    private float spawnTimer = 5f;
+    private float spawnTimer = 2f;
     private float coinSpawnTimer = 6f;
     private float TrickOrTrickTimer = 12f;
     private float PowerUpDuration = 0f;
@@ -108,7 +108,7 @@ public class MainGameScene extends GameScene {
     public void onUpdate(float dt) {
         // Platform + Coin Spawner Algorithm Timer
         spawnTimer = spawnTimer > 0f ? spawnTimer - dt : SpawnPlatform();
-        coinSpawnTimer = coinSpawnTimer > 0f ? spawnTimer -= dt : SpawnCoin();
+        coinSpawnTimer = coinSpawnTimer > 0f ? coinSpawnTimer - dt : SpawnCoin();
 
         if (TrickOrTrickTimer > 0f) TrickOrTrickTimer -= dt;
         else {
@@ -144,7 +144,15 @@ public class MainGameScene extends GameScene {
                     // Coin Collided.
                     if (other instanceof CoinObject && CollisionManager.isColliding(entity, other)) {
                         other.onDisable();
-                        scoreText.IncrementScore(1);
+
+                        if (player.GetBuff() != null)
+                        {
+                            if (player.GetBuff().GetID() == 0)
+                                scoreText.IncrementScore(2);
+                        }
+                        else
+                            scoreText.IncrementScore(1);
+
                         AudioController.Get().PlaySFX(R.raw.collect_coin);
                         AudioController.Get().PlayVibration(100, 10);
                         continue;
@@ -153,6 +161,15 @@ public class MainGameScene extends GameScene {
                     if(other instanceof FireBall && CollisionManager.isColliding(entity, other)){
                         if (PowerUpActive) return;
 
+                        if (player.GetBuff() != null)
+                        {
+                            if (player.GetBuff().GetID() == 1)
+                            {
+                                other.onDisable();
+                                player.GetBuff()._isActive = false;
+                                continue;
+                            }
+                        }
                         AudioController.Get().PlaySFX(R.raw.firesound);
                         AudioController.Get().PlayVibration(100, 10);
                         GameActivity.instance.GameOver(scoreText.GetScore());
@@ -161,6 +178,13 @@ public class MainGameScene extends GameScene {
                     // Spike-ball collided
                     if(other instanceof SpikeBall && CollisionManager.isColliding(entity, other)){
                         if(PowerUpActive) return;
+
+                        if (player.GetBuff() != null)
+                        {
+                            other.onDisable();
+                            player.GetBuff()._isActive = false;
+                            continue;
+                        }
 
                         AudioController.Get().PlaySFX(R.raw.spikesound);
                         AudioController.Get().PlayVibration(100, 10);
@@ -370,24 +394,24 @@ public class MainGameScene extends GameScene {
 
     // GameObject Randomised Spawner Algorithm
     private float SpawnPlatform() {
-        int randX = RNG_GEN.nextInt((80 - 40 + 1) + 40);
+        int randX = RNG_GEN.nextInt(61) + 20;
 
         PlatformObject go = (PlatformObject) FetchGO(GameObject.TYPE.PLATFORM);
         go.onEnable(randX, 0, 10f);
         _platformEntities.add(go);
         totalPlatforms += 1;
 
-        return 3.0f;
+        return 1.5f;
     }
 
     private float SpawnCoin() {
-        int randX = RNG_GEN.nextInt((80 - 40 + 1) + 40);
+        int randX = RNG_GEN.nextInt(71) + 15;
 
         CoinObject go = (CoinObject) FetchGO(GameObject.TYPE.COIN);
         go.onEnable(randX, 0, 10f);
         _gameEntities.add(go);
 
-        return 5.0f;
+        return RNG_GEN.nextInt(2) + 1;
     }
     private float SpawnPowerUp() {
         int randX = RNG_GEN.nextInt((80 - 40 + 1) + 40);

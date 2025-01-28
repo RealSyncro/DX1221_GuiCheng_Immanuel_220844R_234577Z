@@ -3,7 +3,6 @@ package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
-import android.content.res.Resources;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
@@ -16,7 +15,6 @@ import android.util.Log;
 import androidx.annotation.RawRes;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -93,6 +91,7 @@ public class AudioController {
         _sfxMap.SoundID.put(R.raw.player_lose, _sfxPlayer.load(c, R.raw.player_lose, 1));
         _sfxMap.SoundID.put(R.raw.player_pause, _sfxPlayer.load(c, R.raw.player_pause, 1));
         _sfxMap.SoundID.put(R.raw.button_click, _sfxPlayer.load(c, R.raw.button_click, 1));
+        _sfxMap.SoundID.put(R.raw.collect_powerup, _sfxPlayer.load(c, R.raw.collect_powerup, 1));
     }
 
     public void EnableVibration(Vibrator vibrator, VibratorManager vibratorManager) {
@@ -120,7 +119,8 @@ public class AudioController {
                 _bgmPlayer.stop();
 
             _bgmPlayer.reset();
-
+            _bgmPlayer.setLooping(true);
+            _bgmPlayer.setVolume(masterBGM, masterBGM);
             try {
                 _bgmPlayer.setDataSource(
                         assetFileDescriptor.getFileDescriptor(),
@@ -128,17 +128,11 @@ public class AudioController {
                         assetFileDescriptor.getDeclaredLength()
                 );
                 _bgmPlayer.prepare();
+
             } catch (Exception e) {
                 Log.e("BGM PLAYER", "ERROR PLAYING: ", e);
             }
         }
-
-
-
-//        _bgmPlayer = MediaPlayer.create(context.getApplicationContext(), resAudioID);
-//        _bgmPlayer.setLooping(true);
-//        _bgmPlayer.setVolume(masterBGM, masterBGM);
-//        _bgmPlayer.start();
     }
 
     public void PlaySFX(@RawRes int resAudioID) {
@@ -182,7 +176,6 @@ public class AudioController {
                 _sfxPlayer.setVolume(iStreamID, masterSFX, masterSFX);
             }
         }
-
         System.out.println("SFX Volume Set: " + masterSFX);
     }
 
@@ -225,13 +218,9 @@ public class AudioController {
         }
 
 
-//        if (_sfxPlayer != null)
-//            _sfxPlayer.release();
-//
 //        if (_bgmPlayer != null)
 //            _bgmPlayer.release();
 //
-//        _sfxPlayer = null;
 //        _bgmPlayer = null;
     }
 }

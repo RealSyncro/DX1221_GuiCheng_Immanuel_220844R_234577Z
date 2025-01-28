@@ -10,16 +10,13 @@ import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.Vector2
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.extra.AnimatedSprite;
 
 public class Powerup extends GameObject {
-    private final AnimatedSprite _animatedSprite;
-    private static Bitmap _sprite = null;
+    private static Bitmap _sprite;
     private static final Vector2 size = new Vector2(0, 0);
+    private final AnimatedSprite _animatedSprite;
     private float _lifeTime;
 
     public Powerup(int filepath, float xPosFlex, float yPosFlex, float lifeTime, boolean isStatic) {
         type = TYPE.POWER_UP;
-
-        rigidbody._position.x = (float) (GameActivity.instance.getResources().getDisplayMetrics().widthPixels / 100) * xPosFlex;
-        rigidbody._position.y = (float) (GameActivity.instance.getResources().getDisplayMetrics().heightPixels / 100) * yPosFlex;
 
         if (_sprite == null)
         {
@@ -27,13 +24,14 @@ public class Powerup extends GameObject {
             size.x = (float) _sprite.getWidth() / 5;
             size.y = (float) _sprite.getHeight();
         }
-
         _animatedSprite = new AnimatedSprite(_sprite, 1,  4, 24);
-        rigidbody._size = size;
-        _lifeTime = lifeTime;
 
-        if (!isStatic)
-            rigidbody._InitDynamicBody(1);
+        rigidbody._position.x = (float) (GameActivity.instance.getResources().getDisplayMetrics().widthPixels / 100) * xPosFlex;
+        rigidbody._position.y = (float) (GameActivity.instance.getResources().getDisplayMetrics().heightPixels / 100) * yPosFlex;
+        rigidbody._size = size;
+
+        _lifeTime = lifeTime;
+        if (!isStatic) rigidbody._InitDynamicBody(1);
     }
     @Override
     public void onUpdate(float dt) {

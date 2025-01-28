@@ -1,5 +1,6 @@
 package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common;
 
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.PlayerObject;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.GameObject;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.Rigidbody2D;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.Vector2;
@@ -9,7 +10,7 @@ import java.util.Vector;
 public class Physics2D {
     private final float _gravity;
     private float _countdown = 1.5f;
-    private final Vector2 temp, acceleration, displacement;
+    private Vector2 temp, acceleration, displacement;
 
     public Physics2D(float gravity) {
         _gravity = gravity;
@@ -36,10 +37,11 @@ public class Physics2D {
     }
 
     private void PhysicsCalculation(GameObject go, float dt) {
+
         // Check if Rigidbody is affected by gravity
         if (go.rigidbody.type == Rigidbody2D.TYPE.DYNAMIC)
         {
-            temp.SetTo(go.rigidbody._vel);
+            temp = new Vector2(go.rigidbody._vel);
 
             float density = 3.0f;
 
@@ -57,10 +59,10 @@ public class Physics2D {
             float multiplier = 1.0f / go.rigidbody._mass;
             go.rigidbody._force.multiply(multiplier);
 
-            acceleration.SetTo(go.rigidbody._force);
+            acceleration = new Vector2(go.rigidbody._force);
 
             // Add additional gravity for player so they fall to platform faster.
-            if (go.type == GameObject.TYPE.PLAYER){
+            if (go instanceof PlayerObject){
                 if (!go.rigidbody._isGrounded)
                     acceleration.y += _gravity + 25000f;
             }
@@ -89,7 +91,7 @@ public class Physics2D {
                 go.rigidbody._vel.add(temp);
                 go.rigidbody._vel.multiply(displace);
 
-                displacement.SetTo(go.rigidbody._vel);
+                displacement = new Vector2(go.rigidbody._vel);
                 
                 go.rigidbody._position.add(displacement);
             }

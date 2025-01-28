@@ -41,6 +41,7 @@
     <string name="inventory_item_01_quantity">Quantity: 1</string>
     <string name="inventory_sample_text">Equip</string>
     <string name="inventory_back_text">Back to Others</string>
+    <string name="space"> </string>
 
     // Shop Page
     <string name="shop_header_text">Shop</string>

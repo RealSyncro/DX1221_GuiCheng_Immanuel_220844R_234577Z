@@ -44,11 +44,77 @@
             android:orientation="vertical"
             android:visibility="visible">
 
-            <TextView
-                android:id="@+id/textView"
+            <LinearLayout
+                android:id="@+id/item_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/space"/>
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal"
+                android:visibility="visible"
+                tools:ignore="UselessParent">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:contentDescription="@string/shop_item_01_header"
+                    android:visibility="visible"
+                    app:srcCompat="@drawable/shield_potion" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/shop_item_01_header"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:autofillHints=""
+                        android:ems="10"
+                        android:fontFamily="sans-serif"
+                        android:text="@string/shop_item_01_header"
+                        android:textAlignment="center"
+                        android:textColor="#FFFFFF"
+                        android:textSize="34sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        tools:ignore="LabelFor" />
+
+                    <TextView
+                        android:id="@+id/shop_item_01_cost"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints=""
+                        android:ems="10"
+                        android:fontFamily="sans-serif"
+                        android:text="@string/shop_item_01_cost"
+                        android:textAlignment="center"
+                        android:textColor="#FFFFFF"
+                        android:textSize="28sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        tools:ignore="LabelFor" />
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_marginBottom="0dp"
+                        android:backgroundTint="#216EC7"
+                        android:fontFamily="sans-serif-black"
+                        android:text="@string/shop_sample_text"
+                        android:textAlignment="center"
+                        android:textColor="#FFFFFF"
+                        android:textSize="34sp"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
+                </LinearLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 

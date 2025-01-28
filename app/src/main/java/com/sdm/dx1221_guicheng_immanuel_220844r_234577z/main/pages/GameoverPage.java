@@ -48,6 +48,7 @@ public class GameoverPage extends Activity implements View.OnClickListener{
         // Update player score
          CharSequence score = String.valueOf(SaveSystem.Get().GetScore());
         _scoreText.append(" " + score);
+        _coinGainedText.append(" " + score);
     }
 
     @Override

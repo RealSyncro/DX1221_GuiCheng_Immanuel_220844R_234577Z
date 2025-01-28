@@ -4,7 +4,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
-import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ui.Item;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.extra.Item;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -76,10 +76,9 @@ public class SaveSystem {
         }
     }
 
-    public void UpdateSave(String playerName, int score, int coins, Context c) {
+    public void UpdateSave(String playerName, int score, Context c) {
         _playerName = playerName;
         _score = score;
-        _coins = coins;
 
         if (_score > _highScore)
             _highScore = score;
@@ -97,10 +96,17 @@ public class SaveSystem {
         }
 
         if (!_inventory.isEmpty()) {
-            for (int i = _inventory.size() - 1; i >= 0; i--)
+            if (_currentItem != null)
             {
-                if (_inventory.get(i).quantity <= 0)
-                    _inventory.remove(i);
+                if (_currentItem.quantity <= 0)
+                {
+                    for (int i = _inventory.size() - 1; i >= 0; i--)
+                    {
+                        if (_inventory.get(i).quantity <= 0)
+                            _inventory.remove(i);
+                    }
+                    _currentItem = null;
+                }
             }
             SaveInventory(c);
         }
@@ -114,6 +120,7 @@ public class SaveSystem {
                 if (Bought.ID == _inventory.get(i).ID)
                 {
                     _inventory.get(i).quantity += 1;
+                    SaveInventory(c);
                     return;
                 }
             }
@@ -154,12 +161,12 @@ public class SaveSystem {
     public Vector<Item> GetInventory() {return _inventory;}
 
 
-    public void LoadInventory(String filename, Context c) {
+    public void LoadInventory(Context c) {
         List<String> _ID = new ArrayList<>();
         List<String> _ItemName = new ArrayList<>();
         List<String> _Quantity = new ArrayList<>();
 
-        File file = new File(c.getExternalFilesDir(null), filename);
+        File file = new File(c.getFilesDir(), "inventory.txt");
 
         if (!file.exists()) return;
         try {
@@ -190,12 +197,13 @@ public class SaveSystem {
             String _tempName = _ItemName.get(i);
             int _tempQuantity = Integer.parseInt(_Quantity.get(i));
 
-            Item item = new Item(_tempID, _tempName, _tempQuantity);
+            Item item = new Item(_tempID, _tempName, 0, _tempQuantity);
             _inventory.add(item);
         }
     }
     private void SaveInventory(Context c) {
-        File file = new File(c.getExternalFilesDir(null), "inventory.txt");
+        File file = new File(c.getFilesDir(), "inventory.txt");
+
         try {
             // Create a new file at that path
             FileOutputStream fos = new FileOutputStream(file);
@@ -205,7 +213,7 @@ public class SaveSystem {
             for (int i = 0; i < _inventory.size(); i++)
             {
                 Item current = _inventory.get(i);
-                String data = current.ID + " " + current.name + " " + current.quantity;
+                String data = current.ID + " " + current.name + " " + current.quantity + "\n";
                 writer.append(data);
             }
             writer.close();

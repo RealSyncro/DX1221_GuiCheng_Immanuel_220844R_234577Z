@@ -18,7 +18,7 @@ import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.AudioControl
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.SaveSystem;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ui.EquipDialog;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ui.EquipUI;
-import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.ui.Item;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.mgp2d.mgp2d.core.extra.Item;
 
 import java.util.Vector;
 

@@ -65,7 +65,6 @@ public class SaveSystem {
                 editor.putInt("highScore", 0);
                 editor.putBoolean("firstInit", true);
                 editor.apply();
-                FileSystem.InitLeaderboard("initialise_leaderboard.txt", context);
             }
             else {
                 _firstInit = false;
@@ -73,6 +72,7 @@ public class SaveSystem {
                 editor.putBoolean("firstInit", _firstInit);
                 editor.apply();
             }
+            FileSystem.InitLeaderboard("initialise_leaderboard.txt", context);
         }
     }
 

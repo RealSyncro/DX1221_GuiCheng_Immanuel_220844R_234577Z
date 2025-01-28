@@ -41,7 +41,7 @@ public class LeaderboardPage extends Activity implements View.OnClickListener {
         AudioController.Get().PlaySFX(R.raw.button_click);
 
         //ERROR WHEN READING NULL REFERENCE
-        String[][] result = FileSystem.ReadNumLeaderboard("leaderboard.txt", this);
+        String[][] result = FileSystem.ReadNumLeaderboard(getApplicationContext());
         SortByNum = true;
 
         if (result == null) {
@@ -65,8 +65,9 @@ public class LeaderboardPage extends Activity implements View.OnClickListener {
             startActivity(new Intent().setClass(this, OtherPage.class));
         }
         else if(v == _SortButton){
-            if(!SortByNum){
-                String[][] result = FileSystem.ReadNumLeaderboard("leaderboard.txt", this);
+            _leaderboardContent.setText("");
+            if(!SortByNum) {
+                String[][] result = FileSystem.ReadNumLeaderboard(getApplicationContext());
                 SortByNum = true;
 
                 if (result == null) {
@@ -86,7 +87,7 @@ public class LeaderboardPage extends Activity implements View.OnClickListener {
                 }
             }
             else {
-                String[][] result = FileSystem.ReadNameLeaderboard("leaderboard.txt", this);
+                String[][] result = FileSystem.ReadNameLeaderboard(getApplicationContext());
                 SortByNum = false;
 
                 if (result == null) {

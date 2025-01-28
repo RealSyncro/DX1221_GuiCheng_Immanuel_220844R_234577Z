@@ -80,12 +80,16 @@ public class FileSystem {
 
 
 
-    public static String[][] ReadNameLeaderboard(String filename, Context m_Context) {
+    public static void InitLeaderboard(String filename, Context c) {
+        File file = new File(c.getFilesDir(), "leaderboard.txt");
+        if (file.exists()) return;
+
+        // Initialise leaderboard with preset values.
         List<String> displayNames = new ArrayList<>();
         List<String> values = new ArrayList<>();
 
         try {
-            InputStream is = context.getAssets().open(initFile);
+            InputStream is = c.getAssets().open(filename);
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
             String line = reader.readLine();
 
@@ -125,7 +129,7 @@ public class FileSystem {
             sortedValues[i] = valuesArray[indices[i]];
         }
 
-        File file = new File(context.getExternalFilesDir(null), "leaderboard.txt");
+        // Write preset entries to leaderboard.txt.
         try {
             // Create a new file at that path
             FileOutputStream fos = new FileOutputStream(file);
@@ -141,11 +145,11 @@ public class FileSystem {
             Log.e("LEADERBOARD", "InitLeaderboard failed: ", e);
         }
     }
-    public static String[][] ReadLeaderboard(String filename, Context m_Context) {
+    public static String[][] ReadNameLeaderboard(Context c) {
         List<String> displayNames = new ArrayList<>();
         List<String> values = new ArrayList<>();
 
-        File file = new File(m_Context.getExternalFilesDir(null), filename);
+        File file = new File(c.getFilesDir(), "leaderboard.txt");
         if (!file.exists()) return null;
         try {
 //            String filePath = m_Context.getFilesDir().getAbsolutePath() + filename;
@@ -191,11 +195,11 @@ public class FileSystem {
         }
         return new String[][]{sortedDisplayNames, sortedValues};
     }
-    public static String[][] ReadNumLeaderboard(String filename, Context m_Context) {
+    public static String[][] ReadNumLeaderboard(Context c) {
         List<String> displayNames = new ArrayList<>();
         List<String> values = new ArrayList<>();
 
-        File file = new File(m_Context.getExternalFilesDir(null), filename);
+        File file = new File(c.getFilesDir(), "leaderboard.txt");
         if (!file.exists()) {
             return null;
         }
@@ -252,8 +256,8 @@ public class FileSystem {
 
         return new String[][]{sortedDisplayNames, sortedValues};
     }
-    public static void WriteToLeaderboard(String filename, String Line, Context m_Context) {
-        File file = new File(m_Context.getExternalFilesDir(null), filename);
+    public static void WriteToLeaderboard(String filename, String Line, Context c) {
+        File file = new File(c.getFilesDir(), filename);
         try {
             // Get the path to your app's internal storage
             //String filePath = m_Context.getFilesDir().getAbsolutePath() + filename;
@@ -273,7 +277,7 @@ public class FileSystem {
         List<String> displayNames = new ArrayList<>();
         List<String> values = new ArrayList<>();
 
-        File file = new File(m_Context.getExternalFilesDir(null), filename);
+        File file = new File(m_Context.getFilesDir(), filename);
         if (!file.exists()) {
             return null;
         }

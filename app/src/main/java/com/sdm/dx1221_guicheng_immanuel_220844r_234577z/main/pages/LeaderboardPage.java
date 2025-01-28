@@ -1,4 +1,5 @@
 package com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.pages;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,10 @@ public class LeaderboardPage extends Activity implements View.OnClickListener {
     private TextView _leaderboardContent;
     private Button _BackToMain;
 
+    private Button _SortButton;
+    private  boolean SortByNum = false;
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,12 +28,17 @@ public class LeaderboardPage extends Activity implements View.OnClickListener {
 
         _BackToMain = findViewById(R.id.leaderboard_back_button);
         _BackToMain.setOnClickListener(this);
+
+        _SortButton = findViewById(R.id.leaderboardsort_btn);
+        _SortButton.setOnClickListener(this);
     }
     @Override
     protected void onStart() {
         super.onStart();
         //ERROR WHEN READING NULL REFERENCE
-        String[][] result = FileSystem.ReadLeaderboard("leaderboard.txt", this);
+        String[][] result = FileSystem.ReadNumLeaderboard("leaderboard.txt", this);
+        SortByNum = true;
+
         if (result == null) {
             //FileSystem.writeToAssets("leaderboard.txt", "testing test", this);
             //FileSystem.Readwrite("leaderboard.txt", this);
@@ -50,6 +60,48 @@ public class LeaderboardPage extends Activity implements View.OnClickListener {
         if(v == _BackToMain)
         {
             startActivity(new Intent().setClass(this, MainMenu.class));
+        }
+        else if(v == _SortButton){
+            if(!SortByNum){
+                String[][] result = FileSystem.ReadNumLeaderboard("leaderboard.txt", this);
+                SortByNum = true;
+
+                if (result == null) {
+                    //FileSystem.writeToAssets("leaderboard.txt", "testing test", this);
+                    //FileSystem.Readwrite("leaderboard.txt", this);
+                    Log.d("FileSystem", "File was not found, creating new file...");
+                    return;
+                }
+
+
+                String[] displayNames = result[0];
+                String[] values = result[1];
+
+                for (int i = 0; i < displayNames.length; i++){
+                    String Finalstring = (i + 1) + ". " + displayNames[i] + ": " + values[i] + "\n";
+                    _leaderboardContent.append(Finalstring);
+                }
+            }
+            else {
+                String[][] result = FileSystem.ReadNameLeaderboard("leaderboard.txt", this);
+                SortByNum = false;
+
+                if (result == null) {
+                    //FileSystem.writeToAssets("leaderboard.txt", "testing test", this);
+                    //FileSystem.Readwrite("leaderboard.txt", this);
+                    Log.d("FileSystem", "File was not found, creating new file...");
+                    return;
+                }
+
+
+                String[] displayNames = result[0];
+                String[] values = result[1];
+
+                for (int i = 0; i < displayNames.length; i++){
+                    String Finalstring = (i + 1) + ". " + displayNames[i] + ": " + values[i] + "\n";
+                    _leaderboardContent.append(Finalstring);
+                }
+            }
         }
     }
 }

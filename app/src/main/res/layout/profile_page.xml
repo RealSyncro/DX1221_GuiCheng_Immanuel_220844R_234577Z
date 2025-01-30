@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="409dp"
+        android:id="@+id/textInputLayout2"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="78dp">
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="78dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="21dp"
+        app:layout_constraintBottom_toTopOf="@+id/search_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/Name_Input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Name to search" />
@@ -19,17 +28,37 @@
 
     <Button
         android:id="@+id/search_btn"
-        android:layout_width="216dp"
-        android:layout_height="60dp"
+        android:layout_width="235dp"
+        android:layout_height="80dp"
         android:layout_weight="1"
         android:text="Search"
-        tools:layout_editor_absoluteX="97dp"
-        tools:layout_editor_absoluteY="179dp" />
+        app:layout_constraintBottom_toTopOf="@+id/leaderboard_Txt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
     <TextView
-        android:layout_width="284dp"
-        android:layout_height="57dp"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="41dp"
-        tools:layout_editor_absoluteY="260dp" />
+        android:id="@+id/leaderboard_Txt"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/back_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_btn" />
+
+    <Button
+        android:id="@+id/back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="129dp"
+        android:layout_marginEnd="119dp"
+        android:layout_marginBottom="1dp"
+        android:text="BackToMain"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/leaderboard_Txt"
+        app:layout_constraintTop_toBottomOf="@+id/leaderboard_Txt" />
 </androidx.constraintlayout.widget.ConstraintLayout>

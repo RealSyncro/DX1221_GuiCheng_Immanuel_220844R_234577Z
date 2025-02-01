@@ -60,6 +60,7 @@
     <string name="profile_header_text">Profile</string>
     <string name="profile_placeholder_text">Name to search</string>
     <string name="profile_search_text">Search</string>
+    <string name="profile_leaderboard_content"> </string>
     <string name="profile_back_text">Back to Others</string>
 
     // Game Over Page

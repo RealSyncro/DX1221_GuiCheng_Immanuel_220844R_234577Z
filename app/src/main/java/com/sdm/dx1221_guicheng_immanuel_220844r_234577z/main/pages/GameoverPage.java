@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
@@ -77,6 +78,7 @@ public class GameoverPage extends Activity implements View.OnClickListener{
 
                 String finalstring = currStringAppended.toString() + _nameInput.getText() + " " + SaveSystem.Get().GetScore();
                 FileSystem.WriteToLeaderboard("leaderboard.txt", finalstring, this);
+                Toast.makeText(this, "You have submitted this run!", Toast.LENGTH_SHORT).show();
             }
         }
     }

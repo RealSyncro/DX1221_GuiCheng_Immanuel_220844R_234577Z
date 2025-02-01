@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.AudioController;
@@ -109,5 +110,10 @@ public class Settings extends Activity implements View.OnClickListener{
     private void OnCheckedAccelerometer() {
         boolean status = SaveSystem.Get().GetAccelSetting();
         SaveSystem.Get().SetAccelSetting(!status);
+
+        if (SaveSystem.Get().GetAccelSetting())
+            Toast.makeText(this, "You have enabled accelerometer!", Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(this, "You have disabled accelerometer!", Toast.LENGTH_SHORT).show();
     }
 }

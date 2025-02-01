@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -61,11 +62,13 @@ public class EquipDialog extends DialogFragment {
         _current.Button_Equip.setText(unEquipText);
         _current.Button_Equip.setBackgroundColor(Color.parseColor("#7A1D16"));
         SaveSystem.Get().SetHeldItem(_current.item);
+        Toast.makeText(getContext(), "You have equipped " + _current.item.name + "!", Toast.LENGTH_SHORT).show();
     }
     private void UnEquipItem()
     {
         _current.Button_Equip.setText(R.string.inventory_sample_text);
         _current.Button_Equip.setBackgroundColor(Color.parseColor("#1B7A16"));
+        Toast.makeText(getContext(), "You have un-equipped " + _current.item.name + "!", Toast.LENGTH_SHORT).show();
         SaveSystem.Get().SetHeldItem(null);
         _instance = null;
         _current = null;

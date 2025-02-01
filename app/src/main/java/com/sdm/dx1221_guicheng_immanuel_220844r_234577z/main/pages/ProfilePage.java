@@ -11,61 +11,74 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.R;
+import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.AudioController;
 import com.sdm.dx1221_guicheng_immanuel_220844r_234577z.main.common.FileSystem;
 
 public class ProfilePage extends Activity implements View.OnClickListener {
     private TextView _leaderboardContent;
-    private TextInputEditText NameInput;
-    private String NameSearched;
+    private TextInputEditText _nameInput;
+    private String nameSearched;
 
-    private Button _SearchBtn;
-    private  Button _BackToMain;
+    private Button _searchButton;
+    private Button _backButton;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.leaderboard_page);
+        setContentView(R.layout.profile_page);
 
-        _leaderboardContent = findViewById(R.id.leaderboard_Txt);
+        _leaderboardContent = findViewById(R.id.profile_leaderboard_content);
 
-        NameInput = findViewById(R.id.Name_Input);
+        _nameInput = findViewById(R.id.name_input);
 
-        _BackToMain = findViewById(R.id.back_btn);
-        _BackToMain.setOnClickListener(this);
+        _searchButton = findViewById(R.id.profile_search_button);
+        _searchButton.setOnClickListener(this);
 
-        _SearchBtn = findViewById(R.id.search_btn);
-        _SearchBtn.setOnClickListener(this);
-
-
+        _backButton = findViewById(R.id.profile_back_button);
+        _backButton.setOnClickListener(this);
     }
+
     @Override
     protected void onStart() {
         super.onStart();
+        AudioController.Get().PlayBGM(this, R.raw.generic_music);
+        AudioController.Get().PlaySFX(R.raw.button_click);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AudioController.Get().ResumeAllSFXPlayer();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AudioController.Get().PauseAllSFXPlayer();
+    }
+
     @Override
     public void onClick(View v) {
-        if(v == _BackToMain)
-        {
-            startActivity(new Intent().setClass(this, MainMenu.class));
+        if(v == _searchButton){
+            if (_nameInput.getText() != null) {
+                nameSearched = _nameInput.getText().toString();
+                SearchingName();
+            }
         }
-        if(v == _SearchBtn){
-            NameSearched = NameInput.getText().toString();
-            SearchingName();
+        else if(v == _backButton) {
+            startActivity(new Intent().setClass(this, OtherPage.class));
         }
     }
+
     private void SearchingName(){
         //ERROR WHEN READING NULL REFERENCE
-        String[][] result = FileSystem.ReadStats("leaderboard.txt", this, NameSearched);
-
+        String[][] result = FileSystem.ReadStats("leaderboard.txt", this, nameSearched);
 
         if (result == null) {
-            //FileSystem.writeToAssets("leaderboard.txt", "testing test", this);
-            //FileSystem.Readwrite("leaderboard.txt", this);
             Log.d("FileSystem", "File was not found, creating new file...");
             return;
         }
-
 
         String[] displayNames = result[0];
         String[] values = result[1];
